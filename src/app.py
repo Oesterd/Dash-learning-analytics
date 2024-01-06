@@ -1,9 +1,9 @@
 # Importando as bibliotecas
+from io import BytesIO
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import base64
-from io import BytesIO
 
 
 import seaborn as sns
@@ -21,7 +21,7 @@ app = Dash(__name__)
 server = app.server
 
 # Selecionando os dados a serem lidos
-dfraw = pd.read_excel("/home/hostarch/Downloads/dados_teste.xlsx")
+dfraw = pd.read_excel('https://github.com/Oesterd/Dash123/raw/master/dados_teste.xlsx')
 df = dfraw.iloc[:, 0:10]
 df
 
