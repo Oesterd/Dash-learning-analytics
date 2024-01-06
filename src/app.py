@@ -12,6 +12,7 @@ import plotly.figure_factory as ff
 
 import pandas as pd
 import numpy as np
+import openpyxl
 
 from dash import Dash, html, dcc, dash_table, Input, Output, callback
 from dash.dash_table.Format import Format, Scheme
