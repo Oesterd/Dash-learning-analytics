@@ -18,7 +18,7 @@ from dash.dash_table.Format import Format, Scheme
 
 # Iniciando o aplicativo
 app = Dash(__name__)
-
+server = app.server
 
 # Selecionando os dados a serem lidos
 dfraw = pd.read_excel("/home/hostarch/Downloads/dados_teste.xlsx")
