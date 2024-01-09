@@ -4,6 +4,7 @@ import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 import base64
+import openpyxl
 
 
 import seaborn as sns
@@ -74,43 +75,74 @@ dictend = [{'name': i, 'id': i, 'selectable': True} for i in dfend]
 
 
 # Layout do dash
-app.layout = html.Div([
-    dash_table.DataTable( #Tabela de dados
-        id='datatable_id',
-        columns=dictaln + dicttext + dictren + dictmed + dictend,
-        style_cell={'textAlign': 'center'},
-        sort_action='native',
-        sort_mode='single',
-        column_selectable='multi',
-        filter_action='native',
-        page_size=8,
-        data=df.to_dict('records')
-    ),
-    # html.Div([ #Bloco de input
-    #     "Escolha a propriedade 1: ",
-    #     dcc.Dropdown(id='dropdown', value='Professor', options=df.columns[np.r_[1:5, 8,9]], clearable=False),
-    # ]),
-    # html.Div([ #Bloco de input
-    #     "Escolha a propriedade 2: ",
-    #     dcc.Dropdown(id='dropdown2', value='Gẽnero', options=df.columns[np.r_[1:4, 8,9]], clearable=False),
-    # ]),
-    html.Img(id='matplot') #Imagem
+
+app.layout = \
+html.Div([
+    html.Div([
+        dash_table.DataTable(  # Tabela de dados
+            id='datatable_id',
+            columns=dictaln + dicttext + dictren + dictmed + dictend,
+            style_cell={'textAlign': 'center'},
+            sort_action='native',
+            sort_mode='single',
+            filter_action='native',
+            page_size=8,
+            data=df.to_dict('records')
+        )
+    ]),
+
+    html.Div([
+        html.Div([
+            "Divisão por cores:",
+            dcc.Dropdown(id='dropdown', value='Professor', options=df.columns[np.r_[1:5, 8,9]], clearable=False),
+        ]),
+
+        html.Div([
+            "Divisão por coluna:",
+            dcc.Dropdown(id='dropdown2', value='Gẽnero', options=df.columns[np.r_[1:4, 8,9]], clearable=False),
+        ]),
+
+        html.Div([
+            "Tipo de gráfico:",
+            dcc.Dropdown(id='dropdown3', value='KDE', options=['KDE', 'Histograma', 'Cumulativo'], clearable=False),
+        ])
+    ], style={'display': 'flex', 'flexDirection': 'row', 'gap':50, 'flex':1}),
+
+    html.Div([
+        html.Img(id='matplot')  # Imagem
+    ])
+
+
+
 ])
+
+
 
 
 #-------------------------------------------------------------------------------------
 @app.callback(
     Output(component_id='matplot', component_property='src'),
-    Input(component_id='datatable_id', component_property='selected_columns')
+    Input(component_id='dropdown', component_property='value'),
+    Input(component_id='dropdown2', component_property='value'),
+    Input(component_id='dropdown3', component_property='value'),
+    Input(component_id='datatable_id', component_property='derived_virtual_data')
 )
 
 
 
-def matplot_html(selcol):
+def matplot_html(drop1, drop2, drop3, rows):
 
     # Criando o gráfico
-    sns.displot(data=df, x='Média aluno', hue=f'{selcol[0]}', col=f'{selcol[1]}', kind= 'kde')
-    print(selcol)
+
+    if drop3 == 'KDE':
+        pltkind = 'kde'
+    elif drop3 == 'Histograma':
+        pltkind = 'hist'
+    elif drop3 == 'Cumulativo':
+        pltkind = 'ecdf'
+
+    dff = pd.DataFrame(rows)
+    sns.displot(data=dff, x='Média aluno', hue=f'{drop1}', col=f'{drop2}', kind= f'{pltkind}')
 
     # Criando o buffer temporário
     buf = BytesIO()
