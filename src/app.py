@@ -72,10 +72,15 @@ dictmed = [{'name': i, 'id': i, 'type': 'numeric', 'format': numformat} for i in
 dictend = [{'name': i, 'id': i, 'selectable': True} for i in dfend]
 
 
+# Opções do dropdown
+op1 = df.columns[np.r_[4,8,9]].tolist()
+op1.insert(0, 'Nenhuma')
+op2 = df.columns[1:4].tolist()
+op2.insert(0, 'Nenhuma')
+print(op2)
 
 
 # Layout do dash
-
 app.layout = \
 html.Div([
     html.Div([
@@ -91,20 +96,24 @@ html.Div([
         )
     ]),
 
+    # Menus de dropdown
     html.Div([
         html.Div([
             "Divisão por cores:",
-            dcc.Dropdown(id='dropdown', value='Professor', options=df.columns[np.r_[1:5, 8,9]], clearable=False),
+            dcc.Dropdown(id='dropdown', value='Nenhuma', options=op1, clearable=False),
         ]),
 
         html.Div([
             "Divisão por coluna:",
-            dcc.Dropdown(id='dropdown2', value='Gẽnero', options=df.columns[np.r_[1:4, 8,9]], clearable=False),
+            dcc.Dropdown(id='dropdown2', value='Nenhuma', options=op2, clearable=False),
         ]),
 
         html.Div([
             "Tipo de gráfico:",
-            dcc.Dropdown(id='dropdown3', value='KDE', options=['KDE', 'Histograma', 'Cumulativo'], clearable=False),
+            dcc.Dropdown(id='dropdown3', value='kde', options=[
+                {'label': 'KDE', 'value': 'kde'},
+                {'label': 'Histograma', 'value': 'hist'},
+                {'label': 'Cumulativo', 'value': 'ecdf'}], clearable=False),
         ])
     ], style={'display': 'flex', 'flexDirection': 'row', 'gap':50, 'flex':1}),
 
@@ -132,19 +141,34 @@ html.Div([
 
 def matplot_html(drop1, drop2, drop3, rows):
 
-    # Criando o gráfico
+## Criando o gráfico
 
-    if drop3 == 'KDE':
-        pltkind = 'kde'
-    elif drop3 == 'Histograma':
-        pltkind = 'hist'
-    elif drop3 == 'Cumulativo':
-        pltkind = 'ecdf'
+    # # Transformand as opções do dropdown 3 em valores aceitados pelo seaborn
+    # if drop3 == 'KDE':
+    #     pltkind = 'kde'
+    # elif drop3 == 'Histograma':
+    #     pltkind = 'hist'
+    # elif drop3 == 'Cumulativo':
+    #     pltkind = 'ecdf'
 
+    # Modificando os dados de acordo com a filtragem do usuário
     dff = pd.DataFrame(rows)
-    sns.displot(data=dff, x='Média aluno', hue=f'{drop1}', col=f'{drop2}', kind= f'{pltkind}')
 
-    # Criando o buffer temporário
+    # Montando o gráfico
+    if drop1 == 'Nenhuma':
+        drop1 = None
+    else:
+        drop1 = f'{drop1}'
+
+    if drop2 == 'Nenhuma':
+        drop2 = None
+    else:
+        drop2 = f'{drop2}'
+
+
+    sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}')
+
+    # Criando o buffer temporário para renderizar um gráfico do matplotlib no Dash
     buf = BytesIO()
     plt.savefig(buf, format='png')
     fig_data = base64.b64encode(buf.getbuffer()).decode("ascii")
