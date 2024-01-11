@@ -114,6 +114,13 @@ html.Div([
                 {'label': 'KDE', 'value': 'kde'},
                 {'label': 'Histograma', 'value': 'hist'},
                 {'label': 'Cumulativo', 'value': 'ecdf'}], clearable=False),
+        ]),
+
+        html.Div([
+            "Tipo de agrupamento:",
+            dcc.Dropdown(id='dropdown4', value='layer', options=[
+                {'label': 'Normal', 'value': 'layer'},
+                {'label': 'Empilhar', 'value': 'stack'}], clearable=False),
         ])
     ], style={'display': 'flex', 'flexDirection': 'row', 'gap':50, 'flex':1}),
 
@@ -134,12 +141,13 @@ html.Div([
     Input(component_id='dropdown', component_property='value'),
     Input(component_id='dropdown2', component_property='value'),
     Input(component_id='dropdown3', component_property='value'),
+    Input(component_id='dropdown4', component_property='value'),
     Input(component_id='datatable_id', component_property='derived_virtual_data')
 )
 
 
 
-def matplot_html(drop1, drop2, drop3, rows):
+def matplot_html(drop1, drop2, drop3, drop4, rows):
 
 ## Criando o gráfico
 
@@ -166,7 +174,8 @@ def matplot_html(drop1, drop2, drop3, rows):
         drop2 = f'{drop2}'
 
 
-    sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}')
+
+    g = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}', multiple=f'{drop4}')
 
     # Criando o buffer temporário para renderizar um gráfico do matplotlib no Dash
     buf = BytesIO()
