@@ -87,12 +87,12 @@ print(op2)
 
 # Layout do dash
 app.layout = html.Div([
-    html.H1('Dashboard of Multiple Excel Sheets', style={'textAlign': 'center'}),
+    html.H1('Dashboard com múltiplas planilhas de Excel', style={'textAlign': 'center'}),
     dcc.Upload(
         id='upload-data',
         children=html.Div([
-            'Drag and Drop or ',
-            html.A('Select Files')
+            'Arraste e solte ou ',
+            html.A('selecione os arquivos')
         ]),
         style={
             'width': '100%',
