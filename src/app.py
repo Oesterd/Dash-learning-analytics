@@ -1,11 +1,11 @@
 # Importando as bibliotecas
+import io
 from io import BytesIO
+import base64
+
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
-import base64
-import openpyxl
-
 
 import seaborn as sns
 import plotly.express as px
@@ -18,6 +18,7 @@ import openpyxl
 from dash import Dash, html, dcc, dash_table, Input, Output, callback
 from dash.dash_table.Format import Format, Scheme
 
+
 # Iniciando o aplicativo
 app = Dash(__name__)
 server = app.server
@@ -28,6 +29,8 @@ df = dfraw.iloc[:, 0:10]
 df
 
 
+
+## Procedimento para gerar um dashboard interativo e customizável utilizando plotly ao invés de seaborn
 
 # # Criando uma lista de todos os professores
 # df_prof = pd.Series(df0['Professor'].unique()).sort_values().to_list()
@@ -48,11 +51,12 @@ df
 
 
 # Formatação dos números
-
 numformat = Format(precision=2, scheme=Scheme.fixed, decimal_delimiter=',')
 renformat = Format(precision=0, scheme=Scheme.fixed, decimal_delimiter=',')
 
 
+
+# Separando as colunas para os dicionários
 dfmed = df.iloc[:, 5:8]
 dftext = df.iloc[:, 1:4]
 dfend = df.iloc[:, 8:10]
@@ -73,11 +77,13 @@ dictend = [{'name': i, 'id': i, 'selectable': True} for i in dfend]
 
 
 # Opções do dropdown
-op1 = df.columns[np.r_[4,8,9]].tolist()
-op1.insert(0, 'Nenhuma')
-op2 = df.columns[1:4].tolist()
-op2.insert(0, 'Nenhuma')
-print(op2)
+nullop = 'Nenhuma'
+op1 = df.columns[np.r_[4,9]].tolist() # Divisão por cores
+op1.insert(0, nullop)
+op2 = df.columns[1:4].tolist() # Divisão por colunas
+op2.insert(0, nullop)
+
+
 
 
 # Layout do dash
@@ -124,8 +130,9 @@ html.Div([
         ])
     ], style={'display': 'flex', 'flexDirection': 'row', 'gap':50, 'flex':1}),
 
+    # Gráfico
     html.Div([
-        html.Img(id='matplot')  # Imagem
+        html.Img(id='matplot') # É necessário utilizar html.Img ao invés de dcc.Graph, pois o gráfico foi gerado pelo matplotlib e não pelo Plotly
     ])
 
 
@@ -138,6 +145,7 @@ html.Div([
 #-------------------------------------------------------------------------------------
 @app.callback(
     Output(component_id='matplot', component_property='src'),
+    Output(component_id='dropdown4', component_property='disabled'),
     Input(component_id='dropdown', component_property='value'),
     Input(component_id='dropdown2', component_property='value'),
     Input(component_id='dropdown3', component_property='value'),
@@ -151,18 +159,11 @@ def matplot_html(drop1, drop2, drop3, drop4, rows):
 
 ## Criando o gráfico
 
-    # # Transformand as opções do dropdown 3 em valores aceitados pelo seaborn
-    # if drop3 == 'KDE':
-    #     pltkind = 'kde'
-    # elif drop3 == 'Histograma':
-    #     pltkind = 'hist'
-    # elif drop3 == 'Cumulativo':
-    #     pltkind = 'ecdf'
-
     # Modificando os dados de acordo com a filtragem do usuário
     dff = pd.DataFrame(rows)
 
-    # Montando o gráfico
+
+    # Criando as opções nulas para os dropdowns 1 e 2
     if drop1 == 'Nenhuma':
         drop1 = None
     else:
@@ -174,17 +175,25 @@ def matplot_html(drop1, drop2, drop3, drop4, rows):
         drop2 = f'{drop2}'
 
 
+    # Gerando o gráfico de acordo com a escolha no dropdown 3
+    if drop3 == 'ecdf':
+      fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}')
+      Disdrop4 = True
+    else:
+      fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}', multiple=f'{drop4}')
+      Disdrop4 = False
 
-    g = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}', multiple=f'{drop4}')
+
 
 
     # Criando o buffer temporário para renderizar um gráfico do matplotlib no Dash
     buf = BytesIO()
-    plt.savefig(buf, format='png')
+    fig.savefig(buf, format='png')
     fig_data = base64.b64encode(buf.getbuffer()).decode("ascii")
     fig_matplot = f'data:image/png;base64,{fig_data}'
 
-    return fig_matplot
+    # Retorno dos outputs para o callback
+    return fig_matplot, Disdrop4
 
 
 
