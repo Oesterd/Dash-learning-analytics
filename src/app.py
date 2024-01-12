@@ -177,6 +177,7 @@ def matplot_html(drop1, drop2, drop3, drop4, rows):
 
     g = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}', multiple=f'{drop4}')
 
+
     # Criando o buffer temporário para renderizar um gráfico do matplotlib no Dash
     buf = BytesIO()
     plt.savefig(buf, format='png')
