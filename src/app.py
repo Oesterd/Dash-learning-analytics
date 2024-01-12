@@ -27,7 +27,7 @@ server = app.server
 # Selecionando os dados a serem lidos
 dfraw = pd.read_excel('https://github.com/Oesterd/Dash123/raw/master/dados_teste.xlsx')
 df = dfraw.iloc[:, 0:10]
-df
+
 
 
 
@@ -87,7 +87,7 @@ op2.insert(0, nullop)
 
 # Layout do dash
 app.layout = html.Div([
-    html.H1('Dashboard com múltiplas planilhas de Excel', style={'textAlign': 'center'}),
+    html.H1('Insira os dados abaixo:', style={'textAlign': 'center'}),
     dcc.Upload(
         id='upload-data',
         children=html.Div([
