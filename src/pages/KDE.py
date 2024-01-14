@@ -29,7 +29,6 @@ dash.register_page(__name__, path='/')
 # Selecionando os dados a serem lidos
 dfraw = pd.read_excel('https://github.com/Oesterd/Dash123/raw/master/dados_teste.xlsx')
 df = dfraw.iloc[:, 0:10]
-df
 
 
 
@@ -37,14 +36,12 @@ df
 
 # # Criando uma lista de todos os professores
 # df_prof = pd.Series(df0['Professor'].unique()).sort_values().to_list()
-# df_prof
 #
 # # Criando grupo de dados por professores
 # for i,j in zip(range(len(df_prof)+1), df_prof):
 #     globals()[f'dfg{i+1}']=df0[df0['Professor'] == j]
 #
 # # Teste
-# dfg1
 # table = pd.pivot_table(dfg1, values='Média aluno', columns='Professor', index='Alunos')
 # table.index.dtype
 
