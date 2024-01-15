@@ -57,7 +57,6 @@ clndef = [
         "field": "img",
         "cellRenderer": "ImgThumbnail",
         "width": 100,
-        "resizable": True,
     },
     {
         "headerName": "Nome",
@@ -67,36 +66,49 @@ clndef = [
     {
         "headerName": "AP",
         "field": "Tot_AP",
-        "width": 100
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
     },
     {
         "headerName": "RM",
         "field": "Tot_RM",
-        "width": 100
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
     },
     {
         "headerName": "RF",
         "field": "Tot_RF",
-        "width": 100
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
     },
     {
         "headerName": "RMF",
         "field": "Tot_RMF",
-        "width": 100
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
     },
     {
         "headerName": "Total de alunos",
         "field": "Total",
-        "width": 200
+        "width": 150,
+        "cellClass": 'center-aligned-cell'
     },
     {
         "headerName": "Turmas",
         "field": "turmas",
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
     },
     {"headerName": "Ativo desde",
         "field": "ativo",
+        "width": 150,
+        "cellClass": 'center-aligned-cell'
     }
 ]
+
+dfclndef = {
+    "headerClass": 'center-aligned-header',
+}
 
 
 
@@ -151,28 +163,16 @@ html.Div([
             id='AgGrid',
             rowData=data.to_dict('records'),
             columnDefs=clndef,
+            defaultColDef=dfclndef,
             dashGridOptions={"rowHeight": 100},
-            style={"height": 500},
+            style={"height": 351, "width": 1105},
         )
     ]),
-    dbc.Modal(id="ImgModal", size="xl"),
 
     html.Div([
         dcc.Graph(id='Perc', figure=fig)
-    ])
+    ], style={'position': 'relative', 'right': 100})
 
 ], style={"margin": 20}
 )
-
-
-#-----------------------------------------------------
-@callback(
-    Output("ImgModal", "is_open"),
-    Output("ImgModal", "children"),
-    Input("AgGrid", "cellRendererData"),
-)
-def show_change(data):
-    if data:
-        return True, html.Img(src=data["value"])
-    return False, None
 
