@@ -6,7 +6,7 @@ services:
     plan: free
     # A requirements.txt file must exist
     buildCommand: pip install -r requirements.txt
-    # A src/KDE.py file must exist and contain `server=app.server`
+    # A src/pg1.py file must exist and contain `server=app.server`
     startCommand: gunicorn --chdir src app:server
     envVars:
       - key: PYTHON_VERSION

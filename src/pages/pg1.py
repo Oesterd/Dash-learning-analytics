@@ -23,7 +23,7 @@ import openpyxl
 
 
 
-dash.register_page(__name__, path='/')
+dash.register_page(__name__, name='Distribuição de notas', path='/')
 
 
 # Selecionando os dados a serem lidos
@@ -85,8 +85,6 @@ op2.insert(0, nullop)
 
 
 
-
-# Layout do dash
 layout = \
 html.Div([
     html.Div([
@@ -132,12 +130,16 @@ html.Div([
 
     # Gráfico
     html.Div([
-        html.Img(id='matplot') # É necessário utilizar html.Img ao invés de dcc.Graph, pois o gráfico foi gerado pelo matplotlib e não pelo Plotly
+        html.Div([
+            html.Img(id='matplot') # É necessário utilizar html.Img ao invés de dcc.Graph, pois o gráfico foi gerado pelo matplotlib e não pelo Plotly
+        ])
     ])
 
 
 
 ])
+
+# Layout do dash
 
 
 
@@ -175,14 +177,13 @@ def matplot_html(drop1, drop2, drop3, drop4, rows):
         drop2 = f'{drop2}'
 
 
-    # Gerando o gráfico de acordo com a escolha no dropdown 3
+    # Gerando o gráfico 1 de acordo com a escolha no dropdown 3
     if drop3 == 'ecdf':
       fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}')
       Disdrop4 = True
     else:
       fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}', multiple=f'{drop4}')
       Disdrop4 = False
-
 
 
 
