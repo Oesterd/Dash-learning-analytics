@@ -4,21 +4,11 @@ from dash import html, dcc, dash_table, Input, Output, callback
 from dash.dash_table.Format import Format, Scheme
 
 
-import io
-from io import BytesIO
-import base64
-
-import matplotlib
-matplotlib.use('agg')
-import matplotlib.pyplot as plt
-
-import seaborn as sns
 import plotly.express as px
-import plotly.figure_factory as ff
-
 import pandas as pd
 import numpy as np
-import openpyxl
+
+
 
 
 
@@ -108,9 +98,21 @@ html.Div([
                 clearable=False
             ),
         ]),
+
+
         html.Div([
             "Divisão por linhas:",
             dcc.Dropdown(id='dropdown2', value='Nenhuma', options=['Nenhuma', 'Gênero', 'Escola'], clearable=False),
+        ]),
+
+
+        html.Div([
+            "Regressão linear:",
+            dcc.Dropdown(id='dropdown3', value='Nenhuma', options=[
+                {'label': 'Nenhuma', 'value': 'Nenhuma'},
+                {'label': 'Linear', 'value': 'ols'},
+                {'label': 'Pesada', 'value': 'lowess'}
+            ], clearable=False)
         ])
     ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
 
@@ -147,11 +149,12 @@ def drop2init(available_options):
     Output(component_id='scatter', component_property='figure'),
     Input(component_id='dropdown', component_property='value'),
     Input(component_id='dropdown2', component_property='value'),
+    Input(component_id='dropdown3', component_property='value'),
     Input(component_id='datatable_id', component_property='derived_virtual_data')
 )
 
 
-def scatter_plot(drop1, drop2, rows):
+def scatter_plot(drop1, drop2, drop3, rows):
 
 
     ## Criando o gráfico
@@ -171,8 +174,13 @@ def scatter_plot(drop1, drop2, rows):
     else:
         drop2 = f'{drop2}'
 
+    if drop3 == 'Nenhuma':
+        drop3 = None
+    else:
+        drop3 = f'{drop3}'
 
 
-    fig = px.scatter(dff, x='Frequência', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2)
+
+    fig = px.scatter(dff, x='Frequência', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3)
 
     return fig

@@ -1,5 +1,5 @@
 import dash
-from dash import Dash, html, dcc, dash_table, Input, Output, callback
+from dash import Dash, html
 import dash_bootstrap_components as dbc
 
 
@@ -26,7 +26,7 @@ sidebar = dbc.Nav(
 app.layout = dbc.Container([
     dbc.Row([
         dbc.Col(html.Div("Estatísticas acadêmicas",
-                         style={'fontSize':50, 'textAlign':'center'}))
+                         style={'fontSize': 50, 'textAlign': 'center'}))
     ]),
 
     html.Hr(),
