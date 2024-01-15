@@ -85,6 +85,10 @@ op2.insert(0, nullop)
 
 
 
+
+
+# Layout da página
+
 layout = \
 html.Div([
     html.Div([

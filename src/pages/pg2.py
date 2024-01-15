@@ -155,7 +155,7 @@ fig.add_trace(RMF_chart, row=1, col=4)
 
 
 
-# Layout do dash
+# Layout da página
 layout = \
 html.Div([
     html.Div([
