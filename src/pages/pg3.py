@@ -1,7 +1,8 @@
 # Importando as bibliotecas
 import dash
-from dash import html, dcc, dash_table, Input, Output, callback
+from dash import html, dcc, Input, Output, callback
 from dash.dash_table.Format import Format, Scheme
+import dash_ag_grid as dag
 
 
 import plotly.express as px
@@ -25,37 +26,53 @@ df = dfraw.iloc[:, 0:10]
 
 
 # Formatação dos números
-numformat = Format(precision=2, scheme=Scheme.fixed, decimal_delimiter=',')
-renformat = Format(precision=0, scheme=Scheme.fixed, decimal_delimiter=',')
-
-
-
-# Separando as colunas para os dicionários
-dfmed = df.iloc[:, 5:8]
-dftext = df.iloc[:, 1:4]
-dfend = df.iloc[:, 8:10]
-
-
+locale_pt_BR = """d3.formatLocale({
+  "decimal": ",",
+  "thousands": ".",
+  "grouping": [3],
+  "currency": ["R$", ""],
+  "thousands": "\u00a0",
+})"""
 
 
 
 
-
-# Criando os dicionários
-dictaln = [{'name': 'Alunos', 'id': 'Alunos', 'type': 'text'}]
-dicttext = [{'name': i, 'id': i} for i in dftext]
-dictren = [{'name': 'Renda (S.M)', 'id': 'Renda (S.M)', 'type': 'numeric', 'format': renformat}]
-dictmed = [{'name': i, 'id': i, 'type': 'numeric', 'format': numformat} for i in dfmed]
-# dictfrq = [{'name': 'Frequência', 'id': 'Frequência', 'type': 'numeric', 'format': numformat, 'selectable': True}]
-dictend = [{'name': i, 'id': i} for i in dfend]
+numformat = {"function": f"{locale_pt_BR}.format(',.2f')(params.value)"}
 
 
-# Opções do dropdown
-nullop = 'Nenhuma'
-op1 = df.columns[np.r_[4,9]].tolist() # Divisão por cores
-op1.insert(0, nullop)
-op2 = df.columns[1:4].tolist() # Divisão por colunas
-op2.insert(0, nullop)
+clndef = [
+    {'field': 'Alunos'},
+    {'field': 'Gênero'},
+    {'field': 'Etnia'},
+    {'field': 'Escola'},
+    {'field': 'Renda'},
+    {'field': 'Média aluno',
+     'valueFormatter': numformat},
+    {'field': 'Média turma',
+     'valueFormatter': numformat},
+    {'field': 'Frequência',
+     'valueFormatter': numformat},
+    {'field': 'Situação'},
+    {'field': 'Professor'}
+]
+
+dfclndef = {
+    'headerClass': 'center-aligned-header',
+    'cellClass': 'center-aligned-cell',
+    'filter': True,
+    'resizable': True
+}
+
+
+grid = dag.AgGrid(
+    id='grid',
+    rowData=df.to_dict('records'),
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+)
+
+
 
 
 
@@ -69,20 +86,10 @@ Ops = {
 
 
 
-
 layout = \
 html.Div([
     html.Div([
-        dash_table.DataTable(  # Tabela de dados
-            id='datatable_id',
-            columns=dictaln + dicttext + dictren + dictmed + dictend,
-            style_cell={'textAlign': 'center'},
-            sort_action='native',
-            sort_mode='single',
-            filter_action='native',
-            page_size=8,
-            data=df.to_dict('records')
-        )
+        grid
     ]),
 
 
@@ -94,7 +101,7 @@ html.Div([
             dcc.Dropdown(
                 list(Ops.keys()),
                 'Nenhuma',
-                id='dropdown',
+                id='dropdown31',
                 clearable=False
             ),
         ]),
@@ -102,13 +109,13 @@ html.Div([
 
         html.Div([
             "Divisão por linhas:",
-            dcc.Dropdown(id='dropdown2', value='Nenhuma', options=['Nenhuma', 'Gênero', 'Escola'], clearable=False),
+            dcc.Dropdown(id='dropdown32', value='Nenhuma', options=['Nenhuma', 'Gênero', 'Escola'], clearable=False),
         ]),
 
 
         html.Div([
             "Regressão linear:",
-            dcc.Dropdown(id='dropdown3', value='Nenhuma', options=[
+            dcc.Dropdown(id='dropdown33', value='Nenhuma', options=[
                 {'label': 'Nenhuma', 'value': 'Nenhuma'},
                 {'label': 'Linear', 'value': 'ols'},
                 {'label': 'Pesada', 'value': 'lowess'}
@@ -127,8 +134,8 @@ html.Div([
 
 #-----------------------------------------------------
 @callback(
-    Output('dropdown2', 'options'),
-    Input('dropdown', 'value')
+    Output('dropdown32', 'options'),
+    Input('dropdown31', 'value')
 )
 
 def drop_chain(drop1value):
@@ -136,8 +143,8 @@ def drop_chain(drop1value):
 
 
 @callback(
-    Output('dropdown2', 'value'),
-    Input('dropdown2', 'options'))
+    Output('dropdown32', 'value'),
+    Input('dropdown32', 'options'))
 
 def drop2init(available_options):
     return available_options[0]['value']
@@ -147,10 +154,10 @@ def drop2init(available_options):
 
 @callback(
     Output(component_id='scatter', component_property='figure'),
-    Input(component_id='dropdown', component_property='value'),
-    Input(component_id='dropdown2', component_property='value'),
-    Input(component_id='dropdown3', component_property='value'),
-    Input(component_id='datatable_id', component_property='derived_virtual_data')
+    Input(component_id='dropdown31', component_property='value'),
+    Input(component_id='dropdown32', component_property='value'),
+    Input(component_id='dropdown33', component_property='value'),
+    Input(component_id='grid', component_property='virtualRowData')
 )
 
 

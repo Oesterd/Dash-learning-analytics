@@ -1,7 +1,8 @@
 # Importando as bibliotecas
 import dash
-from dash import html, dcc, dash_table, Input, Output, callback
+from dash import html, dcc, Input, Output, callback
 from dash.dash_table.Format import Format, Scheme
+import dash_ag_grid as dag
 
 
 import io
@@ -9,6 +10,7 @@ from io import BytesIO
 import base64
 
 import matplotlib
+
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
 
@@ -23,7 +25,10 @@ import openpyxl
 
 
 
+# Iniciando o aplicativo
 dash.register_page(__name__, name='Distribuição de notas', path='/')
+
+
 
 
 # Selecionando os dados a serem lidos
@@ -32,56 +37,65 @@ df = dfraw.iloc[:, 0:10]
 
 
 
-## Procedimento para gerar um dashboard interativo e customizável utilizando plotly ao invés de seaborn
-
-# # Criando uma lista de todos os professores
-# df_prof = pd.Series(df0['Professor'].unique()).sort_values().to_list()
-#
-# # Criando grupo de dados por professores
-# for i,j in zip(range(len(df_prof)+1), df_prof):
-#     globals()[f'dfg{i+1}']=df0[df0['Professor'] == j]
-#
-# # Teste
-# table = pd.pivot_table(dfg1, values='Média aluno', columns='Professor', index='Alunos')
-# table.index.dtype
-
-
-
-
-
-
 # Formatação dos números
-numformat = Format(precision=2, scheme=Scheme.fixed, decimal_delimiter=',')
-renformat = Format(precision=0, scheme=Scheme.fixed, decimal_delimiter=',')
+locale_pt_BR = """d3.formatLocale({
+  "decimal": ",",
+  "thousands": ".",
+  "grouping": [3],
+  "currency": ["R$", ""],
+  "thousands": "\u00a0",
+})"""
 
 
 
-# Separando as colunas para os dicionários
-dfmed = df.iloc[:, 5:8]
-dftext = df.iloc[:, 1:4]
-dfend = df.iloc[:, 8:10]
+numformat = {"function": f"{locale_pt_BR}.format(',.2f')(params.value)"}
+
+
+clndef = [
+    {'field': 'Alunos'},
+    {'field': 'Gênero'},
+    {'field': 'Etnia'},
+    {'field': 'Escola'},
+    {'field': 'Renda'},
+    {'field': 'Média aluno',
+     'valueFormatter': numformat},
+    {'field': 'Média turma',
+     'valueFormatter': numformat},
+    {'field': 'Frequência',
+     'valueFormatter': numformat},
+    {'field': 'Situação'},
+    {'field': 'Professor'}
+]
+
+dfclndef = {
+    'headerClass': 'center-aligned-header',
+    'cellClass': 'center-aligned-cell',
+    'filter': 'agMultiColumnFilter',
+    'resizable': True
+}
+
+
+grid = dag.AgGrid(
+    id='grid',
+    rowData=df.to_dict('records'),
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+)
 
 
 
-
-
-
-
-# Criando os dicionários
-dictaln = [{'name': 'Alunos', 'id': 'Alunos', 'type': 'text'}]
-dicttext = [{'name': i, 'id': i} for i in dftext]
-dictren = [{'name': 'Renda (S.M)', 'id': 'Renda (S.M)', 'type': 'numeric', 'format': renformat}]
-dictmed = [{'name': i, 'id': i, 'type': 'numeric', 'format': numformat} for i in dfmed]
-# dictfrq = [{'name': 'Frequência', 'id': 'Frequência', 'type': 'numeric', 'format': numformat, 'selectable': True}]
-dictend = [{'name': i, 'id': i} for i in dfend]
 
 
 # Opções do dropdown
 nullop = 'Nenhuma'
-op1 = df.columns[np.r_[4,9]].tolist() # Divisão por cores
+op1 = df.columns[[4, 9]].tolist()  # Divisão por cores
 op1.insert(0, nullop)
-op2 = df.columns[1:4].tolist() # Divisão por colunas
+op2 = df.columns[1:4].tolist()  # Divisão por colunas
 op2.insert(0, nullop)
+
+
+
 
 
 
@@ -90,84 +104,71 @@ op2.insert(0, nullop)
 # Layout da página
 
 layout = \
-html.Div([
-    html.Div([
-        dash_table.DataTable(  # Tabela de dados
-            id='datatable_id',
-            columns=dictaln + dicttext + dictren + dictmed + dictend,
-            style_cell={'textAlign': 'center'},
-            sort_action='native',
-            sort_mode='single',
-            filter_action='native',
-            page_size=8,
-            data=df.to_dict('records')
-        )
-    ]),
-
-    # Menus de dropdown
     html.Div([
         html.Div([
-            "Divisão por cores:",
-            dcc.Dropdown(id='dropdown', value='Nenhuma', options=op1, clearable=False),
+            grid
         ]),
 
+        # Menus de dropdown
         html.Div([
-            "Divisão por coluna:",
-            dcc.Dropdown(id='dropdown2', value='Nenhuma', options=op2, clearable=False),
-        ]),
+            html.Div([
+                "Divisão por cores:",
+                dcc.Dropdown(id='dropdown11', value='Nenhuma', options=op1, clearable=False),
+            ]),
 
-        html.Div([
-            "Tipo de gráfico:",
-            dcc.Dropdown(id='dropdown3', value='kde', options=[
-                {'label': 'KDE', 'value': 'kde'},
-                {'label': 'Histograma', 'value': 'hist'},
-                {'label': 'Cumulativo', 'value': 'ecdf'}], clearable=False),
-        ]),
+            html.Div([
+                "Divisão por coluna:",
+                dcc.Dropdown(id='dropdown12', value='Nenhuma', options=op2, clearable=False),
+            ]),
 
+            html.Div([
+                "Tipo de gráfico:",
+                dcc.Dropdown(id='dropdown13', value='kde', options=[
+                    {'label': 'KDE', 'value': 'kde'},
+                    {'label': 'Histograma', 'value': 'hist'},
+                    {'label': 'Cumulativo', 'value': 'ecdf'}], clearable=False),
+            ]),
+
+            html.Div([
+                "Tipo de agrupamento:",
+                dcc.Dropdown(id='dropdown14', value='layer', options=[
+                    {'label': 'Normal', 'value': 'layer'},
+                    {'label': 'Empilhar', 'value': 'stack'}], clearable=False),
+            ])
+        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
+
+        # Gráfico
         html.Div([
-            "Tipo de agrupamento:",
-            dcc.Dropdown(id='dropdown4', value='layer', options=[
-                {'label': 'Normal', 'value': 'layer'},
-                {'label': 'Empilhar', 'value': 'stack'}], clearable=False),
+            html.Div([
+                html.Img(id='matplot')
+                # É necessário utilizar html.Img ao invés de dcc.Graph, pois o gráfico foi gerado pelo matplotlib e não pelo Plotly
+            ])
         ])
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap':50, 'flex':1}),
 
-    # Gráfico
-    html.Div([
-        html.Div([
-            html.Img(id='matplot') # É necessário utilizar html.Img ao invés de dcc.Graph, pois o gráfico foi gerado pelo matplotlib e não pelo Plotly
-        ])
     ])
 
-
-
-])
 
 # Layout do dash
 
 
-
-
-#-------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------
 @callback(
     Output(component_id='matplot', component_property='src'),
-    Output(component_id='dropdown4', component_property='disabled'),
-    Input(component_id='dropdown', component_property='value'),
-    Input(component_id='dropdown2', component_property='value'),
-    Input(component_id='dropdown3', component_property='value'),
-    Input(component_id='dropdown4', component_property='value'),
-    Input(component_id='datatable_id', component_property='derived_virtual_data')
+    Output(component_id='dropdown14', component_property='disabled'),
+    Input(component_id='grid', component_property='virtualRowData'),
+    Input(component_id='dropdown11', component_property='value'),
+    Input(component_id='dropdown12', component_property='value'),
+    Input(component_id='dropdown13', component_property='value'),
+    Input(component_id='dropdown14', component_property='value')
 )
 
 
 
-def matplot_html(drop1, drop2, drop3, drop4, rows):
-
-## Criando o gráfico
+def matplot_html(rows, drop1, drop2, drop3, drop4):
+    ## Criando o gráfico
 
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
-
 
     # Criando as opções nulas para os dropdowns 1 e 2
     if drop1 == 'Nenhuma':
@@ -183,13 +184,11 @@ def matplot_html(drop1, drop2, drop3, drop4, rows):
 
     # Gerando o gráfico 1 de acordo com a escolha no dropdown 3
     if drop3 == 'ecdf':
-      fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}')
-      Disdrop4 = True
+        fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind=f'{drop3}')
+        Disdrop4 = True
     else:
-      fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind= f'{drop3}', multiple=f'{drop4}')
-      Disdrop4 = False
-
-
+        fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind=f'{drop3}', multiple=f'{drop4}')
+        Disdrop4 = False
 
     # Criando o buffer temporário para renderizar um gráfico do matplotlib no Dash
     buf = BytesIO()
@@ -199,4 +198,3 @@ def matplot_html(drop1, drop2, drop3, drop4, rows):
 
     # Retorno dos outputs para o callback
     return fig_matplot, Disdrop4
-
