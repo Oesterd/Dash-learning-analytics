@@ -20,59 +20,8 @@ dash.register_page(__name__, name='Correlação')
 
 
 
-# Selecionando os dados a serem lidos
-dfraw = pd.read_excel('https://github.com/Oesterd/Dash123/raw/master/dados_teste.xlsx')
-df = dfraw.iloc[:, 0:10]
-
-
-# Formatação dos números
-locale_pt_BR = """d3.formatLocale({
-  "decimal": ",",
-  "thousands": ".",
-  "grouping": [3],
-  "currency": ["R$", ""],
-  "thousands": "\u00a0",
-})"""
-
-
-
-
-numformat = {"function": f"{locale_pt_BR}.format(',.2f')(params.value)"}
-
-
-clndef = [
-    {'field': 'Alunos'},
-    {'field': 'Gênero'},
-    {'field': 'Etnia'},
-    {'field': 'Escola'},
-    {'field': 'Renda'},
-    {'field': 'Média aluno',
-     'valueFormatter': numformat},
-    {'field': 'Média turma',
-     'valueFormatter': numformat},
-    {'field': 'Frequência',
-     'valueFormatter': numformat},
-    {'field': 'Situação'},
-    {'field': 'Professor'}
-]
-
-dfclndef = {
-    'headerClass': 'center-aligned-header',
-    'cellClass': 'center-aligned-cell',
-    'filter': True,
-    'resizable': True
-}
-
-
-grid = dag.AgGrid(
-    id='grid',
-    rowData=df.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
-
-
+filename = 'Reusables/Grid.py'
+exec(open(filename).read())
 
 
 
