@@ -1,5 +1,5 @@
 # Selecionando os dados a serem lidos
-dfraw = pd.read_excel('https://github.com/Oesterd/Dash123/raw/master/dados_teste.xlsx')
+dfraw = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/dados_teste.xlsx')
 df = dfraw.iloc[:, 0:10]
 
 

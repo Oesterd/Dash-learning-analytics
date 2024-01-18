@@ -29,7 +29,7 @@ import openpyxl
 dash.register_page(__name__, name='Distribuição de notas', path='/')
 
 
-filename = 'Reusables/Grid.py'
+filename = 'Reusables/Grades_grid.py'
 exec(open(filename).read())
 
 

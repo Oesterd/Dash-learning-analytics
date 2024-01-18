@@ -20,7 +20,7 @@ dash.register_page(__name__, name='Correlação')
 
 
 
-filename = 'Reusables/Grid.py'
+filename = 'Reusables/Grades_grid.py'
 exec(open(filename).read())
 
 
@@ -81,7 +81,7 @@ html.Div([
 
 
 
-#-----------------------------------------------------
+#--------------------------------------------------------------------------------------------
 @callback(
     Output('dropdown32', 'options'),
     Input('dropdown31', 'value')
@@ -101,6 +101,10 @@ def drop2init(available_options):
 
 
 
+
+
+
+#---------------------------------------------------------------------------------
 @callback(
     Output(component_id='scatter', component_property='figure'),
     Input(component_id='dropdown31', component_property='value'),
