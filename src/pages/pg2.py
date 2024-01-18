@@ -47,7 +47,7 @@ data_dict = {
     'Total': [146, 129, 117]
 }
 
-
+data = pd.DataFrame(data_dict)
 
 
 # Colunas
@@ -57,6 +57,7 @@ clndef = [
         "field": "img",
         "cellRenderer": "ImgThumbnail",
         "width": 100,
+        'filter': False
     },
     {
         "headerName": "Nome",
@@ -107,48 +108,12 @@ clndef = [
 ]
 
 dfclndef = {
-    "headerClass": 'center-aligned-header',
+    'headerClass': 'center-aligned-header',
+    'cellClass': 'center-aligned-cell',
+    'filter': 'agMultiColumnFilter',
+    'resizable': True
 }
 
-
-
-# Dataframe
-data = pd.DataFrame(data_dict)
-
-
-
-## Plots
-specs=[[{'type':'domain'}, {'type':'domain'}, {'type':'domain'}, {'type':'domain'}]]
-fig = make_subplots(rows=1, cols=4, specs=specs, subplot_titles=["AP", "RM", "RF", "RMF"])
-
-
-
-AP_chart = go.Pie(
-    values=data_dict['Tot_AP'],
-    labels=data_dict['name'],
-)
-
-RM_chart = go.Pie(
-    values=data_dict['Tot_RM'],
-    labels=data_dict['name'],
-)
-
-RF_chart = go.Pie(
-    values=data_dict['Tot_RF'],
-    labels=data_dict['name'],
-)
-
-RMF_chart = go.Pie(
-    values=data_dict['Tot_RMF'],
-    labels=data_dict['name'],
-)
-
-
-# Criando os gráficos
-fig.add_trace(AP_chart, row=1, col=1)
-fig.add_trace(RM_chart, row=1, col=2)
-fig.add_trace(RF_chart, row=1, col=3)
-fig.add_trace(RMF_chart, row=1, col=4)
 
 
 
@@ -170,9 +135,124 @@ html.Div([
     ]),
 
     html.Div([
-        dcc.Graph(id='Perc', figure=fig)
+        "Tipo de gráfico:",
+        dcc.Dropdown(id='dropdown21', value='stpf', options=[
+            {'label': 'Situação por professor', 'value': 'stpf'},
+            {'label': 'Professor por situação', 'value': 'pfst'}
+        ], style={'width': '50%'}, clearable=False),
+    ]),
+
+
+    html.Div([
+        dcc.Graph(id='Perc')
     ], style={'position': 'relative', 'right': 100})
 
 ], style={"margin": 20}
 )
 
+
+
+
+
+
+
+
+
+
+
+#-----------------------------------------------------------------------------
+@callback(
+    Output('Perc', 'figure'),
+    Input(component_id='AgGrid', component_property='virtualRowData'),
+    Input('dropdown21', 'value')
+)
+
+
+def calfunc(rows, dropval):
+
+
+    filtdata = pd.DataFrame(rows)
+    profs = filtdata['name'].to_list()
+    cols = list(filtdata.columns)[4:8]
+    sliced = filtdata.loc[:, cols]
+    finaldata = sliced.T
+    finaldata.columns = profs
+
+
+    # Plot professor por situação
+    specs = [[{'type': 'domain'}, {'type': 'domain'}, {'type': 'domain'}, {'type': 'domain'}]]
+    fig = make_subplots(rows=1, cols=4, specs=specs, subplot_titles=["AP", "RM", "RF", "RMF"])
+
+    AP_chart = go.Pie(
+        values=filtdata['Tot_AP'],
+        labels=filtdata['name'],
+        name='AP',
+    )
+
+    RM_chart = go.Pie(
+        values=filtdata['Tot_RM'],
+        labels=filtdata['name'],
+        name='RM',
+    )
+
+    RF_chart = go.Pie(
+        values=filtdata['Tot_RF'],
+        labels=filtdata['name'],
+        name='RF',
+    )
+
+    RMF_chart = go.Pie(
+        values=filtdata['Tot_RMF'],
+        labels=filtdata['name'],
+        name='RMF',
+    )
+
+    # Criando os gráficos
+    fig.add_trace(AP_chart, row=1, col=1)
+    fig.add_trace(RM_chart, row=1, col=2)
+    fig.add_trace(RF_chart, row=1, col=3)
+    fig.add_trace(RMF_chart, row=1, col=4)
+
+
+
+
+
+    # Plot situação por professor
+    specs = [[{'type': 'domain'}, {'type': 'domain'}, {'type': 'domain'}]]
+    fig2 = make_subplots(rows=1, cols=3, specs=specs, subplot_titles=data['name'])
+
+    labels = ['Aprovados', 'Reprovados por média', 'Reprovados por falta', 'Reprovados por média e falta']
+
+    Prof1 = go.Pie(
+        labels=labels,
+        values=finaldata.iloc[:, 0],
+        name='Luiz'
+    )
+
+    Prof2 = go.Pie(
+        labels=labels,
+        values=finaldata.iloc[:, 1],
+        name='Rildo'
+    )
+
+    Prof3 = go.Pie(
+        labels=labels,
+        values=finaldata.iloc[:, 2],
+        name='Paulo'
+    )
+
+    # Criando os gráficos
+    fig2.add_trace(Prof1, row=1, col=1)
+    fig2.add_trace(Prof2, row=1, col=2)
+    fig2.add_trace(Prof3, row=1, col=3)
+
+
+
+    if dropval == 'stpf':
+        res = fig2
+
+    else:
+        res = fig
+
+
+    return res
