@@ -53,7 +53,7 @@ dfclndef = {
 }
 
 
-grid2 = dag.AgGrid(
+grid = dag.AgGrid(
     id='grid',
     rowData=dft.to_dict('records'),
     columnDefs=clndef,
