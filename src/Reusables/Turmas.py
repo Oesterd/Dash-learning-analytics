@@ -25,17 +25,23 @@ clndef = [
     {'field': 'Avaliação professor',
      'valueFormatter': gradeformat},
     {'field': 'Média turma',
-     'valueFormatter': gradeformat},
+     'valueFormatter': gradeformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'AP',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'RM',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'RF',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'RMF',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'Num Alunos',
-     'valueFormatter': numformat}
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'}
 ]
 
 
@@ -47,7 +53,7 @@ dfclndef = {
 }
 
 
-grid = dag.AgGrid(
+grid2 = dag.AgGrid(
     id='grid',
     rowData=dft.to_dict('records'),
     columnDefs=clndef,

@@ -23,13 +23,17 @@ clndef = [
     {'field': 'Gênero'},
     {'field': 'Etnia'},
     {'field': 'Escola'},
-    {'field': 'Renda'},
+    {'field': 'Renda',
+     'filter': 'agNumberColumnFilter'},
     {'field': 'Média aluno',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'Média turma',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'Frequência',
-     'valueFormatter': numformat},
+     'valueFormatter': numformat,
+     'filter': 'agNumberColumnFilter'},
     {'field': 'Situação'},
     {'field': 'Professor'}
 ]
@@ -37,7 +41,7 @@ clndef = [
 dfclndef = {
     'headerClass': 'center-aligned-header',
     'cellClass': 'center-aligned-cell',
-    'filter': 'agMultiColumnFilter',
+    'filter': True,
     'resizable': True
 }
 
