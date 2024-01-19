@@ -1,5 +1,5 @@
 # Importando as bibliotecas
-import dash
+import dash, orjson
 from dash import html, dcc, Input, Output, callback
 from dash.dash_table.Format import Format, Scheme
 import dash_ag_grid as dag
@@ -124,6 +124,13 @@ def matplot_html(rows, drop1, drop2, drop3, drop4):
     else:
         fig = sns.displot(data=dff, x='Média aluno', hue=drop1, col=drop2, kind=f'{drop3}', multiple=f'{drop4}')
         Disdrop4 = False
+
+
+
+    # OBS: A biblioteca Seaborn (sns) foi utilizada no lugar do Plotly (px, go) porque o Plotly não consegue gerar gráficos do tipo KDE.
+    # Desvantagem: O Dash só é diretamente compatível com o Plotly, portanto qualquer plot gerado com outra biblioteca será renderizado
+    # como uma imagem estática, como no código abaixo, plots interativos gerados facilmente só são possíveis com o Plotly.
+
 
     # Criando o buffer temporário para renderizar um gráfico do matplotlib no Dash
     buf = BytesIO()

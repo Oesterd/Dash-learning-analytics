@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 import datetime
-import dash
+import dash, orjson
 import dash_ag_grid as dag
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go

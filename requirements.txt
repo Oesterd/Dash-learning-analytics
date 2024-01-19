@@ -7,5 +7,6 @@ plotly==5.18.0
 seaborn==0.13.0
 openpyxl==3.1.2
 statsmodels==0.14.1
+orjson==3.9.12
 gunicorn
 dash-tools
