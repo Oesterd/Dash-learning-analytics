@@ -57,61 +57,76 @@ clndef = [
         "field": "img",
         "cellRenderer": "ImgThumbnail",
         "width": 100,
-        'filter': False
+        'filter': False,
+        'resizable': False
     },
+
     {
         "headerName": "Nome",
         "field": "name",
-        "resizable": True,
     },
+
     {
         "headerName": "AP",
         "field": "Tot_AP",
         "width": 100,
         "cellClass": 'center-aligned-cell'
     },
+
     {
         "headerName": "RM",
         "field": "Tot_RM",
         "width": 100,
         "cellClass": 'center-aligned-cell'
     },
+
     {
         "headerName": "RF",
         "field": "Tot_RF",
         "width": 100,
         "cellClass": 'center-aligned-cell'
     },
+
     {
         "headerName": "RMF",
         "field": "Tot_RMF",
         "width": 100,
         "cellClass": 'center-aligned-cell'
     },
+
     {
         "headerName": "Total de alunos",
         "field": "Total",
         "width": 150,
         "cellClass": 'center-aligned-cell'
     },
+
     {
         "headerName": "Turmas",
         "field": "turmas",
         "width": 100,
         "cellClass": 'center-aligned-cell'
     },
+
     {"headerName": "Ativo desde",
         "field": "ativo",
         "width": 150,
         "cellClass": 'center-aligned-cell'
-    }
+    },
+
 ]
+
+
+
 
 dfclndef = {
     'headerClass': 'center-aligned-header',
     'cellClass': 'center-aligned-cell',
-    'filter': 'agMultiColumnFilter',
-    'resizable': True
+    'resizable': True,
+    'filter': True,
+    'filterParams': {
+        "alwaysShowBothConditions": True,
+    },
 }
 
 
