@@ -19,30 +19,52 @@ numformat = {"function": f"{locale_pt_BR}.format(',.2f')(params.value)"}
 
 
 clndef = [
+
+
     {'field': 'Alunos'},
+
     {'field': 'Gênero'},
+
     {'field': 'Etnia'},
+
     {'field': 'Escola'},
+
     {'field': 'Renda',
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'Média aluno',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'Média turma',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'Frequência',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'Situação'},
+
     {'field': 'Professor'}
+
+
 ]
+
+
+
+
+
 
 dfclndef = {
     'headerClass': 'center-aligned-header',
     'cellClass': 'center-aligned-cell',
     'filter': True,
-    'resizable': True
+    'filterParams': {
+        "alwaysShowBothConditions": True,
+    },
+    'floatingFilter': True,
+    'suppressMenu': True,
 }
 
 

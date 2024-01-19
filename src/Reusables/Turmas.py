@@ -18,38 +18,58 @@ numformat = {"function": f"{locale_pt_BR}.format(',.0f')(params.value)"}
 
 
 clndef = [
+
+
     {'field': 'Código', "sortable": True},
+
     {'field': 'Disciplina', "sortable": True},
+
     {'field': 'Ano e período', "sortable": True, 'sort': 'asc'},
+
     {'field': 'Professor', "sortable": True},
+
     {'field': 'Avaliação professor',
-     'valueFormatter': gradeformat},
+     'valueFormatter': gradeformat,
+     'filter': 'agNumberColumnFilter'},
+
     {'field': 'Média turma',
      'valueFormatter': gradeformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'AP',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'RM',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'RF',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'RMF',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
+
     {'field': 'Num Alunos',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'}
+
+
 ]
 
 
 dfclndef = {
     'headerClass': 'center-aligned-header',
     'cellClass': 'center-aligned-cell',
-    'filter': 'agMultiColumnFilter',
-    'resizable': True
+    'resizable': True,
+    'filter': True,
+    'filterParams': {
+        "alwaysShowBothConditions": True,
+    },
+    'floatingFilter': True,
+    'suppressMenu': True,
 }
 
 
