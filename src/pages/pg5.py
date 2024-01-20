@@ -127,7 +127,7 @@ def scatter_plot(rows, drop1, drop2):
 
 
     # Criando o gráfico
-    figfigpg5 = px.scatter(dffP5, x='Avaliação professor', y=drop1, color='Professor', trendline=drop2,
+    figpg5 = px.scatter(dffP5, x='Avaliação professor', y=drop1, color='Professor', trendline=drop2,
                      hover_name='Professor',
                      hover_data={
                          'Disciplina': False,
@@ -140,13 +140,13 @@ def scatter_plot(rows, drop1, drop2):
     # Tornando os números do eixo y em formato de porcentagem
 
     if var != 'Média turma':
-        figfigpg5.update_layout(
+        figpg5.update_layout(
             yaxis_tickformat='.0%',
             yaxis_title=var2),
 
 
     if var == 'AP':
-        figfigpg5.update_traces(
+        figpg5.update_traces(
             hovertemplate='<br>'.join([
                 'Avaliação professor: %{x}',
                 'AP: %{y}',
@@ -154,7 +154,7 @@ def scatter_plot(rows, drop1, drop2):
         )
 
     elif var == 'RM':
-        figfigpg5.update_traces(
+        figpg5.update_traces(
             hovertemplate='<br>'.join([
                 'Avaliação professor: %{x}',
                 'RM: %{y}',
@@ -162,7 +162,7 @@ def scatter_plot(rows, drop1, drop2):
         )
 
     elif var == 'RF':
-        figfigpg5.update_traces(
+        figpg5.update_traces(
             hovertemplate='<br>'.join([
                 'Avaliação professor: %{x}',
                 'RF: %{y}',
