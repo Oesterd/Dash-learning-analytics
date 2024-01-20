@@ -1,7 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
 from dash import html, dcc, Input, Output, callback
-from dash.dash_table.Format import Format, Scheme
 import dash_ag_grid as dag
 
 
@@ -100,7 +99,8 @@ layout = \
 
 
 def matplot_html(rows, drop1, drop2, drop3, drop4):
-    ## Criando o gráfico
+
+## Criando o gráfico
 
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)

@@ -1,7 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
 from dash import html, dcc, Input, Output, callback
-from dash.dash_table.Format import Format, Scheme
 import dash_ag_grid as dag
 
 

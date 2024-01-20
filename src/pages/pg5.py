@@ -1,7 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
 from dash import html, dcc, Input, Output, callback
-from dash.dash_table.Format import Format, Scheme
 import dash_ag_grid as dag
 
 
@@ -15,6 +14,7 @@ import numpy as np
 
 
 dash.register_page(__name__, name='Turmas')
+
 
 
 
@@ -91,13 +91,91 @@ html.Div([
 def scatter_plot(rows, drop1, drop2):
 
     # Modificando os dados conforme a filtragem do usuário
-    dff2 = pd.DataFrame(rows)
+    dffP5 = pd.DataFrame(rows)
 
-
+    # Gerando a opção nula
     if drop2 == 'Nenhuma':
         drop2 = None
 
+
+
+    # Transformando os dados no eixo y em uma razão ao invés de número absoluto
+    if drop1 == 'Média turma':
+        var = drop1
+        drop1 = dffP5['Média turma']
+
+    elif drop1 == 'AP':
+        var = drop1
+        var2 = 'Aprovados'
+        drop1 = dffP5['AP']/dffP5['Num Alunos']
+
+    elif drop1 == 'RM':
+        var = drop1
+        var2 = 'Reprovados por média'
+        drop1 = dffP5['RM']/dffP5['Num Alunos']
+
+    elif drop1 == 'RF':
+        var = drop1
+        var2 = 'Reprovados por falta'
+        drop1 = dffP5['RF']/dffP5['Num Alunos']
+
+    elif drop1 == 'RMF':
+        var = drop1
+        var2 = 'Reprovados por média e falta'
+        drop1 = dffP5['RMF']/dffP5['Num Alunos']
+
+
+
     # Criando o gráfico
-    fig = px.scatter(dff2, x='Avaliação professor', y=f'{drop1}', color='Professor', trendline=drop2)
+    fig = px.scatter(dffP5, x='Avaliação professor', y=drop1, color='Professor', trendline=drop2,
+                     hover_name='Professor',
+                     hover_data={
+                         'Disciplina': False,
+                         'Professor': False,
+                         'Avaliação professor': ':.2f',
+                     },
+                     title='Teste',
+                     )
+
+
+    # Tornando os números do eixo y em formato de porcentagem
+
+    if var != 'Média turma':
+        fig.update_layout(
+            yaxis_tickformat='.0%',
+            yaxis_title=var2),
+
+
+    if var == 'AP':
+        fig.update_traces(
+            hovertemplate='<br>'.join([
+                'Avaliação professor: %{x}',
+                'AP: %{y}',
+            ])
+        )
+
+    elif var == 'RM':
+        fig.update_traces(
+            hovertemplate='<br>'.join([
+                'Avaliação professor: %{x}',
+                'RM: %{y}',
+            ])
+        )
+
+    elif var == 'RF':
+        fig.update_traces(
+            hovertemplate='<br>'.join([
+                'Avaliação professor: %{x}',
+                'RF: %{y}',
+            ])
+        )
+
+    elif var == 'RMF':
+        fig.update_traces(
+            hovertemplate='<br>'.join([
+                'Avaliação professor: %{x}',
+                'RMF: %{y}',
+            ])
+        )
 
     return fig

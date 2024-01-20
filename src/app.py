@@ -7,6 +7,10 @@ app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.SPACELAB])
 server = app.server
 
 
+
+
+
+
 sidebar = dbc.Nav(
             [
                 dbc.NavLink(

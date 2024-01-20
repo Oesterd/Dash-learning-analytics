@@ -1,7 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
 from dash import html, dcc, Input, Output, callback
-from dash.dash_table.Format import Format, Scheme
 import dash_ag_grid as dag
 
 
@@ -70,10 +69,17 @@ html.Div([
 def filterdata(rows, drop1):
 
 
-    dff3 = pd.DataFrame(rows)
+    dffP4 = pd.DataFrame(rows)
 
 
-    figpg4 = px.line(dff3, x='Ano e período', y=f'{drop1}', color='Disciplina', symbol='Disciplina', markers=True)
+    figpg4 = px.line(dffP4, x='Ano e período', y=f'{drop1}', color='Disciplina', symbol='Disciplina',
+                     markers=True, hover_name='Disciplina',
+                     hover_data={
+                         'Disciplina': False,
+                         'Professor': True,
+                         'Ano e período': False,
+                         'Aprovados': (':.0%', dffP4['AP']/dffP4['Num Alunos']),
+                     })
 
     return figpg4
 #---------------------------------------------------------------------------------
