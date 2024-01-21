@@ -123,32 +123,32 @@ def filterdata(rows, drop1):
     if var == 'AP':
         figpg4.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'AP: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Aprovados: %{y}',
             ])
         )
 
     elif var == 'RM':
         figpg4.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'RM: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Reprovados por média: %{y}',
             ])
         )
 
     elif var == 'RF':
         figpg4.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'RF: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Reprovados por falta: %{y}',
             ])
         )
 
     elif var == 'RMF':
         figpg4.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'RMF: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Reprovados por média e falta: %{y}',
             ])
         )
 

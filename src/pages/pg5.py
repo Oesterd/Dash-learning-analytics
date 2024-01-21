@@ -93,9 +93,12 @@ def scatter_plot(rows, drop1, drop2):
     # Modificando os dados conforme a filtragem do usuário
     dffP5 = pd.DataFrame(rows)
 
+
+
+
     # Gerando a opção nula
     if drop2 == 'Nenhuma':
-        drop2 = None
+         drop2 = None
 
 
 
@@ -128,7 +131,7 @@ def scatter_plot(rows, drop1, drop2):
 
     # Criando o gráfico
     figpg5 = px.scatter(dffP5, x='Avaliação professor', y=drop1, color='Professor', trendline=drop2,
-                     hover_name='Professor',
+                     hover_name=drop2,
                      hover_data={
                          'Disciplina': False,
                          'Professor': False,
@@ -148,32 +151,34 @@ def scatter_plot(rows, drop1, drop2):
     if var == 'AP':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'AP: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Aprovados: %{y}',
             ])
         )
 
     elif var == 'RM':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'RM: %{y}',
+                '%{customdata[0]}',
+                '',
+                'Avaliação professor: %{x:.2f}',
+                'Reprovados por média: %{y}',
             ])
         )
 
     elif var == 'RF':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'RF: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Reprovados por falta: %{y}',
             ])
         )
 
     elif var == 'RMF':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x}',
-                'RMF: %{y}',
+                'Avaliação professor: %{x:.2f}',
+                'Reprovados por média e falta: %{y}',
             ])
         )
 
