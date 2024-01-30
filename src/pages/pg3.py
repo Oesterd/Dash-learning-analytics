@@ -44,6 +44,18 @@ html.Div([
 
     # Menus de dropdown
     html.Div([
+
+        html.Div([
+            "Escolha o eixo x:",
+            dcc.Dropdown(
+                id='dropdown30',
+                value='Renda (R$)',
+                options=['Renda (R$)', 'Frequência'],
+                clearable=False
+            ),
+        ]),
+
+
         html.Div([
             "Divisão por colunas:",
             dcc.Dropdown(
@@ -106,6 +118,7 @@ def drop2init(available_options):
 #---------------------------------------------------------------------------------
 @callback(
     Output(component_id='scatter', component_property='figure'),
+    Input(component_id='dropdown30', component_property='value'),
     Input(component_id='dropdown31', component_property='value'),
     Input(component_id='dropdown32', component_property='value'),
     Input(component_id='dropdown33', component_property='value'),
@@ -113,7 +126,7 @@ def drop2init(available_options):
 )
 
 
-def scatter_plot(drop1, drop2, drop3, rows):
+def scatter_plot(drop0, drop1, drop2, drop3, rows):
 
 
     ## Criando o gráfico
@@ -140,6 +153,6 @@ def scatter_plot(drop1, drop2, drop3, rows):
 
 
 
-    fig = px.scatter(dff, x='Frequência', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3)
+    fig = px.scatter(dff, x=f'{drop0}', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3)
 
     return fig

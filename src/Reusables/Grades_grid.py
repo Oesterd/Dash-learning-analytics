@@ -29,7 +29,7 @@ clndef = [
 
     {'field': 'Escola'},
 
-    {'field': 'Renda',
+    {'field': 'Renda (R$)',
      'filter': 'agNumberColumnFilter'},
 
     {'field': 'Média aluno',

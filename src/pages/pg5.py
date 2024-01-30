@@ -131,7 +131,7 @@ def scatter_plot(rows, drop1, drop2):
 
     # Criando o gráfico
     figpg5 = px.scatter(dffP5, x='Avaliação professor', y=drop1, color='Professor', trendline=drop2,
-                     hover_name=drop2,
+                     hover_name='Professor',
                      hover_data={
                          'Disciplina': False,
                          'Professor': False,
