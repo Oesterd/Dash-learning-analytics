@@ -7,6 +7,7 @@ import dash_ag_grid as dag
 import plotly.express as px
 import pandas as pd
 import numpy as np
+import scipy.stats
 
 
 
@@ -31,6 +32,10 @@ Ops = {
    'Etnia': ['Nenhuma', 'Gênero', 'Escola']
 }
 
+
+
+
+fig = px.scatter(df, x='Renda (R$)', y='Média aluno', trendline='ols')
 
 
 
@@ -81,12 +86,32 @@ html.Div([
                 {'label': 'Pesada', 'value': 'lowess'}
             ], clearable=False)
         ])
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
+    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 30, 'flex': 1}),
 
-    # Gráfico
+    html.Br(),
+
+
     html.Div([
-        dcc.Graph(id='scatter')
-    ])
+        # Gráfico
+        html.Div([
+            dcc.Graph(id='scatter')
+        ], style={'flex-basis': 1000}),
+
+        # Valores de correlação
+        html.Div([
+            dcc.Textarea(
+                id='textpg3',
+                disabled=True,
+                className='textarea'
+            )
+        ], style={'position': 'relative', 'left': 90, 'top': 100}),
+
+    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 25, 'flex': 1}),
+
+
+
+
+
 ])
 
 
@@ -118,6 +143,7 @@ def drop2init(available_options):
 #---------------------------------------------------------------------------------
 @callback(
     Output(component_id='scatter', component_property='figure'),
+    Output(component_id='textpg3', component_property='value'),
     Input(component_id='dropdown30', component_property='value'),
     Input(component_id='dropdown31', component_property='value'),
     Input(component_id='dropdown32', component_property='value'),
@@ -155,4 +181,23 @@ def scatter_plot(drop0, drop1, drop2, drop3, rows):
 
     fig = px.scatter(dff, x=f'{drop0}', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3)
 
-    return fig
+
+
+
+    # Valores de correlação
+
+    x = dff[drop0]
+    y = dff['Média aluno']
+
+    r = y.corr(x, method='pearson')
+    r2 = y.corr(x, method='spearman')
+    r3 = y.corr(x, method='kendall')
+
+    result = scipy.stats.linregress(x, y)
+
+    p = result.pvalue
+    desp = result.stderr
+
+    text = f'O valor do coeficiente de correlação é: \nPearson = {r} \nSpearman = {r2} \nKendall = {r3} \n\nO valor-p é: {p} \nO desvio padrão é: {desp}'
+
+    return fig, text
