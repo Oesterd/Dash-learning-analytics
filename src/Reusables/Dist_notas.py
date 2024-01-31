@@ -82,8 +82,6 @@ grid = dag.AgGrid(
 
 # Opções do dropdown
 nullop = 'Nenhuma'
-op1 = df.columns[[4, 9]].tolist()  # Divisão por cores
-op1.insert(0, nullop)
-op2 = df.columns[1:4].tolist()  # Divisão por colunas
+op2 = df.columns[1:4].to_list()  # Divisão por colunas
 op2.insert(0, nullop)
 

@@ -20,7 +20,7 @@ dash.register_page(__name__, name='Correlação')
 
 
 
-filename = 'Reusables/Grades_grid.py'
+filename = 'Reusables/Dist_notas.py'
 exec(open(filename).read())
 
 
