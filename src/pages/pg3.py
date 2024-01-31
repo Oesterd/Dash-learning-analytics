@@ -85,8 +85,17 @@ html.Div([
                 {'label': 'Linear', 'value': 'ols'},
                 {'label': 'Pesada', 'value': 'lowess'}
             ], clearable=False)
+        ]),
+
+
+        html.Div([
+            "Escopo da regressão linear:",
+            dcc.Dropdown(id='dropdown34', value='Legenda', options=[
+                {'label': 'Legenda', 'value': 'trace'},
+                {'label': 'Geral', 'value': 'overall'},
+            ], clearable=False)
         ])
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 30, 'flex': 1}),
+    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
 
     html.Br(),
 
@@ -144,15 +153,16 @@ def drop2init(available_options):
 @callback(
     Output(component_id='scatter', component_property='figure'),
     Output(component_id='textpg3', component_property='value'),
+    Input(component_id='grid', component_property='virtualRowData'),
     Input(component_id='dropdown30', component_property='value'),
     Input(component_id='dropdown31', component_property='value'),
     Input(component_id='dropdown32', component_property='value'),
     Input(component_id='dropdown33', component_property='value'),
-    Input(component_id='grid', component_property='virtualRowData')
+    Input(component_id='dropdown34', component_property='value'),
 )
 
 
-def scatter_plot(drop0, drop1, drop2, drop3, rows):
+def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
 
     ## Criando o gráfico
@@ -179,8 +189,7 @@ def scatter_plot(drop0, drop1, drop2, drop3, rows):
 
 
 
-    fig = px.scatter(dff, x=f'{drop0}', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3)
-
+    fig = px.scatter(dff, x=f'{drop0}', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3, trendline_scope=drop4)
 
 
 
@@ -198,6 +207,6 @@ def scatter_plot(drop0, drop1, drop2, drop3, rows):
     p = result.pvalue
     desp = result.stderr
 
-    text = f'O valor do coeficiente de correlação é: \nPearson = {r} \nSpearman = {r2} \nKendall = {r3} \n\nO valor-p é: {p} \nO desvio padrão é: {desp}'
+    text = f'O valor do coeficiente de correlação é: \nPearson = {r:.3f} \nSpearman = {r2:.3f} \nKendall = {r3:.3f} \n\nO valor-p é: {p:.3f} \nO desvio padrão é: {desp:.3e}'
 
     return fig, text
