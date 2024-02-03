@@ -26,16 +26,16 @@ exec(open(filename).read())
 
 
 Ops = {
-   'Nenhuma': ['Nenhuma', 'Gênero', 'Escola'],
-   'Gênero': ['Nenhuma', 'Escola'],
-   'Escola': ['Nenhuma', 'Gênero'],
-   'Etnia': ['Nenhuma', 'Gênero', 'Escola']
+   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola'],
+   'Sexo': ['Nenhuma', 'Escola'],
+   'Escola': ['Nenhuma', 'Sexo'],
+   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
 }
 
 
 
 
-fig = px.scatter(df, x='Renda (R$)', y='Média aluno', trendline='ols')
+fig = px.scatter(df, x='Renda (R$)', y='Med aluno', trendline='ols')
 
 
 
@@ -74,7 +74,7 @@ html.Div([
 
         html.Div([
             "Divisão por linhas:",
-            dcc.Dropdown(id='dropdown32', value='Nenhuma', options=['Nenhuma', 'Gênero', 'Escola'], clearable=False),
+            dcc.Dropdown(id='dropdown32', value='Nenhuma', options=['Nenhuma', 'Sexo', 'Escola'], clearable=False),
         ]),
 
 
@@ -189,14 +189,14 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
 
 
-    fig = px.scatter(dff, x=f'{drop0}', y='Média aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3, trendline_scope=drop4)
+    fig = px.scatter(dff, x=f'{drop0}', y='Med aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3, trendline_scope=drop4)
 
 
 
     # Valores de correlação
 
     x = dff[drop0]
-    y = dff['Média aluno']
+    y = dff['Med aluno']
 
     r = y.corr(x, method='pearson')
     r2 = y.corr(x, method='spearman')

@@ -25,7 +25,7 @@ exec(open(filename).read())
 
 
 
-Opcs = ['Média turma', 'AP', 'RM', 'RF', 'RMF']
+Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 
 
@@ -43,7 +43,7 @@ html.Div([
     html.Div([
         html.Div([
             "Escolha o eixo y:",
-            dcc.Dropdown(id='dropdown51', value='Média turma', options=Opcs, clearable=False),
+            dcc.Dropdown(id='dropdown51', value='Med turma', options=Opcs, clearable=False),
         ]),
 
 
@@ -128,9 +128,9 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
 
     # Transformando os dados no eixo y em uma razão ao invés de número absoluto
-    if drop1 == 'Média turma':
+    if drop1 == 'Med turma':
         var = drop1
-        drop1 = dff['Média turma']
+        drop1 = dff['Med turma']
 
     elif drop1 == 'AP':
         var = drop1
@@ -158,7 +158,7 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
     # Valores de correlação
 
-    x = dff['Avaliação professor']
+    x = dff['Av Professor']
     y = dff[var]
 
     r = y.corr(x, method='pearson')
@@ -176,19 +176,19 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
 
     # Criando o gráfico
-    figpg5 = px.scatter(dff, x='Avaliação professor', y=drop1, color='Professor', trendline=drop2, trendline_scope=drop3,
+    figpg5 = px.scatter(dff, x='Av Professor', y=drop1, color='Professor', trendline=drop2, trendline_scope=drop3,
                      hover_name='Professor',
                      hover_data={
                          'Disciplina': False,
                          'Professor': False,
-                         'Avaliação professor': ':.2f',
+                         'Av Professor': ':.2f',
                      },
                      )
 
 
     # Tornando os números do eixo y em formato de porcentagem
 
-    if var != 'Média turma':
+    if var != 'Med turma':
         figpg5.update_layout(
             yaxis_tickformat='.0%',
             yaxis_title=var2),
@@ -197,8 +197,6 @@ def scatter_plot(rows, drop1, drop2, drop3):
     if var == 'AP':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                '%{customdata[0]}',
-                '',
                 'Avaliação professor: %{x:.2f}',
                 'Aprovados: %{y}',
             ])
@@ -207,8 +205,6 @@ def scatter_plot(rows, drop1, drop2, drop3):
     elif var == 'RM':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                '%{customdata[0]}',
-                '',
                 'Avaliação professor: %{x:.2f}',
                 'Reprovados por média: %{y}',
             ])
@@ -217,8 +213,6 @@ def scatter_plot(rows, drop1, drop2, drop3):
     elif var == 'RF':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                '%{customdata[0]}',
-                '',
                 'Avaliação professor: %{x:.2f}',
                 'Reprovados por falta: %{y}',
             ])
@@ -227,8 +221,6 @@ def scatter_plot(rows, drop1, drop2, drop3):
     elif var == 'RMF':
         figpg5.update_traces(
             hovertemplate='<br>'.join([
-                '%{customdata[0]}',
-                '',
                 'Avaliação professor: %{x:.2f}',
                 'Reprovados por média e falta: %{y}',
             ])

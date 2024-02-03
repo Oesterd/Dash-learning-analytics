@@ -145,7 +145,7 @@ html.Div([
             columnDefs=clndef,
             defaultColDef=dfclndef,
             dashGridOptions={"rowHeight": 100},
-            style={"height": 351, "width": 1105},
+            style={"height": 351, "width": 1100},
         )
     ]),
 

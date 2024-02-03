@@ -20,19 +20,19 @@ numformat = {"function": f"{locale_pt_BR}.format(',.0f')(params.value)"}
 clndef = [
 
 
-    {'field': 'Código', "sortable": True},
+    {'field': 'Cod', "sortable": True},
 
     {'field': 'Disciplina', "sortable": True},
 
-    {'field': 'Ano e período', "sortable": True, 'sort': 'asc'},
+    {'field': 'Ano', "sortable": True, 'sort': 'asc'},
 
     {'field': 'Professor', "sortable": True},
 
-    {'field': 'Avaliação professor',
+    {'field': 'Av professor',
      'valueFormatter': gradeformat,
      'filter': 'agNumberColumnFilter'},
 
-    {'field': 'Média turma',
+    {'field': 'Med turma',
      'valueFormatter': gradeformat,
      'filter': 'agNumberColumnFilter'},
 

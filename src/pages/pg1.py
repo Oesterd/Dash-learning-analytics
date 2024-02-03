@@ -24,10 +24,10 @@ exec(open(filename).read())
 
 
 Ops = {
-   'Nenhuma': ['Nenhuma', 'Gênero', 'Escola'],
-   'Gênero': ['Nenhuma', 'Escola', 'Etnia'],
-   'Escola': ['Nenhuma', 'Gênero', 'Etnia'],
-   'Etnia': ['Nenhuma', 'Gênero', 'Escola']
+   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola'],
+   'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
+   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
+   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
 }
 
 
@@ -46,7 +46,7 @@ layout = \
 
             html.Div([
                 'Escolha o eixo x:',
-                dcc.Dropdown(id='dropdown11', value='Média aluno', options=['Média aluno', 'Situação'], clearable=False)
+                dcc.Dropdown(id='dropdown11', value='Med aluno', options=['Med aluno', 'Resultado'], clearable=False)
             ]),
 
 
@@ -64,7 +64,7 @@ layout = \
 
             html.Div([
                 "Divisão por linhas:",
-                dcc.Dropdown(id='dropdown14', value='Nenhuma', options=['Nenhuma', 'Gênero', 'Etnia', 'Escola'], clearable=False),
+                dcc.Dropdown(id='dropdown14', value='Nenhuma', options=['Nenhuma', 'Sexo', 'Etnia', 'Escola'], clearable=False),
             ]),
 
 
@@ -186,7 +186,7 @@ def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
         drop6 = f'{drop6}'
 
 
-    if drop1 == 'Média aluno':
+    if drop1 == 'Med aluno':
         drop5val = ['Histograma', 'Cumulativo']
     else:
         drop5val = ['Histograma']

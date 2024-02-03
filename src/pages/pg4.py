@@ -26,7 +26,7 @@ exec(open(filename).read())
 
 
 
-Opcs = ['Média turma', 'AP', 'RM', 'RF', 'RMF']
+Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 
 
@@ -43,7 +43,7 @@ html.Div([
 
     html.Div([
             "Escolha o eixo y:",
-            dcc.Dropdown(id='dropdown41', value='Média turma', options=Opcs, clearable=False),
+            dcc.Dropdown(id='dropdown41', value='Med turma', options=Opcs, clearable=False),
     ], style={'width': '10%'}),
 
 
@@ -74,9 +74,9 @@ def filterdata(rows, drop1):
 
 
     # Transformando os dados no eixo y em uma razão ao invés de número absoluto
-    if drop1 == 'Média turma':
+    if drop1 == 'Med turma':
         var = drop1
-        drop1 = dffP4['Média turma']
+        drop1 = dffP4['Med turma']
 
     elif drop1 == 'AP':
         var = drop1
@@ -101,12 +101,12 @@ def filterdata(rows, drop1):
 
 
 
-    figpg4 = px.line(dffP4, x='Ano e período', y=drop1, color='Disciplina', symbol='Disciplina',
+    figpg4 = px.line(dffP4, x='Ano', y=drop1, color='Disciplina', symbol='Disciplina',
                      markers=True, hover_name='Disciplina',
                      hover_data={
                          'Disciplina': False,
                          'Professor': True,
-                         'Ano e período': False,
+                         'Ano': False,
                          'Aprovados': (':.0%', dffP4['AP']/dffP4['Num Alunos']),
                      })
 
@@ -114,7 +114,7 @@ def filterdata(rows, drop1):
 
     # Tornando os números do eixo y em formato de porcentagem
 
-    if var != 'Média turma':
+    if var != 'Med turma':
         figpg4.update_layout(
             yaxis_tickformat='.0%',
             yaxis_title=var2),
