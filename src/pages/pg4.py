@@ -25,6 +25,9 @@ filename = 'Reusables/Turmas.py'
 exec(open(filename).read())
 
 
+# print(dft['Ano'])
+
+
 
 Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
@@ -101,59 +104,59 @@ def filterdata(rows, drop1):
 
 
 
-    figpg4 = px.line(dffP4, x='Ano', y=drop1, color='Disciplina', symbol='Disciplina',
+    fig = px.line(dffP4, x='Turma', y=drop1, color='Disciplina', symbol='Disciplina',
                      markers=True, hover_name='Disciplina',
                      hover_data={
                          'Disciplina': False,
                          'Professor': True,
-                         'Ano': False,
+                         'Turma': False,
                          'Aprovados': (':.0%', dffP4['AP']/dffP4['Num Alunos']),
                      })
 
 
+    fig.update_xaxes(rangeslider_visible=True)
 
     # Tornando os números do eixo y em formato de porcentagem
 
     if var != 'Med turma':
-        figpg4.update_layout(
+        fig.update_layout(
             yaxis_tickformat='.0%',
             yaxis_title=var2),
 
 
     if var == 'AP':
-        figpg4.update_traces(
+        fig.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x:.2f}',
                 'Aprovados: %{y}',
+                'Turma: %{x}',
             ])
         )
 
     elif var == 'RM':
-        figpg4.update_traces(
+        fig.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x:.2f}',
                 'Reprovados por média: %{y}',
+                'Turma: %{x}',
             ])
         )
 
     elif var == 'RF':
-        figpg4.update_traces(
+        fig.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x:.2f}',
                 'Reprovados por falta: %{y}',
+                'Turma: %{x}',
             ])
         )
 
     elif var == 'RMF':
-        figpg4.update_traces(
+        fig.update_traces(
             hovertemplate='<br>'.join([
-                'Avaliação professor: %{x:.2f}',
                 'Reprovados por média e falta: %{y}',
+                'Turma: %{x}',
             ])
         )
 
 
-    return figpg4
-#---------------------------------------------------------------------------------
+    return fig
 
 

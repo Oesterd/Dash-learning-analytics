@@ -75,7 +75,7 @@ html.Div([
         # Gráfico
         html.Div([
             dcc.Graph(id='scatter2')
-        ], style={'flex-basis': 1000}),
+        ], style={'flex-basis': 800}),
 
         # Valores de correlação
         html.Div([
@@ -84,9 +84,9 @@ html.Div([
                 disabled=True,
                 className='textarea'
             )
-        ], style={'position': 'relative', 'left': 90, 'top': 100}),
+        ], style={'position': 'relative', 'left': 75, 'top': 100}),
 
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 25, 'flex': 1}),
+    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 20, 'flex': 1}),
 
 
 ])

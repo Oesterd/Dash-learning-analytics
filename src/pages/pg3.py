@@ -35,10 +35,6 @@ Ops = {
 
 
 
-fig = px.scatter(df, x='Renda (R$)', y='Med aluno', trendline='ols')
-
-
-
 layout = \
 html.Div([
     html.Div([
@@ -55,7 +51,7 @@ html.Div([
             dcc.Dropdown(
                 id='dropdown30',
                 value='Renda (R$)',
-                options=['Renda (R$)', 'Frequência'],
+                options=['Renda (R$)', 'Freq'],
                 clearable=False
             ),
         ]),
@@ -104,7 +100,7 @@ html.Div([
         # Gráfico
         html.Div([
             dcc.Graph(id='scatter')
-        ], style={'flex-basis': 1000}),
+        ], style={'flex-basis': 800}),
 
         # Valores de correlação
         html.Div([
@@ -113,9 +109,9 @@ html.Div([
                 disabled=True,
                 className='textarea'
             )
-        ], style={'position': 'relative', 'left': 90, 'top': 100}),
+        ], style={'position': 'relative', 'left': 75, 'top': 100}),
 
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 25, 'flex': 1}),
+    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 20, 'flex': 1}),
 
 
 

@@ -1,5 +1,8 @@
 # Selecionando os dados a serem lidos
 dft = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/Dados_turma.xlsx')
+# dft['Ano'] = pd.to_datetime(dft['Ano'], format='%Y/%m')
+# date_obj = "d3.timeParse('%Y-%m-%d')(params.data.date)"
+
 
 # Formatação dos números
 locale_pt_BR = """d3.formatLocale({
@@ -10,25 +13,24 @@ locale_pt_BR = """d3.formatLocale({
   "thousands": "\u00a0",
 })"""
 
-
-
 gradeformat = {"function": f"{locale_pt_BR}.format(',.2f')(params.value)"}
 numformat = {"function": f"{locale_pt_BR}.format(',.0f')(params.value)"}
 
-
-
 clndef = [
-
 
     {'field': 'Cod', "sortable": True},
 
     {'field': 'Disciplina', "sortable": True},
 
-    {'field': 'Ano', "sortable": True, 'sort': 'asc'},
+    {'field': 'Turma', "sortable": True, 'sort': 'asc',
+     # "valueGetter": {"function": date_obj},
+     # "valueFormatter": {"function": f"d3.timeFormat('%Y/%m/%d')({date_obj})"},
+     # "filter": "agDateColumnFilter"
+     },
 
     {'field': 'Professor', "sortable": True},
 
-    {'field': 'Av professor',
+    {'field': 'Av Professor',
      'valueFormatter': gradeformat,
      'filter': 'agNumberColumnFilter'},
 
@@ -56,9 +58,7 @@ clndef = [
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'}
 
-
 ]
-
 
 dfclndef = {
     'headerClass': 'center-aligned-header',
@@ -71,7 +71,6 @@ dfclndef = {
     'floatingFilter': True,
     'suppressMenu': True,
 }
-
 
 grid = dag.AgGrid(
     id='grid',

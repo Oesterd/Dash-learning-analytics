@@ -24,7 +24,7 @@ exec(open(filename).read())
 
 
 Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola'],
+   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
    'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
    'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
    'Etnia': ['Nenhuma', 'Sexo', 'Escola']
