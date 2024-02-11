@@ -72,10 +72,4 @@ dfclndef = {
     'suppressMenu': True,
 }
 
-grid = dag.AgGrid(
-    id='grid',
-    rowData=dft.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
+

@@ -68,17 +68,6 @@ dfclndef = {
 }
 
 
-grid = dag.AgGrid(
-    id='grid',
-    rowData=df.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
-
-
-
-
 
 # Opções do dropdown
 nullop = 'Nenhuma'

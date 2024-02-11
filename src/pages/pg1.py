@@ -21,6 +21,14 @@ filename = 'Reusables/Dist_notas.py'
 exec(open(filename).read())
 
 
+grid = dag.AgGrid(
+    id='grid',
+    rowData=df.to_dict('records'),
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+)
+
 
 
 Ops = {
@@ -135,6 +143,7 @@ def drop4init(available_options):
     Input(component_id='dropdown14', component_property='value'),
     Input(component_id='dropdown15', component_property='value'),
     Input(component_id='dropdown16', component_property='value'),
+    prevent_initial_call=True
 )
 
 

@@ -25,6 +25,16 @@ exec(open(filename).read())
 
 
 
+grid = dag.AgGrid(
+    id='grid2',
+    rowData=df.to_dict('records'),
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+)
+
+
+
 Ops = {
    'Nenhuma': ['Nenhuma', 'Sexo', 'Escola'],
    'Sexo': ['Nenhuma', 'Escola'],
@@ -149,12 +159,13 @@ def drop2init(available_options):
 @callback(
     Output(component_id='scatter', component_property='figure'),
     Output(component_id='textpg3', component_property='value'),
-    Input(component_id='grid', component_property='virtualRowData'),
+    Input(component_id='grid2', component_property='virtualRowData'),
     Input(component_id='dropdown30', component_property='value'),
     Input(component_id='dropdown31', component_property='value'),
     Input(component_id='dropdown32', component_property='value'),
     Input(component_id='dropdown33', component_property='value'),
     Input(component_id='dropdown34', component_property='value'),
+    prevent_initial_call=True
 )
 
 
