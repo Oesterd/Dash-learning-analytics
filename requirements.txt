@@ -1,4 +1,4 @@
-dash==2.14.2
+dash==2.15.0
 dash-ag-grid==31.0.0
 DateTime==5.4
 matplotlib==3.8.2
