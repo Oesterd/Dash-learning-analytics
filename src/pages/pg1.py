@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
-from dash import html, dcc, Input, Output, callback
+from dash import html, dcc, Input, Output, callback, clientside_callback
 import dash_ag_grid as dag
 
 
@@ -21,14 +21,6 @@ filename = 'Reusables/Dist_notas.py'
 exec(open(filename).read())
 
 
-grid = dag.AgGrid(
-    id='grid',
-    rowData=df.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
-
 
 
 Ops = {
@@ -44,9 +36,8 @@ Ops = {
 
 layout = \
     html.Div([
-        html.Div([
-            grid
-        ]),
+        html.Div(id='pg1grid'),
+
 
         # Menus de dropdown
         html.Div([
@@ -112,7 +103,8 @@ layout = \
 # Chained callback
 @callback(
     Output('dropdown14', 'options'),
-    Input('dropdown13', 'value')
+    Input('dropdown13', 'value'),
+    prevent_initial_call=True
 )
 
 
@@ -122,8 +114,9 @@ def drop_chain(drop4value):
 
 @callback(
     Output('dropdown14', 'value'),
-    Input('dropdown14', 'options'))
-
+    Input('dropdown14', 'options'),
+    prevent_initial_call = True
+)
 
 def drop4init(available_options):
     return available_options[0]['value']
@@ -133,6 +126,28 @@ def drop4init(available_options):
 
 
 # -------------------------------------------------------------------------------------
+@callback(
+    Output('pg1grid', 'children'),
+    Input('Dados_notas', 'data'),
+)
+
+
+def Grid_maker(Notas_df):
+    grid = dag.AgGrid(
+        id='grid',
+        rowData=Notas_df,
+        columnDefs=clndef,
+        defaultColDef=dfclndef,
+        dashGridOptions={'pagination': True},
+    )
+
+    return grid
+
+
+
+
+
+
 @callback(
     Output(component_id='displot', component_property='figure'),
     Output(component_id='dropdown15', component_property='options'),

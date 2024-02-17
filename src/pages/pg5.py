@@ -24,28 +24,15 @@ filename = 'Reusables/Turmas.py'
 exec(open(filename).read())
 
 
-grid = dag.AgGrid(
-    id='grid4',
-    rowData=dft.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
-
 
 Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 
 
 
-
-
-
 layout = \
 html.Div([
-    html.Div([
-        grid
-    ]),
+    html.Div(id='pg5grid'),
 
 
     html.Div([
@@ -103,8 +90,27 @@ html.Div([
 
 
 
+@callback(
+    Output('pg5grid', 'children'),
+    Input('Dados_turmas', 'data'),
+)
 
-#--------------------------------------------------------------------------------------------
+
+def Grid_maker(Turmas_df):
+    grid = dag.AgGrid(
+        id='grid4',
+        rowData=Turmas_df,
+        columnDefs=clndef,
+        defaultColDef=dfclndef,
+        dashGridOptions={'pagination': True},
+    )
+
+    return grid
+
+
+
+
+
 @callback(
     Output(component_id='scatter2', component_property='figure'),
     Output(component_id='textpg5', component_property='value'),

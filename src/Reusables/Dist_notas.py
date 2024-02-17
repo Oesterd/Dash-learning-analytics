@@ -1,9 +1,3 @@
-# Selecionando os dados a serem lidos
-dfraw = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/dados_teste.xlsx')
-df = dfraw.iloc[:, 0:10]
-
-
-
 # Formatação dos números
 locale_pt_BR = """d3.formatLocale({
   "decimal": ",",
@@ -66,11 +60,3 @@ dfclndef = {
     'floatingFilter': True,
     'suppressMenu': True,
 }
-
-
-
-# Opções do dropdown
-nullop = 'Nenhuma'
-op2 = df.columns[1:4].to_list()  # Divisão por colunas
-op2.insert(0, nullop)
-

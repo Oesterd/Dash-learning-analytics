@@ -26,14 +26,6 @@ exec(open(filename).read())
 
 
 
-grid = dag.AgGrid(
-    id='grid3',
-    rowData=dft.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
-
 
 # print(dft['Ano'])
 
@@ -46,10 +38,7 @@ Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 layout = \
 html.Div([
-    html.Div([
-        grid
-    ]),
-
+    html.Div(id='pg4grid'),
 
     html.Br(),
 
@@ -68,6 +57,22 @@ html.Div([
 ])
 
 
+@callback(
+    Output('pg4grid', 'children'),
+    Input('Dados_turmas', 'data'),
+)
+
+
+def Grid_maker(Turmas_df):
+    grid = dag.AgGrid(
+        id='grid3',
+        rowData=Turmas_df,
+        columnDefs=clndef,
+        defaultColDef=dfclndef,
+        dashGridOptions={'pagination': True},
+    )
+
+    return grid
 
 
 
@@ -76,7 +81,6 @@ html.Div([
     Input(component_id='grid3', component_property='virtualRowData'),
     Input(component_id='dropdown41', component_property='value'),
     prevent_initial_call=True
-
 )
 
 

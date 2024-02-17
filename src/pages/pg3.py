@@ -25,14 +25,6 @@ exec(open(filename).read())
 
 
 
-grid = dag.AgGrid(
-    id='grid2',
-    rowData=df.to_dict('records'),
-    columnDefs=clndef,
-    defaultColDef=dfclndef,
-    dashGridOptions={'pagination': True},
-)
-
 
 
 Ops = {
@@ -47,9 +39,7 @@ Ops = {
 
 layout = \
 html.Div([
-    html.Div([
-        grid
-    ]),
+    html.Div(id='pg3grid'),
 
 
 
@@ -135,7 +125,8 @@ html.Div([
 #--------------------------------------------------------------------------------------------
 @callback(
     Output('dropdown32', 'options'),
-    Input('dropdown31', 'value')
+    Input('dropdown31', 'value'),
+    prevent_initial_call=True
 )
 
 def drop_chain(drop1value):
@@ -144,7 +135,9 @@ def drop_chain(drop1value):
 
 @callback(
     Output('dropdown32', 'value'),
-    Input('dropdown32', 'options'))
+    Input('dropdown32', 'options'),
+    prevent_initial_call = True
+)
 
 def drop2init(available_options):
     return available_options[0]['value']
@@ -156,6 +149,27 @@ def drop2init(available_options):
 
 
 #---------------------------------------------------------------------------------
+@callback(
+    Output('pg3grid', 'children'),
+    Input('Dados_notas', 'data'),
+)
+
+
+def Grid_maker(Notas_df):
+    grid = dag.AgGrid(
+        id='grid2',
+        rowData=Notas_df,
+        columnDefs=clndef,
+        defaultColDef=dfclndef,
+        dashGridOptions={'pagination': True},
+    )
+
+    return grid
+
+
+
+
+
 @callback(
     Output(component_id='scatter', component_property='figure'),
     Output(component_id='textpg3', component_property='value'),
