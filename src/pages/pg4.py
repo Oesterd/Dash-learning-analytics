@@ -27,9 +27,6 @@ exec(open(filename).read())
 
 
 
-# print(dft['Ano'])
-
-
 
 Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 

@@ -2,7 +2,6 @@ import dash, orjson
 from dash import Dash, html, dcc
 import dash_bootstrap_components as dbc
 
-from flask_caching import Cache
 import os
 import pandas as pd
 
@@ -21,13 +20,6 @@ Turmas_df = Turmas_df.to_dict('records')
 
 
 
-
-cache = Cache(app.server, config={
-    'CACHE_TYPE': 'filesystem',
-    'CACHE_DIR': 'cache-directory'
-})
-
-TIMEOUT = 60
 
 
 
@@ -70,7 +62,7 @@ app.layout = dbc.Container([
     ),
 
     dcc.Store(id='Dados_notas', data=Notas_df),
-    dcc.Store(id='Dados_turma', data=Turmas_df),
+    dcc.Store(id='Dados_turmas', data=Turmas_df),
 ], fluid=True)
 
 
