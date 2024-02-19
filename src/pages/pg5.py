@@ -90,6 +90,9 @@ html.Div([
 
 
 
+
+
+#-----------------------------------------------------------------------------------------------------
 @callback(
     Output('pg5grid', 'children'),
     Input('Dados_turmas', 'data'),
@@ -185,9 +188,7 @@ def scatter_plot(rows, drop1, drop2, drop3):
     p = result.pvalue
     desp = result.stderr
 
-
-    text = f'O valor do coeficiente de correlação é: \nPearson = {r:.3f} \nSpearman = {r2:.3f} \nKendall = {r3:.3f} \n\nO valor-p é: {p:.3f} \nO desvio padrão é: {desp:.3e}'
-
+    text = f'Coeficiente de correlação:\nPearson = {r:.3f} \nSpearman = {r2:.3f} \nKendall = {r3:.3f} \n\nValor-p: {p:.3f} \nDesvio padrão: {desp:.3e}'
 
 
     # Criando o gráfico

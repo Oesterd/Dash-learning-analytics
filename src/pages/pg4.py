@@ -54,6 +54,11 @@ html.Div([
 ])
 
 
+
+
+
+
+#--------------------------------------------------------------------------
 @callback(
     Output('pg4grid', 'children'),
     Input('Dados_turmas', 'data'),
@@ -73,6 +78,9 @@ def Grid_maker(Turmas_df):
 
 
 
+
+
+#--------------------------------------------------------------------------------
 @callback(
     Output(component_id='timeseries', component_property='figure'),
     Input(component_id='grid3', component_property='virtualRowData'),

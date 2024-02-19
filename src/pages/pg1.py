@@ -75,10 +75,9 @@ layout = \
 
             html.Div([
                 'Tipo de normalização:',
-                dcc.Dropdown(id='dropdown16', value='Nenhuma', options=[
-                    {'label': 'Nenhuma', 'value': 'Nenhuma'},
+                dcc.Dropdown(id='dropdown16', value='Contagem', options=[
+                    {'label': 'Contagem', 'value': 'Contagem'},
                     {'label': 'Porcentagem', 'value': 'percent'},
-                    {'label': 'Densidade de probabilidade', 'value': 'probability density'},
                 ], clearable=False)
             ], style={'width': '20%'}),
 
@@ -96,6 +95,9 @@ layout = \
         ])
 
     ])
+
+
+
 
 
 
@@ -204,7 +206,7 @@ def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
     else:
         drop4 = f'{drop4}'
 
-    if drop6 == 'Nenhuma':
+    if drop6 == 'Contagem':
         drop6 = None
     else:
         drop6 = f'{drop6}'
