@@ -1,236 +1,273 @@
 # Importando as bibliotecas
+import datetime
 import dash, orjson
-from dash import html, dcc, Input, Output, callback
 import dash_ag_grid as dag
+import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
+from dash import Dash, html, dcc, Input, Output, callback, dash_table
+from plotly.subplots import make_subplots
 
 
 import plotly.express as px
+
 import pandas as pd
 import numpy as np
-import scipy.stats
+import openpyxl
 
 
 
 
+dash.register_page(__name__, name='Lista de professores')
 
 
-dash.register_page(__name__, name='Correlação')
-
-
-
-
-
-filename = 'Reusables/Dist_notas.py'
-exec(open(filename).read())
+# Fotos
+foto_luis = 'https://files.cercomp.ufg.br/weby/up/3/o/luiz1.jpg'
+foto_rildo = 'https://files.cercomp.ufg.br/weby/up/3/o/joseRildo1.jpg'
+foto_paulo = 'https://files.cercomp.ufg.br/weby/up/3/o/paulo1.jpg'
 
 
 
+# Datas
+date1 = datetime.date(2011, 7, 21)
+date2 = datetime.date(2012, 2, 13)
+date3 = datetime.date(2012, 4, 7)
 
 
-Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola'],
-   'Sexo': ['Nenhuma', 'Escola'],
-   'Escola': ['Nenhuma', 'Sexo'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
+
+# Dicionário
+data_dict = {
+    'name': ['Prof. Dr. Luiz Gonzaga Roversi Genovese', 'Prof. Dr. José Rildo de Oliveira Queiroz', 'Prof. Dr. Paulo Celso Ferrari'],
+    'img': [foto_luis, foto_rildo, foto_paulo],
+    'turmas': [25, 22, 21],
+    'ativo': [date1, date2, date3],
+    'Tot_AP': [106, 97, 90],
+    'Tot_RM': [23, 18, 15],
+    'Tot_RF': [11, 10, 8],
+    'Tot_RMF': [6, 4, 4],
+    'Total': [146, 129, 117]
+}
+
+data = pd.DataFrame(data_dict)
+
+
+# Colunas
+clndef = [
+    {
+        "headerName": "Foto",
+        "field": "img",
+        "cellRenderer": "ImgThumbnail",
+        "width": 100,
+        'filter': False,
+        'resizable': False
+    },
+
+    {
+        "headerName": "Nome",
+        "field": "name",
+    },
+
+    {
+        "headerName": "AP",
+        "field": "Tot_AP",
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
+    },
+
+    {
+        "headerName": "RM",
+        "field": "Tot_RM",
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
+    },
+
+    {
+        "headerName": "RF",
+        "field": "Tot_RF",
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
+    },
+
+    {
+        "headerName": "RMF",
+        "field": "Tot_RMF",
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
+    },
+
+    {
+        "headerName": "Total de alunos",
+        "field": "Total",
+        "width": 150,
+        "cellClass": 'center-aligned-cell'
+    },
+
+    {
+        "headerName": "Turmas",
+        "field": "turmas",
+        "width": 100,
+        "cellClass": 'center-aligned-cell'
+    },
+
+    {"headerName": "Ativo desde",
+        "field": "ativo",
+        "width": 150,
+        "cellClass": 'center-aligned-cell'
+    },
+
+]
+
+
+
+
+dfclndef = {
+    'headerClass': 'center-aligned-header',
+    'cellClass': 'center-aligned-cell',
+    'resizable': True,
+    'filter': True,
+    'filterParams': {
+        "alwaysShowBothConditions": True,
+    },
 }
 
 
 
 
+
+
+
+# Layout da página
 layout = \
 html.Div([
-    html.Div(id='pg3grid'),
-
-
-
-    # Menus de dropdown
     html.Div([
+        dag.AgGrid(  # Tabela de dados
+            id='AgGrid',
+            rowData=data.to_dict('records'),
+            columnDefs=clndef,
+            defaultColDef=dfclndef,
+            dashGridOptions={"rowHeight": 100},
+            style={"height": 351, "width": 1100},
+        )
+    ]),
 
-        html.Div([
-            "Escolha o eixo x:",
-            dcc.Dropdown(
-                id='dropdown30',
-                value='Renda (R$)',
-                options=['Renda (R$)', 'Freq'],
-                clearable=False
-            ),
-        ]),
-
-
-        html.Div([
-            "Divisão por colunas:",
-            dcc.Dropdown(
-                list(Ops.keys()),
-                'Nenhuma',
-                id='dropdown31',
-                clearable=False
-            ),
-        ]),
-
-
-        html.Div([
-            "Divisão por linhas:",
-            dcc.Dropdown(id='dropdown32', value='Nenhuma', options=['Nenhuma', 'Sexo', 'Escola'], clearable=False),
-        ]),
-
-
-        html.Div([
-            "Regressão linear:",
-            dcc.Dropdown(id='dropdown33', value='Nenhuma', options=[
-                {'label': 'Nenhuma', 'value': 'Nenhuma'},
-                {'label': 'Linear', 'value': 'ols'},
-                {'label': 'Pesada', 'value': 'lowess'}
-            ], clearable=False)
-        ]),
-
-
-        html.Div([
-            "Escopo da regressão linear:",
-            dcc.Dropdown(id='dropdown34', value='Legenda', options=[
-                {'label': 'Legenda', 'value': 'trace'},
-                {'label': 'Geral', 'value': 'overall'},
-            ], clearable=False)
-        ])
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
-
-    html.Br(),
+    html.Div([
+        "Tipo de gráfico:",
+        dcc.Dropdown(id='dropdown21', value='stpf', options=[
+            {'label': 'Situação por professor', 'value': 'stpf'},
+            {'label': 'Professor por situação', 'value': 'pfst'}
+        ], style={'width': '50%'}, clearable=False),
+    ]),
 
 
     html.Div([
-        # Gráfico
-        html.Div([
-            dcc.Graph(id='scatter')
-        ], style={'flex-basis': 800}),
+        dcc.Graph(id='Perc')
+    ], style={'position': 'relative', 'right': 100})
 
-        # Valores de correlação
-        html.Div([
-            dcc.Textarea(
-                id='textpg3',
-                disabled=True,
-                className='textarea'
-            )
-        ], style={'position': 'relative', 'left': 75, 'top': 100}),
-
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 20, 'flex': 1}),
-
-
-
-
-
-])
-
-
-
-
-
-
-
-#--------------------------------------------------------------------------------------------
-@callback(
-    Output('dropdown32', 'options'),
-    Input('dropdown31', 'value'),
-    prevent_initial_call=True
-)
-
-def drop_chain(drop1value):
-    return [{'label': i, 'value': i} for i in Ops[drop1value]]
-
-
-@callback(
-    Output('dropdown32', 'value'),
-    Input('dropdown32', 'options'),
-    prevent_initial_call = True
-)
-
-def drop2init(available_options):
-    return available_options[0]['value']
-
-
-
-
-
-
-
-#---------------------------------------------------------------------------------
-@callback(
-    Output('pg3grid', 'children'),
-    Input('Dados_notas', 'data'),
+], style={"margin": 20}
 )
 
 
-def Grid_maker(Notas_df):
-    grid = dag.AgGrid(
-        id='grid2',
-        rowData=Notas_df,
-        columnDefs=clndef,
-        defaultColDef=dfclndef,
-        dashGridOptions={'pagination': True},
+
+
+
+
+
+
+
+
+
+#-----------------------------------------------------------------------------
+@callback(
+    Output('Perc', 'figure'),
+    Input(component_id='AgGrid', component_property='virtualRowData'),
+    Input('dropdown21', 'value')
+)
+
+
+def calfunc(rows, dropval):
+
+
+    filtdata = pd.DataFrame(rows)
+    profs = filtdata['name'].to_list()
+    cols = list(filtdata.columns)[4:8]
+    sliced = filtdata.loc[:, cols]
+    finaldata = sliced.T
+    finaldata.columns = profs
+
+
+    # Plot professor por situação
+    specs = [[{'type': 'domain'}, {'type': 'domain'}, {'type': 'domain'}, {'type': 'domain'}]]
+    fig = make_subplots(rows=1, cols=4, specs=specs, subplot_titles=["AP", "RM", "RF", "RMF"])
+
+    AP_chart = go.Pie(
+        values=filtdata['Tot_AP'],
+        labels=filtdata['name'],
+        name='AP',
     )
 
-    return grid
+    RM_chart = go.Pie(
+        values=filtdata['Tot_RM'],
+        labels=filtdata['name'],
+        name='RM',
+    )
+
+    RF_chart = go.Pie(
+        values=filtdata['Tot_RF'],
+        labels=filtdata['name'],
+        name='RF',
+    )
+
+    RMF_chart = go.Pie(
+        values=filtdata['Tot_RMF'],
+        labels=filtdata['name'],
+        name='RMF',
+    )
+
+    # Criando os gráficos
+    fig.add_trace(AP_chart, row=1, col=1)
+    fig.add_trace(RM_chart, row=1, col=2)
+    fig.add_trace(RF_chart, row=1, col=3)
+    fig.add_trace(RMF_chart, row=1, col=4)
 
 
 
 
 
-@callback(
-    Output(component_id='scatter', component_property='figure'),
-    Output(component_id='textpg3', component_property='value'),
-    Input(component_id='grid2', component_property='virtualRowData'),
-    Input(component_id='dropdown30', component_property='value'),
-    Input(component_id='dropdown31', component_property='value'),
-    Input(component_id='dropdown32', component_property='value'),
-    Input(component_id='dropdown33', component_property='value'),
-    Input(component_id='dropdown34', component_property='value'),
-    prevent_initial_call=True
-)
+    # Plot situação por professor
+    specs = [[{'type': 'domain'}, {'type': 'domain'}, {'type': 'domain'}]]
+    fig2 = make_subplots(rows=1, cols=3, specs=specs, subplot_titles=data['name'])
+
+    labels = ['Aprovados', 'Reprovados por média', 'Reprovados por falta', 'Reprovados por média e falta']
+
+    Prof1 = go.Pie(
+        labels=labels,
+        values=finaldata.iloc[:, 0],
+        name='Luiz'
+    )
+
+    Prof2 = go.Pie(
+        labels=labels,
+        values=finaldata.iloc[:, 1],
+        name='Rildo'
+    )
+
+    Prof3 = go.Pie(
+        labels=labels,
+        values=finaldata.iloc[:, 2],
+        name='Paulo'
+    )
+
+    # Criando os gráficos
+    fig2.add_trace(Prof1, row=1, col=1)
+    fig2.add_trace(Prof2, row=1, col=2)
+    fig2.add_trace(Prof3, row=1, col=3)
 
 
-def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
+    if dropval == 'stpf':
+        res = fig2
 
-    ## Criando o gráfico
-
-    # Modificando os dados conforme a filtragem do usuário
-    dff = pd.DataFrame(rows)
-
-
-    # Criando as opções nulas para os dropdowns 1 e 2
-    if drop1 == 'Nenhuma':
-        drop1 = None
     else:
-        drop1 = f'{drop1}'
-
-    if drop2 == 'Nenhuma':
-        drop2 = None
-    else:
-        drop2 = f'{drop2}'
-
-    if drop3 == 'Nenhuma':
-        drop3 = None
-    else:
-        drop3 = f'{drop3}'
+        res = fig
 
 
-
-    fig = px.scatter(dff, x=f'{drop0}', y='Med aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3, trendline_scope=drop4)
-
-
-
-    # Valores de correlação
-
-    x = dff[drop0]
-    y = dff['Med aluno']
-
-    r = y.corr(x, method='pearson')
-    r2 = y.corr(x, method='spearman')
-    r3 = y.corr(x, method='kendall')
-
-    result = scipy.stats.linregress(x, y)
-
-    p = result.pvalue
-    desp = result.stderr
-
-    text = f'Coeficiente de correlação:\nPearson = {r:.3f} \nSpearman = {r2:.3f} \nKendall = {r3:.3f} \n\nValor-p: {p:.3f} \nDesvio padrão: {desp:.3e}'
-
-    return fig, text
+    return res

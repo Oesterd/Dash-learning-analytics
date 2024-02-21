@@ -1,12 +1,13 @@
 import dash, orjson
 from dash import Dash, html, dcc
-import dash_bootstrap_components as dbc
+import dash_mantine_components as dmc
+from dash_iconify import DashIconify
 
-import os
+
 import pandas as pd
 
 
-app = Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.SPACELAB], suppress_callback_exceptions=True)
+app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 server = app.server
 
 
@@ -20,46 +21,90 @@ Turmas_df = Turmas_df.to_dict('records')
 
 
 
+pgheight = 40*len(dash.page_registry.values())
+
+page = list(dash.page_registry.values())
 
 
-
-sidebar = dbc.Nav(
+menu1 = dmc.Menu(
+    [
+        dmc.MenuTarget(dmc.Button('Notas')),
+        dmc.MenuDropdown(
             [
-                dbc.NavLink(
-                    [
-                        html.Div(page["name"], className="ms-2"),
-                    ],
-                    href=page["path"],
-                    active="exact",
-                )
-                for page in dash.page_registry.values()
-            ],
-            vertical=True,
-            pills=True,
-            className="bg-light",
+                dmc.MenuItem(
+                    'Distribuição',
+                    href=page[0]['path'],
+                ),
+
+                dmc.MenuItem(
+                    'Correlação',
+                    href=page[1]['path'],
+                ),
+            ]
+        )
+    ]
 )
 
-app.layout = dbc.Container([
-    dbc.Row([
-        dbc.Col(html.Div("Estatísticas acadêmicas",
-                         style={'fontSize': 50, 'textAlign': 'center'}))
-    ]),
+
+
+menu2 = dmc.Menu(
+    [
+        dmc.MenuTarget(dmc.Button('Turmas')),
+        dmc.MenuDropdown(
+            [
+                dmc.MenuItem(
+                    'Professores',
+                    href=page[2]['path'],
+                ),
+
+                dmc.MenuItem(
+                    'Linha do tempo',
+                    href=page[3]['path'],
+                ),
+
+                dmc.MenuItem(
+                    'Avaliação',
+                    href=page[4]['path'],
+                ),
+            ]
+        )
+    ]
+)
+
+
+
+gitlink = dmc.Anchor(
+    dmc.ActionIcon(
+        DashIconify(icon='formkit:github', width=30, inline=False, color='black'),
+        size=40,
+    ),
+    href='https://github.com/Oesterd/Dash-learning-analytics',
+    target='_blank',
+)
+
+
+
+
+
+
+
+app.layout = dmc.Container([
+    dmc.Grid(
+        children=[
+                dmc.Col(
+                    html.Div(["Estatísticas acadêmicas"],
+                                 style={'fontSize': 30, 'textAlign': 'left'}),
+                    span='content'),
+
+                dmc.Col(menu1, span='content', offset=3),
+                dmc.Col(menu2, span='content'),
+                dmc.Col(gitlink, span='content', offset=1),
+            ]
+    ),
 
     html.Hr(),
 
-    dbc.Row(
-        [
-            dbc.Col(
-                [
-                    sidebar
-                ], xs=4, sm=4, md=2, lg=2, xl=2, xxl=2),
-
-            dbc.Col(
-                [
-                    dash.page_container
-                ], xs=8, sm=8, md=10, lg=10, xl=10, xxl=10)
-        ]
-    ),
+    dash.page_container,
 
     dcc.Store(id='Dados_notas', data=Notas_df),
     dcc.Store(id='Dados_turmas', data=Turmas_df),
