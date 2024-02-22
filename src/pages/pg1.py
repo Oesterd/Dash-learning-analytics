@@ -2,6 +2,8 @@
 import dash, orjson
 from dash import html, dcc, Input, Output, callback, clientside_callback
 import dash_ag_grid as dag
+import dash_mantine_components as dmc
+
 
 
 import seaborn as sns
@@ -18,7 +20,7 @@ dash.register_page(__name__, name='Distribuição de notas', path='/')
 
 
 filename = 'Reusables/Dist_notas.py'
-exec(open(filename).read())
+exec(open(filename, encoding="utf-8").read())
 
 
 
@@ -36,58 +38,8 @@ Ops = {
 
 layout = \
     html.Div([
+        # Grid
         html.Div(id='pg1grid'),
-
-
-        # Menus de dropdown
-        html.Div([
-
-
-            html.Div([
-                'Escolha o eixo x:',
-                dcc.Dropdown(id='dropdown11', value='Med aluno', options=['Med aluno', 'Resultado'], clearable=False)
-            ]),
-
-
-            html.Div([
-                "Divisão por cores:",
-                dcc.Dropdown(id='dropdown12', value='Nenhuma', options=['Nenhuma', 'Professor'], clearable=False),
-            ]),
-
-
-            html.Div([
-                "Divisão por colunas:",
-                dcc.Dropdown(list(Ops.keys()), 'Nenhuma', id='dropdown13', clearable=False),
-            ]),
-
-
-            html.Div([
-                "Divisão por linhas:",
-                dcc.Dropdown(id='dropdown14', value='Nenhuma', options=['Nenhuma', 'Sexo', 'Etnia', 'Escola'], clearable=False),
-            ]),
-
-
-            html.Div([
-                "Tipo de gráfico:",
-                dcc.Dropdown(id='dropdown15', value='Histograma', options=['Histograma', 'Cumulativo'], clearable=False),
-            ]),
-
-
-            html.Div([
-                'Tipo de normalização:',
-                dcc.Dropdown(id='dropdown16', value='Contagem', options=[
-                    {'label': 'Contagem', 'value': 'Contagem'},
-                    {'label': 'Porcentagem', 'value': 'percent'},
-                ], clearable=False)
-            ], style={'width': '20%'}),
-
-            # html.Div([
-            #     "Tipo de agrupamento:",
-            #     dcc.Dropdown(id='dropdown14', value='layer', options=[
-            #         {'label': 'Normal', 'value': 'layer'},
-            #         {'label': 'Empilhar', 'value': 'stack'}], clearable=False),
-            # ])
-        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
 
         # Gráfico
         html.Div([
@@ -147,9 +99,7 @@ def Grid_maker(Notas_df):
 
 
 
-
-
-
+#-------------------------------------------------------------------------
 @callback(
     Output(component_id='displot', component_property='figure'),
     Output(component_id='dropdown15', component_property='options'),

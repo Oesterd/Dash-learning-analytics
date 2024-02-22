@@ -150,15 +150,6 @@ html.Div([
     ]),
 
     html.Div([
-        "Tipo de gráfico:",
-        dcc.Dropdown(id='dropdown21', value='stpf', options=[
-            {'label': 'Situação por professor', 'value': 'stpf'},
-            {'label': 'Professor por situação', 'value': 'pfst'}
-        ], style={'width': '50%'}, clearable=False),
-    ]),
-
-
-    html.Div([
         dcc.Graph(id='Perc')
     ], style={'position': 'relative', 'right': 100})
 
@@ -179,7 +170,7 @@ html.Div([
 @callback(
     Output('Perc', 'figure'),
     Input(component_id='AgGrid', component_property='virtualRowData'),
-    Input('dropdown21', 'value')
+    Input('dropdown31', 'value')
 )
 
 

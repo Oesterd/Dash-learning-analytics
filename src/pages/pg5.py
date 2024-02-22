@@ -21,7 +21,7 @@ dash.register_page(__name__, name='Turmas')
 
 
 filename = 'Reusables/Turmas.py'
-exec(open(filename).read())
+exec(open(filename, encoding="utf-8").read())
 
 
 
@@ -33,34 +33,6 @@ Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 layout = \
 html.Div([
     html.Div(id='pg5grid'),
-
-
-    html.Div([
-        html.Div([
-            "Escolha o eixo y:",
-            dcc.Dropdown(id='dropdown51', value='Med turma', options=Opcs, clearable=False),
-        ]),
-
-
-
-        html.Div([
-            "Regressão linear:",
-            dcc.Dropdown(id='dropdown52', value='Nenhuma', options=[
-                {'label': 'Nenhuma', 'value': 'Nenhuma'},
-                {'label': 'Linear', 'value': 'ols'},
-                {'label': 'Pesada', 'value': 'lowess'}
-            ], clearable=False)
-        ]),
-
-
-        html.Div([
-            "Escopo da regressão linear:",
-            dcc.Dropdown(id='dropdown53', value='Legenda', options=[
-                {'label': 'Legenda', 'value': 'trace'},
-                {'label': 'Geral', 'value': 'overall'},
-            ], clearable=False)
-        ])
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
 
 
     html.Br(),

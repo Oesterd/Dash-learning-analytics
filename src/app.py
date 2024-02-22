@@ -1,5 +1,5 @@
 import dash, orjson
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc, callback, Input, Output, State
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
@@ -84,31 +84,134 @@ gitlink = dmc.Anchor(
 
 
 
+navwidth = 1
+
+
+#----------------------------------------------------------------------------------------------------
+app.layout = dmc.Container(
+    children=[
+        html.Div(id='nav-div',
+                 children=[
+                     dmc.Navbar(
+                         id='sidebar',
+                         fixed=False,
+                         hidden=True,
+                         width={"base": navwidth},
+                         position='right',
+                         children=[],
+                         style={
+                             "overflow": "hidden",
+                             "transition": "width 0.3s ease-in-out",
+                             "background-color": "#f4f6f9",
+                         },
+                     ),
+                 ]
+        ),
+
+
+
+        dmc.Container(
+            children=[
+                dmc.Grid(
+                    children=[
+                        dmc.Col(
+                            dmc.Burger(id='sidebar-button'),
+                            span='content'
+                        ),
+
+                        dmc.Col(
+                            html.Div(
+                                children=[
+                                    "Estatísticas acadêmicas"
+                                ],
+                                style={'fontSize': 30, 'textAlign': 'left'}),
+                            span='content', offset=2),
+
+                        dmc.Col(menu1, span='content', offset=0),
+                        dmc.Col(menu2, span='content'),
+                        dmc.Col(gitlink, span='content', offset=3),
+                ]),
+
+
+
+                html.Hr(),
+
+                dmc.Container(
+                    children=[
+                        dash.page_container
+                    ],
+                    id='dash-container',
+                    p=0,
+                    fluid=True,
+                    style={
+                        "width": "100%",
+                        "margin": "0",
+                        "maxWidth": "100%", "overflow": "auto", 'flexShrink': '1', "maxHeight": "100%"
+                    }
+                ),
+            ],
+            size="100%",
+            p=0,
+            m=0,
+            style={"display": "flex", "maxWidth": "100vw", "overflow": "hidden",
+                   "flexGrow": "1", "maxHeight": "100%", "flexDirection": "column"},
+            id="content-container"
+        ),
+
+
+        dcc.Store(id='Dados_notas', data=Notas_df),
+        dcc.Store(id='Dados_turmas', data=Turmas_df),
+        dcc.Location(id='url', refresh=True),
+    ],
+    size="100%",
+    p=0,
+    m=0,
+    style={"display": "flex", "maxWidth": "100vw", "overflow": "hidden", "maxHeight": "100vh",
+           "position": "absolute", "top": 0, "left": 0, "width": "100vw"},
+    id="overall-container"
+)
+
+
+
+#--------------------------------------------------------------------
+@app.callback(
+    Output("sidebar", "width"),
+    Input("sidebar-button", "opened"),
+    State("sidebar", "width"),
+    prevent_initial_call=True,
+)
+def drawer_demo(opened, width):
+    if width["base"] == navwidth:
+        return {"base": 250}
+    else:
+        return {"base": navwidth}
 
 
 
 
-app.layout = dmc.Container([
-    dmc.Grid(
-        children=[
-                dmc.Col(
-                    html.Div(["Estatísticas acadêmicas"],
-                                 style={'fontSize': 30, 'textAlign': 'left'}),
-                    span='content'),
 
-                dmc.Col(menu1, span='content', offset=3),
-                dmc.Col(menu2, span='content'),
-                dmc.Col(gitlink, span='content', offset=1),
-            ]
-    ),
+filename = 'Reusables/Sidebars.py'
+exec(open(filename, encoding="utf-8").read())
 
-    html.Hr(),
 
-    dash.page_container,
 
-    dcc.Store(id='Dados_notas', data=Notas_df),
-    dcc.Store(id='Dados_turmas', data=Turmas_df),
-], fluid=True)
+@callback(
+    Output('sidebar', 'children'),
+    Input('url', 'pathname'),
+)
+def nav_content(url):
+
+
+    content = {
+        '/': pg1(),
+        '/pg2': pg2(),
+        '/pg3': pg3(),
+        '/pg4': pg4(),
+        '/pg5': pg5(),
+    }.get(url)
+
+
+    return content
 
 
 if __name__ == "__main__":

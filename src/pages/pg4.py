@@ -22,13 +22,10 @@ dash.register_page(__name__, name='Linha do tempo')
 
 
 filename = 'Reusables/Turmas.py'
-exec(open(filename).read())
+exec(open(filename, encoding="utf-8").read())
 
 
 
-
-
-Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 
 
@@ -38,13 +35,6 @@ html.Div([
     html.Div(id='pg4grid'),
 
     html.Br(),
-
-
-    html.Div([
-            "Escolha o eixo y:",
-            dcc.Dropdown(id='dropdown41', value='Med turma', options=Opcs, clearable=False),
-    ], style={'width': '10%'}),
-
 
     # Gráfico
     html.Div([

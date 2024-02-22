@@ -21,18 +21,9 @@ dash.register_page(__name__, name='Correlação')
 
 
 filename = 'Reusables/Dist_notas.py'
-exec(open(filename).read())
+exec(open(filename, encoding="utf-8").read())
 
 
-
-
-
-Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola'],
-   'Sexo': ['Nenhuma', 'Escola'],
-   'Escola': ['Nenhuma', 'Sexo'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
-}
 
 
 
@@ -40,58 +31,6 @@ Ops = {
 layout = \
 html.Div([
     html.Div(id='pg3grid'),
-
-
-
-    # Menus de dropdown
-    html.Div([
-
-        html.Div([
-            "Escolha o eixo x:",
-            dcc.Dropdown(
-                id='dropdown30',
-                value='Renda (R$)',
-                options=['Renda (R$)', 'Freq'],
-                clearable=False
-            ),
-        ]),
-
-
-        html.Div([
-            "Divisão por colunas:",
-            dcc.Dropdown(
-                list(Ops.keys()),
-                'Nenhuma',
-                id='dropdown31',
-                clearable=False
-            ),
-        ]),
-
-
-        html.Div([
-            "Divisão por linhas:",
-            dcc.Dropdown(id='dropdown32', value='Nenhuma', options=['Nenhuma', 'Sexo', 'Escola'], clearable=False),
-        ]),
-
-
-        html.Div([
-            "Regressão linear:",
-            dcc.Dropdown(id='dropdown33', value='Nenhuma', options=[
-                {'label': 'Nenhuma', 'value': 'Nenhuma'},
-                {'label': 'Linear', 'value': 'ols'},
-                {'label': 'Pesada', 'value': 'lowess'}
-            ], clearable=False)
-        ]),
-
-
-        html.Div([
-            "Escopo da regressão linear:",
-            dcc.Dropdown(id='dropdown34', value='Legenda', options=[
-                {'label': 'Legenda', 'value': 'trace'},
-                {'label': 'Geral', 'value': 'overall'},
-            ], clearable=False)
-        ])
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 50, 'flex': 1}),
 
     html.Br(),
 
@@ -127,8 +66,8 @@ html.Div([
 
 #--------------------------------------------------------------------------------------------
 @callback(
-    Output('dropdown32', 'options'),
-    Input('dropdown31', 'value'),
+    Output('dropdown22', 'options'),
+    Input('dropdown21', 'value'),
     prevent_initial_call=True
 )
 
@@ -137,8 +76,8 @@ def drop_chain(drop1value):
 
 
 @callback(
-    Output('dropdown32', 'value'),
-    Input('dropdown32', 'options'),
+    Output('dropdown22', 'value'),
+    Input('dropdown22', 'options'),
     prevent_initial_call = True
 )
 
@@ -177,11 +116,11 @@ def Grid_maker(Notas_df):
     Output(component_id='scatter', component_property='figure'),
     Output(component_id='textpg3', component_property='value'),
     Input(component_id='grid2', component_property='virtualRowData'),
-    Input(component_id='dropdown30', component_property='value'),
-    Input(component_id='dropdown31', component_property='value'),
-    Input(component_id='dropdown32', component_property='value'),
-    Input(component_id='dropdown33', component_property='value'),
-    Input(component_id='dropdown34', component_property='value'),
+    Input(component_id='dropdown20', component_property='value'),
+    Input(component_id='dropdown21', component_property='value'),
+    Input(component_id='dropdown22', component_property='value'),
+    Input(component_id='dropdown23', component_property='value'),
+    Input(component_id='dropdown24', component_property='value'),
     prevent_initial_call=True
 )
 
