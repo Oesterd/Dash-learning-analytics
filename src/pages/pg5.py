@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
-from dash import html, dcc, Input, Output, callback
+from dash import html, dcc, Input, Output, State, callback, clientside_callback
 import dash_ag_grid as dag
 
 

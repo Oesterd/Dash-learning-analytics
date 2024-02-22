@@ -5,6 +5,7 @@ Ops = {
    'Etnia': ['Nenhuma', 'Sexo', 'Escola']
 }
 
+
 Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 
@@ -81,12 +82,7 @@ def pg2():
 
         html.Div([
             "Divisão por colunas:",
-            dcc.Dropdown(
-                list(Ops.keys()),
-                'Nenhuma',
-                id='dropdown21',
-                clearable=False
-            ),
+            dcc.Dropdown(list(Ops.keys()), 'Nenhuma', id='dropdown21', clearable=False),
         ]),
 
         html.Div([

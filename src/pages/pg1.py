@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
-from dash import html, dcc, Input, Output, callback, clientside_callback
+from dash import html, dcc, Input, Output, State, callback, clientside_callback
 import dash_ag_grid as dag
 import dash_mantine_components as dmc
 
@@ -24,7 +24,7 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
-
+# Não remover, é necessário para o callback em cadeia
 Ops = {
    'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
    'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
@@ -43,7 +43,7 @@ layout = \
 
         # Gráfico
         html.Div([
-                dcc.Graph(id='displot')
+            dcc.Graph(id='displot')
         ])
 
     ])
@@ -58,18 +58,16 @@ layout = \
 @callback(
     Output('dropdown14', 'options'),
     Input('dropdown13', 'value'),
-    prevent_initial_call=True
 )
 
 
-def drop_chain(drop4value):
-    return [{'label': i, 'value': i} for i in Ops[drop4value]]
+def drop_chain(drop13value):
+    return [{'label': i, 'value': i} for i in Ops[drop13value]]
 
 
 @callback(
     Output('dropdown14', 'value'),
     Input('dropdown14', 'options'),
-    prevent_initial_call = True
 )
 
 def drop4init(available_options):
@@ -93,6 +91,7 @@ def Grid_maker(Notas_df):
         columnDefs=clndef,
         defaultColDef=dfclndef,
         dashGridOptions={'pagination': True},
+        style={'height': '400px'}
     )
 
     return grid

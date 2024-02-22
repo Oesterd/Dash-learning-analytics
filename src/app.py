@@ -129,7 +129,9 @@ app.layout = dmc.Container(
 
                         dmc.Col(menu1, span='content', offset=0),
                         dmc.Col(menu2, span='content'),
-                        dmc.Col(gitlink, span='content', offset=3),
+                        dmc.Col(gitlink,
+                                span='content',
+                                style={'position': 'fixed', 'right': 50}),
                 ]),
 
 

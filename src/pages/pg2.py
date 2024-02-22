@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 import dash, orjson
-from dash import html, dcc, Input, Output, callback
+from dash import html, dcc, Input, Output, State, callback, clientside_callback
 import dash_ag_grid as dag
 
 
@@ -25,6 +25,13 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
+# Não remover, é necessário para o callback em cadeia
+Ops = {
+   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
+   'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
+   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
+   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
+}
 
 
 
@@ -65,24 +72,26 @@ html.Div([
 
 
 #--------------------------------------------------------------------------------------------
+# Chained callback
 @callback(
     Output('dropdown22', 'options'),
     Input('dropdown21', 'value'),
-    prevent_initial_call=True
 )
 
-def drop_chain(drop1value):
-    return [{'label': i, 'value': i} for i in Ops[drop1value]]
+
+def drop_chain(drop21value):
+    return [{'label': i, 'value': i} for i in Ops[drop21value]]
 
 
 @callback(
     Output('dropdown22', 'value'),
     Input('dropdown22', 'options'),
-    prevent_initial_call = True
 )
 
-def drop2init(available_options):
+def drop4init(available_options):
     return available_options[0]['value']
+
+
 
 
 
