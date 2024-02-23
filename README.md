@@ -4,6 +4,6 @@
 
 [https://www.ag-grid.com/](https://www.ag-grid.com/)
 
- ### Filtering syntax
+ ### Dash Mantine docs
 
- [https://dash.plotly.com/datatable/filtering](https://dash.plotly.com/datatable/filtering)
+ [https://www.dash-mantine-components.com/](https://www.dash-mantine-components.com/)
