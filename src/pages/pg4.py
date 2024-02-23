@@ -114,14 +114,17 @@ def filterdata(rows, drop1):
 
 
 
-    fig = px.line(dffP4, x='Turma', y=drop1, color='Disciplina', symbol='Disciplina',
-                     markers=True, hover_name='Disciplina',
-                     hover_data={
-                         'Disciplina': False,
-                         'Professor': True,
-                         'Turma': False,
-                         'Aprovados': (':.0%', dffP4['AP']/dffP4['Num Alunos']),
-                     })
+    fig = px.line(
+        dffP4, x='Turma', y=drop1,
+        color='Disciplina', symbol='Disciplina', markers=True,
+        hover_name='Disciplina',
+        hover_data={
+         'Disciplina': False,
+         'Professor': True,
+         'Turma': False,
+         'Aprovados': (':.0%', dffP4['AP']/dffP4['Num Alunos']),
+         }
+    )
 
 
     fig.update_xaxes(rangeslider_visible=True)

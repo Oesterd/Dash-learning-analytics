@@ -161,7 +161,11 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
 
 
-    fig = px.scatter(dff, x=f'{drop0}', y='Med aluno', color='Professor', facet_col=drop1, facet_row=drop2, trendline=drop3, trendline_scope=drop4)
+    fig = px.scatter(
+        dff, x=f'{drop0}', y='Med aluno',
+        color='Professor', facet_col=drop1, facet_row=drop2,
+        trendline=drop3, trendline_scope=drop4
+    )
 
 
 

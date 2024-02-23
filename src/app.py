@@ -28,7 +28,11 @@ page = list(dash.page_registry.values())
 
 menu1 = dmc.Menu(
     [
-        dmc.MenuTarget(dmc.Button('Notas')),
+        dmc.MenuTarget(dmc.Button('Notas',
+                                  variant='default',
+                                  color='gray')
+        ),
+
         dmc.MenuDropdown(
             [
                 dmc.MenuItem(
@@ -49,7 +53,11 @@ menu1 = dmc.Menu(
 
 menu2 = dmc.Menu(
     [
-        dmc.MenuTarget(dmc.Button('Turmas')),
+        dmc.MenuTarget(dmc.Button('Turmas',
+                                  variant='default',
+                                  color='gray')
+        ),
+
         dmc.MenuDropdown(
             [
                 dmc.MenuItem(
@@ -84,80 +92,79 @@ gitlink = dmc.Anchor(
 
 
 
-navwidth = 1
+navwidth = '0px'
 
 
 #----------------------------------------------------------------------------------------------------
-app.layout = dmc.Container(
+app.layout = html.Div(
     children=[
-        html.Div(id='nav-div',
-                 children=[
-                     dmc.Navbar(
-                         id='sidebar',
-                         fixed=False,
-                         hidden=True,
-                         width={"base": navwidth},
-                         position='right',
-                         children=[],
-                         style={
-                             "overflow": "hidden",
-                             "transition": "width 0.3s ease-in-out",
-                             "background-color": "#f4f6f9",
-                         },
-                     ),
-                 ]
+
+        html.Div([
+            dmc.Grid(
+                children=[
+                    dmc.Col(
+                        dmc.Burger(id='sidebar-button'),
+                        span='content'
+                    ),
+
+                    dmc.Col(
+                        html.Div(
+                            children=[
+                                "Estatísticas acadêmicas"
+                            ],
+                            style={'fontSize': 30, 'textAlign': 'left'}),
+                        span='content', offset=2),
+
+                    dmc.Col(menu1, span='content', offset=0),
+                    dmc.Col(menu2, span='content'),
+                    dmc.Col(gitlink,
+                            span='content',
+                            style={'position': 'fixed', 'right': 5, 'top': -5}),
+                ],
+                style={'background-color': '#20B2AA',
+                       'height': '50px', 'width': '100vw'},
+                id='Header'
+            ),
+
+            ],
         ),
 
 
 
-        dmc.Container(
+
+
+        html.Div(
             children=[
-                dmc.Grid(
-                    children=[
-                        dmc.Col(
-                            dmc.Burger(id='sidebar-button'),
-                            span='content'
-                        ),
+                dmc.Navbar(
+                     id='sidebar',
+                     fixed=False,
+                     hidden=True,
+                     width={"base": navwidth},
+                     position='right',
+                     children=[],
+                     style={
+                         "overflow": "hidden",
+                         "transition": "width 0.3s ease-in-out",
+                         "background-color": "#f4f6f9",
+                     },
+                ),
 
-                        dmc.Col(
-                            html.Div(
-                                children=[
-                                    "Estatísticas acadêmicas"
-                                ],
-                                style={'fontSize': 30, 'textAlign': 'left'}),
-                            span='content', offset=2),
-
-                        dmc.Col(menu1, span='content', offset=0),
-                        dmc.Col(menu2, span='content'),
-                        dmc.Col(gitlink,
-                                span='content',
-                                style={'position': 'fixed', 'right': 50}),
-                ]),
-
-
-
-                html.Hr(),
-
-                dmc.Container(
+                html.Div(
                     children=[
                         dash.page_container
                     ],
                     id='dash-container',
-                    p=0,
-                    fluid=True,
                     style={
-                        "width": "100%",
+                        "width": "100vw",
                         "margin": "0",
-                        "maxWidth": "100%", "overflow": "auto", 'flexShrink': '1', "maxHeight": "100%"
+                        "maxWidth": "100vw", "overflow": "hidden", 'flexShrink': '1', "maxHeight": "100%"
                     }
                 ),
             ],
-            size="100%",
-            p=0,
-            m=0,
-            style={"display": "flex", "maxWidth": "100vw", "overflow": "hidden",
-                   "flexGrow": "1", "maxHeight": "100%", "flexDirection": "column"},
-            id="content-container"
+            style={"display": "flex", "gap": 10,
+                   "maxWidth": "100vw", "overflow": "hidden", "maxHeight": "100%",
+                   "position": "relative", "left": 0},
+            id="Navbar+Content"
         ),
 
 
@@ -165,11 +172,8 @@ app.layout = dmc.Container(
         dcc.Store(id='Dados_turmas', data=Turmas_df),
         dcc.Location(id='url', refresh=True),
     ],
-    size="100%",
-    p=0,
-    m=0,
-    style={"display": "flex", "maxWidth": "100vw", "overflow": "hidden", "maxHeight": "100vh",
-           "position": "absolute", "top": 0, "left": 0, "width": "100vw"},
+    style={"display": "flex", "flexDirection": "column", "flexGrow": "1", "gap": 10,
+           "overflow": "visible", "maxHeight": "100%", "maxWidth": "100%", "width": "100vw"},
     id="overall-container"
 )
 
@@ -183,6 +187,7 @@ app.layout = dmc.Container(
     prevent_initial_call=True,
 )
 def drawer_demo(opened, width):
+
     if width["base"] == navwidth:
         return {"base": 250}
     else:

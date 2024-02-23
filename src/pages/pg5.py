@@ -164,14 +164,16 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
 
     # Criando o gráfico
-    figpg5 = px.scatter(dff, x='Av Professor', y=drop1, color='Professor', trendline=drop2, trendline_scope=drop3,
-                     hover_name='Professor',
-                     hover_data={
-                         'Disciplina': False,
-                         'Professor': False,
-                         'Av Professor': ':.2f',
-                     },
-                     )
+    figpg5 = px.scatter(
+        dff, x='Av Professor', y=drop1,
+        color='Professor', trendline=drop2, trendline_scope=drop3,
+        hover_name='Professor',
+        hover_data={
+            'Disciplina': False,
+            'Professor': False,
+            'Av Professor': ':.2f',
+        },
+    )
 
 
     # Tornando os números do eixo y em formato de porcentagem

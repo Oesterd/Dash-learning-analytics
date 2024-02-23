@@ -175,7 +175,11 @@ def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
 
 
 
-    fig = px.histogram(dff, x=drop1, color=drop2, facet_col=drop3, facet_row=drop4, cumulative=drop5, histnorm=drop6, barmode='group')
+    fig = px.histogram(
+        dff, x=drop1,
+        color=drop2, facet_col=drop3, facet_row=drop4,
+        cumulative=drop5, histnorm=drop6, barmode='group'
+    )
 
 
     return fig, drop5val
