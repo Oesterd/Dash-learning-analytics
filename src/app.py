@@ -119,7 +119,7 @@ app.layout = html.Div(
                     dmc.Col(menu2, span='content'),
                     dmc.Col(gitlink,
                             span='content',
-                            style={'position': 'fixed', 'right': 5, 'top': -5}),
+                            style={'position': 'fixed', 'right': 0, 'top': -5}),
                 ],
                 style={'background-color': '#20B2AA',
                        'height': '50px', 'width': '100vw'},
@@ -135,18 +135,31 @@ app.layout = html.Div(
 
         html.Div(
             children=[
-                dmc.Navbar(
-                     id='sidebar',
-                     fixed=False,
-                     hidden=True,
-                     width={"base": navwidth},
-                     position='right',
-                     children=[],
-                     style={
-                         "overflow": "hidden",
-                         "transition": "width 0.3s ease-in-out",
-                         "background-color": "#f4f6f9",
-                     },
+                dmc.MantineProvider(
+                    inherit=True,
+                    theme={
+                      'components': {
+                          'Select': {
+                              'styles': {
+                                  'root': {'width': '95%'}
+                              }
+                          }
+                      }
+                    },
+                    children=[
+                        dmc.Navbar(
+                            id='sidebar',
+                            fixed=False,
+                            hidden=True,
+                            width={"base": navwidth},
+                            position='right',
+                            style={
+                                "overflow": "hidden",
+                                "transition": "width 0.3s ease-in-out",
+                                "background-color": "#f4f6f9",
+                            },
+                        ),
+                    ]
                 ),
 
                 html.Div(

@@ -21,31 +21,27 @@ def pg1():
 
                 html.Div([
                     dmc.Select(id='dropdown11', label='Escolha o eixo x', value='Med aluno',
-                               data=['Med aluno', 'Resultado'], clearable=False,
-                               style={'width': '95%'})
+                               data=['Med aluno', 'Resultado'], clearable=False),
                     ]
                 ),
 
                 html.Div([
 
                     dmc.Select(id='dropdown12', label='Divisão por cores:', value='Nenhuma',
-                               data=['Nenhuma', 'Professor'], clearable=False,
-                                style = {'width': '95%'})
+                               data=['Nenhuma', 'Professor'], clearable=False),
                     ]
                 ),
 
                 html.Div([
                     dmc.Select(data=list(Ops.keys()), label='Divisão por colunas:',  value='Nenhuma',
-                               id='dropdown13', clearable=False,
-                               style={'width': '95%'})
+                               id='dropdown13', clearable=False),
                     ]
                 ),
 
                 html.Div([
                     dmc.Select(id='dropdown14', label='Divisão por linhas:',  value='Nenhuma',
                                data=['Nenhuma', 'Sexo', 'Etnia', 'Escola'],
-                               clearable=False,
-                               style={'width': '95%'})
+                               clearable=False),
                     ]
                 ),
 
