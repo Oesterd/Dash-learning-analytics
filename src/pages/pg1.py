@@ -56,7 +56,7 @@ layout = \
 # -------------------------------------------------------------------------------------
 # Chained callback
 @callback(
-    Output('dropdown14', 'options'),
+    Output('dropdown14', 'data'),
     Input('dropdown13', 'value'),
 )
 
@@ -67,7 +67,7 @@ def drop_chain(drop13value):
 
 @callback(
     Output('dropdown14', 'value'),
-    Input('dropdown14', 'options'),
+    Input('dropdown14', 'data'),
 )
 
 def drop4init(available_options):

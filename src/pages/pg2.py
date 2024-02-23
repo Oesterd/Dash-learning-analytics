@@ -74,7 +74,7 @@ html.Div([
 #--------------------------------------------------------------------------------------------
 # Chained callback
 @callback(
-    Output('dropdown22', 'options'),
+    Output('dropdown22', 'data'),
     Input('dropdown21', 'value'),
 )
 
@@ -85,7 +85,7 @@ def drop_chain(drop21value):
 
 @callback(
     Output('dropdown22', 'value'),
-    Input('dropdown22', 'options'),
+    Input('dropdown22', 'data'),
 )
 
 def drop4init(available_options):

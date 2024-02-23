@@ -107,10 +107,10 @@ def pg2():
 
             html.Div([
                 dmc.Select(
-                    id='dropdown24', label='Escopo da regressão linear:',  value='Legenda',
+                    id='dropdown24', label='Escopo da regressão linear:',  value='overall',
                     data=[
-                        {'label': 'Legenda', 'value': 'trace'},
                         {'label': 'Geral', 'value': 'overall'},
+                        {'label': 'Legenda', 'value': 'trace'},
                     ],
                     clearable=False
                 )
@@ -201,10 +201,10 @@ def pg5():
 
 
             html.Div([
-                dmc.Select(id='dropdown53', label='Escopo da regressão linear:', value='Legenda',
+                dmc.Select(id='dropdown53', label='Escopo da regressão linear:', value='overall',
                     data=[
-                        {'label': 'Legenda', 'value': 'trace'},
                         {'label': 'Geral', 'value': 'overall'},
+                        {'label': 'Legenda', 'value': 'trace'},
                     ],
                     clearable=False
                 )
