@@ -1,18 +1,13 @@
 # Importando as bibliotecas
-import dash, orjson
+import dash
 from dash import html, dcc, Input, Output, State, callback, clientside_callback
 import dash_ag_grid as dag
-import dash_mantine_components as dmc
 
 
 
-import seaborn as sns
 import plotly.express as px
-import plotly.graph_objects as go
 
 import pandas as pd
-import numpy as np
-import openpyxl
 
 
 # Iniciando o aplicativo

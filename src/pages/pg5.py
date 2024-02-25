@@ -1,12 +1,11 @@
 # Importando as bibliotecas
-import dash, orjson
-from dash import html, dcc, Input, Output, State, callback, clientside_callback
+import dash
+from dash import html, dcc, Input, Output, State, callback
 import dash_ag_grid as dag
 
 
 import plotly.express as px
 import pandas as pd
-import numpy as np
 import scipy.stats
 
 

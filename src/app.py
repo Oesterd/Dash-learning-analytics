@@ -1,4 +1,4 @@
-import dash, orjson
+import dash
 from dash import Dash, html, dcc, callback, Input, Output, State
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
@@ -235,4 +235,4 @@ def nav_content(url):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0")

@@ -1,18 +1,13 @@
 # Importando as bibliotecas
 import datetime
-import dash, orjson
+import dash
 import dash_ag_grid as dag
-import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
-from dash import Dash, html, dcc, Input, Output, callback, dash_table
+from dash import Dash, html, dcc, Input, Output, callback
 from plotly.subplots import make_subplots
 
 
-import plotly.express as px
-
 import pandas as pd
-import numpy as np
-import openpyxl
 
 
 
