@@ -1,7 +1,6 @@
 dash==2.15.0
 dash-ag-grid==31.0.0
 DateTime==5.4
-matplotlib==3.8.2
 pandas==2.1.4
 plotly==5.18.0
 openpyxl==3.1.2
