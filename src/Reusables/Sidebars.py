@@ -5,8 +5,11 @@ Ops = {
    'Etnia': ['Nenhuma', 'Sexo', 'Escola']
 }
 
+Ops2 = {
+    'Med aluno': ['Histograma', 'Cumulativo'],
+    'Resultado': ['Histograma'],
+}
 
-Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
 
 
 def pg1():
@@ -21,14 +24,17 @@ def pg1():
 
                 html.Div([
                     dmc.Select(id='dropdown11', label='Escolha o eixo x', value='Med aluno',
-                               data=['Med aluno', 'Resultado'], clearable=False),
+                               data=list(Ops2.keys()), clearable=False),
                     ]
                 ),
 
                 html.Div([
 
-                    dmc.Select(id='dropdown12', label='Divisão por cores:', value='Nenhuma',
-                               data=['Nenhuma', 'Professor'], clearable=False),
+                    dmc.Select(id='dropdown12', label='Divisão por cores:', value=None,
+                               data=[
+                                   {'label': 'Nenhuma', 'value': None},
+                                   {'label': 'Professor', 'value': 'Professor'}
+                               ], clearable=False),
                     ]
                 ),
 
@@ -54,9 +60,9 @@ def pg1():
 
                 html.Div([
                     dmc.Select(
-                        id='dropdown16', label='Tipo de normalização:', value='Contagem',
+                        id='dropdown16', label='Tipo de normalização:', value=None,
                         data=[
-                        {'label': 'Contagem', 'value': 'Contagem'},
+                        {'label': 'Contagem', 'value': None},
                         {'label': 'Porcentagem', 'value': 'percent'},
                         ],
                         clearable=False
@@ -95,9 +101,9 @@ def pg2():
             ]),
 
             html.Div([
-                dmc.Select(id='dropdown23', label='Regressão linear:', value='Nenhuma',
+                dmc.Select(id='dropdown23', label='Regressão linear:', value=None,
                     data=[
-                        {'label': 'Nenhuma', 'value': 'Nenhuma'},
+                        {'label': 'Nenhuma', 'value': None},
                         {'label': 'Linear', 'value': 'ols'},
                         {'label': 'Pesada', 'value': 'lowess'}
                     ],
@@ -160,7 +166,7 @@ def pg4():
 
             html.Div([
                     dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Med turma',
-                               data=Opcs, clearable=False),
+                               data=['Med turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
             ]),
             ]
         )
@@ -183,16 +189,17 @@ def pg5():
 
             html.Div([
                 html.Div([
-                    dmc.Select(id='dropdown51', label='Escolha o eixo y:', value='Med turma', data=Opcs, clearable=False),
+                    dmc.Select(id='dropdown51', label='Escolha o eixo y:', value='Med turma',
+                               data=['Med turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
                 ]),
             ]),
 
 
 
             html.Div([
-                dmc.Select(id='dropdown52', label='Regressão linear:',  value='Nenhuma',
+                dmc.Select(id='dropdown52', label='Regressão linear:',  value=None,
                     data=[
-                        {'label': 'Nenhuma', 'value': 'Nenhuma'},
+                        {'label': 'Nenhuma', 'value': None},
                         {'label': 'Linear', 'value': 'ols'},
                         {'label': 'Pesada', 'value': 'lowess'}
                     ],

@@ -24,8 +24,6 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
-Opcs = ['Med turma', 'AP', 'RM', 'RF', 'RMF']
-
 
 
 

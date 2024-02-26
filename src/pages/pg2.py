@@ -71,7 +71,7 @@ html.Div([
 
 
 #--------------------------------------------------------------------------------------------
-# Chained callback
+# Callback em cadeia
 @callback(
     Output('dropdown22', 'data'),
     Input('dropdown21', 'value'),
@@ -152,12 +152,6 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
         drop2 = None
     else:
         drop2 = f'{drop2}'
-
-    if drop3 == 'Nenhuma':
-        drop3 = None
-    else:
-        drop3 = f'{drop3}'
-
 
 
     fig = px.scatter(

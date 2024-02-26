@@ -21,8 +21,6 @@ Turmas_df = Turmas_df.to_dict('records')
 
 
 
-pgheight = 40*len(dash.page_registry.values())
-
 page = list(dash.page_registry.values())
 
 
@@ -193,6 +191,11 @@ app.layout = html.Div(
 
 
 #--------------------------------------------------------------------
+filename = 'Reusables/Sidebars.py'
+exec(open(filename, encoding="utf-8").read())
+
+
+
 @app.callback(
     Output("sidebar", "width"),
     Input("sidebar-button", "opened"),
@@ -208,10 +211,6 @@ def drawer_demo(opened, width):
 
 
 
-
-
-filename = 'Reusables/Sidebars.py'
-exec(open(filename, encoding="utf-8").read())
 
 
 

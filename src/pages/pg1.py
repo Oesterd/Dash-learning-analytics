@@ -27,6 +27,10 @@ Ops = {
    'Etnia': ['Nenhuma', 'Sexo', 'Escola']
 }
 
+Ops2 = {
+    'Med aluno': ['Histograma', 'Cumulativo'],
+    'Resultado': ['Histograma'],
+}
 
 
 # Layout da página
@@ -49,25 +53,32 @@ layout = \
 
 
 # -------------------------------------------------------------------------------------
-# Chained callback
+# Callback em cadeia
 @callback(
     Output('dropdown14', 'data'),
+    Output('dropdown15', 'data'),
     Input('dropdown13', 'value'),
+    Input('dropdown11', 'value'),
 )
 
 
-def drop_chain(drop13value):
-    return [{'label': i, 'value': i} for i in Ops[drop13value]]
+def drop_chain(drop13value, drop11value):
+    data14 = [{'label': i, 'value': i} for i in Ops[drop13value]]
+    data15 = [{'label': i, 'value': i} for i in Ops2[drop11value]]
+    return data14, data15
 
 
 @callback(
     Output('dropdown14', 'value'),
+    Output('dropdown15', 'value'),
     Input('dropdown14', 'data'),
+    Input('dropdown15', 'data'),
 )
 
-def drop4init(available_options):
-    return available_options[0]['value']
-
+def drop4init(options14, options15):
+    value14 = options14[0]['value']
+    value15 = options15[0]['value']
+    return value14, value15
 
 
 
@@ -96,7 +107,6 @@ def Grid_maker(Notas_df):
 #-------------------------------------------------------------------------
 @callback(
     Output(component_id='displot', component_property='figure'),
-    Output(component_id='dropdown15', component_property='options'),
     Input(component_id='grid', component_property='virtualRowData'),
     Input(component_id='dropdown11', component_property='value'),
     Input(component_id='dropdown12', component_property='value'),
@@ -117,28 +127,6 @@ def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
     dff = pd.DataFrame(rows)
 
 
-    ## Automatizando os ifs (em teste)
-    # for i in range(3):
-    #
-    #     if locals()[f'drop{i+2}'] == 'Nenhuma':
-    #         locals()[f'drop2'] = 56
-    #         test = f'IfTest{i+2}'
-    #         print(locals()[f'drop{i+2}'], test)
-    #     else:
-    #         locals()[f'drop{i+2}'] = locals()[f'drop{i+2}']
-    #         test = f'ElseTest{i + 2}'
-    #         print(locals()[f'drop{i+2}'], test)
-    #
-    #
-    # print(drop2,drop3,drop4, 'Direct vars', end='\n')
-
-
-    if drop2 == 'Nenhuma':
-        drop2 = None
-    else:
-        drop2 = f'{drop2}'
-
-
     if drop3 == 'Nenhuma':
         drop3 = None
     else:
@@ -150,17 +138,6 @@ def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
     else:
         drop4 = f'{drop4}'
 
-    if drop6 == 'Contagem':
-        drop6 = None
-    else:
-        drop6 = f'{drop6}'
-
-
-    if drop1 == 'Med aluno':
-        drop5val = ['Histograma', 'Cumulativo']
-    else:
-        drop5val = ['Histograma']
-        drop5 = 'Histograma'
 
     if drop5 == 'Cumulativo':
         drop5 = True
@@ -177,4 +154,4 @@ def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
     )
 
 
-    return fig, drop5val
+    return fig
