@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  dash-la:
+    image: ghcr.io/oesterd/dash-la:latest
+    container_name: Dash-LA
+    restart: always
+    ports:
+      - 8050:8050
