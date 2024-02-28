@@ -10,15 +10,16 @@ import pandas as pd
 app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 server = app.server
 
+Sheet_notas = '1Sb1l_sTY5Pfk1TuGzEQKsFg0rc6iSz5bLt5xjSEgaxs'
+Sheet_turmas = '1I50lI9RNxU5fqiDj_vSaanVN6SORk_Oi2ODWmbn--jg'
 
-Dados_notas = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/dados_teste.xlsx')
+Dados_notas = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_notas}/export?format=xlsx')
 Notas_df = Dados_notas.iloc[:, 0:10]
 Notas_df = Notas_df.to_dict('records')
 
 
-Turmas_df = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/Dados_turma.xlsx')
+Turmas_df = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_turmas}/export?format=xlsx')
 Turmas_df = Turmas_df.to_dict('records')
-
 
 
 page = list(dash.page_registry.values())
@@ -178,7 +179,7 @@ app.layout = html.Div(
             id="Navbar+Content"
         ),
 
-
+        dcc.Interval(id='data-interval', interval=86400000*7, n_intervals=0),
         dcc.Store(id='Dados_notas', data=Notas_df),
         dcc.Store(id='Dados_turmas', data=Turmas_df),
         dcc.Location(id='url', refresh=True),
@@ -194,22 +195,24 @@ app.layout = html.Div(
 filename = 'Reusables/Sidebars.py'
 exec(open(filename, encoding="utf-8").read())
 
-
-
 @app.callback(
-    Output("sidebar", "width"),
-    Input("sidebar-button", "opened"),
-    State("sidebar", "width"),
-    prevent_initial_call=True,
+    Output('Dados_notas', 'data'),
+    Output('Dados_turmas', 'data'),
+    Input('data-interval', 'n_intervals'),
 )
-def drawer_demo(opened, width):
+def gather_data(n_intervals):
 
-    if width["base"] == navwidth:
-        return {"base": 250}
-    else:
-        return {"base": navwidth}
+    Sheet_notas = '1Sb1l_sTY5Pfk1TuGzEQKsFg0rc6iSz5bLt5xjSEgaxs'
+    Sheet_turmas = '1I50lI9RNxU5fqiDj_vSaanVN6SORk_Oi2ODWmbn--jg'
 
+    Dados_notas = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_notas}/export?format=xlsx')
+    Notas_df = Dados_notas.iloc[:, 0:10]
+    Notas_df = Notas_df.to_dict('records')
 
+    Turmas_df = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_turmas}/export?format=xlsx')
+    Turmas_df = Turmas_df.to_dict('records')
+
+    return Notas_df, Turmas_df
 
 
 
@@ -233,5 +236,24 @@ def nav_content(url):
     return content
 
 
+
+
+
+
+
+@app.callback(
+    Output("sidebar", "width"),
+    Input("sidebar-button", "opened"),
+    State("sidebar", "width"),
+    prevent_initial_call=True,
+)
+def drawer_demo(opened, width):
+
+    if width["base"] == navwidth:
+        return {"base": 250}
+    else:
+        return {"base": navwidth}
+
+
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="127.0.0.1")
