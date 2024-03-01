@@ -2,12 +2,14 @@
 import dash
 from dash import html, dcc, Input, Output, State, callback, clientside_callback
 import dash_ag_grid as dag
-
+from dash.exceptions import PreventUpdate
 
 
 import plotly.express as px
-
 import pandas as pd
+
+
+
 
 
 # Iniciando o aplicativo
@@ -19,26 +21,26 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
-# Não remover, é necessário para o callback em cadeia
-Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
-   'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
-   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
-}
 
-Ops2 = {
-    'Med aluno': ['Histograma', 'Cumulativo'],
-    'Resultado': ['Histograma'],
-}
+grid = dag.AgGrid(
+    id='grid',
+    rowData=[],
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+    style={'height': '400px'}
+)
 
 
-# Layout da página
 
+
+# ----------------------------------- Layout da página ---------------------------------------------------
 layout = \
     html.Div([
         # Grid
-        html.Div(id='pg1grid'),
+        html.Div([
+            grid
+        ]),
 
         # Gráfico
         html.Div([
@@ -85,22 +87,13 @@ def drop4init(options14, options15):
 
 # -------------------------------------------------------------------------------------
 @callback(
-    Output('pg1grid', 'children'),
+    Output('grid', 'rowData'),
     Input('Dados_notas', 'data'),
 )
 
 
-def Grid_maker(Notas_df):
-    grid = dag.AgGrid(
-        id='grid',
-        rowData=Notas_df,
-        columnDefs=clndef,
-        defaultColDef=dfclndef,
-        dashGridOptions={'pagination': True},
-        style={'height': '400px'}
-    )
-
-    return grid
+def Grid_maker(data):
+    return data
 
 
 
@@ -121,10 +114,14 @@ def Grid_maker(Notas_df):
 
 def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
 
-## Criando o gráfico
+    # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
+    if not rows:
+        raise PreventUpdate
+
 
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
+
 
 
     if drop3 == 'Nenhuma':

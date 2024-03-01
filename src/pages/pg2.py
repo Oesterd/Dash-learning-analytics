@@ -2,6 +2,7 @@
 import dash
 from dash import html, dcc, Input, Output, State, callback, clientside_callback
 import dash_ag_grid as dag
+from dash.exceptions import PreventUpdate
 
 
 import plotly.express as px
@@ -11,12 +12,8 @@ import scipy.stats
 
 
 
-
-
+# Iniciando o aplicativo
 dash.register_page(__name__, name='Correlação')
-
-
-
 
 
 filename = 'Reusables/Dist_notas.py'
@@ -24,45 +21,49 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
-# Não remover, é necessário para o callback em cadeia
-Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
-   'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
-   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
-}
+
+grid = dag.AgGrid(
+    id='grid2',
+    rowData=[],
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+    style={'height': '400px'}
+)
 
 
 
+
+# ----------------------------------- Layout da página ---------------------------------------------------
 layout = \
-html.Div([
-    html.Div(id='pg3grid'),
-
-    html.Br(),
-
-
     html.Div([
-        # Gráfico
+
         html.Div([
-            dcc.Graph(id='scatter')
-        ], style={'flex-basis': 800}),
+            grid
+        ]),
 
-        # Valores de correlação
+        html.Br(),
+
+
+
         html.Div([
-            dcc.Textarea(
-                id='textpg3',
-                disabled=True,
-                className='textarea'
-            )
-        ], style={'position': 'relative', 'left': 75, 'top': 100}),
+            # Gráfico
+            html.Div([
+                dcc.Graph(id='scatter')
+            ], style={'flex-basis': 800}),
 
-    ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 20, 'flex': 1}),
+            # Valores de correlação
+            html.Div([
+                dcc.Textarea(
+                    id='textpg2',
+                    disabled=True,
+                    className='textarea'
+                )
+            ], style={'position': 'relative', 'left': 75, 'top': 100}),
 
+        ], style={'display': 'flex', 'flexDirection': 'row', 'gap': 20, 'flex': 1}),
 
-
-
-
-])
+    ])
 
 
 
@@ -100,21 +101,13 @@ def drop4init(available_options):
 
 #---------------------------------------------------------------------------------
 @callback(
-    Output('pg3grid', 'children'),
+    Output('grid2', 'rowData'),
     Input('Dados_notas', 'data'),
 )
 
 
-def Grid_maker(Notas_df):
-    grid = dag.AgGrid(
-        id='grid2',
-        rowData=Notas_df,
-        columnDefs=clndef,
-        defaultColDef=dfclndef,
-        dashGridOptions={'pagination': True},
-    )
-
-    return grid
+def Grid_maker(data):
+    return data
 
 
 
@@ -122,7 +115,7 @@ def Grid_maker(Notas_df):
 
 @callback(
     Output(component_id='scatter', component_property='figure'),
-    Output(component_id='textpg3', component_property='value'),
+    Output(component_id='textpg2', component_property='value'),
     Input(component_id='grid2', component_property='virtualRowData'),
     Input(component_id='dropdown20', component_property='value'),
     Input(component_id='dropdown21', component_property='value'),
@@ -135,11 +128,14 @@ def Grid_maker(Notas_df):
 
 def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
+    # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
+    if not rows:
+        raise PreventUpdate
 
-    ## Criando o gráfico
 
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
+
 
 
     # Criando as opções nulas para os dropdowns 1 e 2
@@ -154,8 +150,9 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
         drop2 = f'{drop2}'
 
 
+
     fig = px.scatter(
-        dff, x=f'{drop0}', y='Med aluno',
+        dff, x=f'{drop0}', y='Média aluno',
         color='Professor', facet_col=drop1, facet_row=drop2,
         trendline=drop3, trendline_scope=drop4
     )
@@ -163,9 +160,8 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
 
     # Valores de correlação
-
     x = dff[drop0]
-    y = dff['Med aluno']
+    y = dff['Média aluno']
 
     r = y.corr(x, method='pearson')
     r2 = y.corr(x, method='spearman')
