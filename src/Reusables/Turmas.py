@@ -12,7 +12,7 @@ numformat = {"function": f"{locale_pt_BR}.format(',.0f')(params.value)"}
 
 clndef = [
 
-    {'headerName': 'Código', 'field': 'Cod', "sortable": True},
+    {'field': 'Cod', "sortable": True},
 
     {'field': 'Disciplina', "sortable": True},
 
@@ -28,8 +28,7 @@ clndef = [
      'valueFormatter': gradeformat,
      'filter': 'agNumberColumnFilter'},
 
-    {'headerName': 'Média turma',
-     'field': 'Med turma',
+    {'field': 'Média turma',
      'valueFormatter': gradeformat,
      'filter': 'agNumberColumnFilter'},
 

@@ -83,9 +83,9 @@ def filterdata(rows, drop1):
 
 
     # Transformando os dados no eixo y em uma razão ao invés de número absoluto
-    if drop1 == 'Med turma':
+    if drop1 == 'Média turma':
         var = drop1
-        drop1 = dffP4['Med turma']
+        drop1 = dffP4['Média turma']
 
     elif drop1 == 'AP':
         var = drop1
@@ -127,7 +127,7 @@ def filterdata(rows, drop1):
 
     # Tornando os números do eixo y em formato de porcentagem
 
-    if var != 'Med turma':
+    if var != 'Média turma':
         fig.update_layout(
             yaxis_tickformat='.0%',
             yaxis_title=var2),

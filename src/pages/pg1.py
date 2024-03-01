@@ -19,19 +19,6 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
-# Não remover, é necessário para o callback em cadeia
-Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
-   'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
-   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
-}
-
-Ops2 = {
-    'Med aluno': ['Histograma', 'Cumulativo'],
-    'Resultado': ['Histograma'],
-}
-
 
 # Layout da página
 
@@ -59,6 +46,7 @@ layout = \
     Output('dropdown15', 'data'),
     Input('dropdown13', 'value'),
     Input('dropdown11', 'value'),
+    prevent_initial_call=True
 )
 
 
@@ -73,6 +61,7 @@ def drop_chain(drop13value, drop11value):
     Output('dropdown15', 'value'),
     Input('dropdown14', 'data'),
     Input('dropdown15', 'data'),
+    prevent_initial_call=True
 )
 
 def drop4init(options14, options15):

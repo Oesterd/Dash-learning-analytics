@@ -17,8 +17,7 @@ clndef = [
 
     {'field': 'Alunos'},
 
-    {'headerName': 'Gênero',
-     'field': 'Sexo'},
+    {'field': 'Gênero'},
 
     {'field': 'Etnia'},
 
@@ -27,18 +26,15 @@ clndef = [
     {'field': 'Renda (R$)',
      'filter': 'agNumberColumnFilter'},
 
-    {'headerName': 'Média aluno',
-     'field': 'Med aluno',
+    {'field': 'Média aluno',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
 
-    {'headerName': 'Média turma',
-     'field': 'Med turma',
+    {'field': 'Média turma',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
 
-    {'headerName': 'Frequência',
-     'field': 'Freq',
+    {'field': 'Frequência',
      'valueFormatter': numformat,
      'filter': 'agNumberColumnFilter'},
 

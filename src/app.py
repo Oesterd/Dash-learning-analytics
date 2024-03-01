@@ -179,9 +179,9 @@ app.layout = html.Div(
             id="Navbar+Content"
         ),
 
-        dcc.Interval(id='data-interval', interval=86400000*7, n_intervals=0),
-        dcc.Store(id='Dados_notas', data=Notas_df),
-        dcc.Store(id='Dados_turmas', data=Turmas_df),
+        dcc.Interval(id='Intervalo', interval=86400000*7, n_intervals=0),
+        dcc.Store(id='Dados_notas'),
+        dcc.Store(id='Dados_turmas'),
         dcc.Location(id='url', refresh=True),
     ],
     style={"display": "flex", "flexDirection": "column", "flexGrow": "1", "gap": 10,
@@ -198,7 +198,7 @@ exec(open(filename, encoding="utf-8").read())
 @app.callback(
     Output('Dados_notas', 'data'),
     Output('Dados_turmas', 'data'),
-    Input('data-interval', 'n_intervals'),
+    Input('Intervalo', 'n_intervals'),
 )
 def gather_data(n_intervals):
 

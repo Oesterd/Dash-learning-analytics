@@ -18,19 +18,11 @@ dash.register_page(__name__, name='Correlação')
 
 
 
-
 filename = 'Reusables/Dist_notas.py'
 exec(open(filename, encoding="utf-8").read())
 
 
 
-# Não remover, é necessário para o callback em cadeia
-Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
-   'Sexo': ['Nenhuma', 'Escola', 'Etnia'],
-   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
-}
 
 
 
@@ -50,7 +42,7 @@ html.Div([
         # Valores de correlação
         html.Div([
             dcc.Textarea(
-                id='textpg3',
+                id='textpg2',
                 disabled=True,
                 className='textarea'
             )
@@ -75,6 +67,7 @@ html.Div([
 @callback(
     Output('dropdown22', 'data'),
     Input('dropdown21', 'value'),
+    prevent_initial_call=True
 )
 
 
@@ -85,6 +78,7 @@ def drop_chain(drop21value):
 @callback(
     Output('dropdown22', 'value'),
     Input('dropdown22', 'data'),
+    prevent_initial_call=True
 )
 
 def drop4init(available_options):
@@ -122,7 +116,7 @@ def Grid_maker(Notas_df):
 
 @callback(
     Output(component_id='scatter', component_property='figure'),
-    Output(component_id='textpg3', component_property='value'),
+    Output(component_id='textpg2', component_property='value'),
     Input(component_id='grid2', component_property='virtualRowData'),
     Input(component_id='dropdown20', component_property='value'),
     Input(component_id='dropdown21', component_property='value'),
@@ -155,7 +149,7 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
 
 
     fig = px.scatter(
-        dff, x=f'{drop0}', y='Med aluno',
+        dff, x=f'{drop0}', y='Média aluno',
         color='Professor', facet_col=drop1, facet_row=drop2,
         trendline=drop3, trendline_scope=drop4
     )
@@ -165,7 +159,7 @@ def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
     # Valores de correlação
 
     x = dff[drop0]
-    y = dff['Med aluno']
+    y = dff['Média aluno']
 
     r = y.corr(x, method='pearson')
     r2 = y.corr(x, method='spearman')

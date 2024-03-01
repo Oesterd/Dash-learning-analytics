@@ -115,9 +115,9 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
 
     # Transformando os dados no eixo y em uma razão ao invés de número absoluto
-    if drop1 == 'Med turma':
+    if drop1 == 'Média turma':
         var = drop1
-        drop1 = dff['Med turma']
+        drop1 = dff['Média turma']
 
     elif drop1 == 'AP':
         var = drop1
@@ -175,7 +175,7 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
     # Tornando os números do eixo y em formato de porcentagem
 
-    if var != 'Med turma':
+    if var != 'Média turma':
         figpg5.update_layout(
             yaxis_tickformat='.0%',
             yaxis_title=var2),
