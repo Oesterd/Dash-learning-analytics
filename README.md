@@ -5,7 +5,7 @@ Caso deseje fazer debug da aplicação no próprio navegador ao invés da IDE, a
 ```
 app.run(debug=False, host="0.0.0.0")
 ```
-por 
+por
 ```
 app.run(debug=True, host="127.0.0.1")
 ```
@@ -13,7 +13,8 @@ app.run(debug=True, host="127.0.0.1")
 ## Links
 
 Hospedado atualmente nos seguintes domínios:
-  * Render: https://dash-la-google-sheets.onrender.com
+  * Render (master): https://tributary-tunic-yin-dzvp.onrender.com/
+  * Render (Google-sheets): https://dash-la-google-sheets.onrender.com
 ## Referências
 
 ### Dash AG Grid
