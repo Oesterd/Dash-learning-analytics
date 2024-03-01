@@ -2,6 +2,7 @@
 import dash
 from dash import html, dcc, Input, Output, State, callback
 import dash_ag_grid as dag
+from dash.exceptions import PreventUpdate
 
 
 import plotly.express as px
@@ -27,10 +28,25 @@ exec(open(filename, encoding="utf-8").read())
 
 
 
+
+
+grid = dag.AgGrid(
+    id='grid4',
+    rowData=[],
+    columnDefs=clndef,
+    defaultColDef=dfclndef,
+    dashGridOptions={'pagination': True},
+    style={'height': '400px'}
+)
+
+
+
+#--------------------------------------------------------------------------
 layout = \
 html.Div([
-    html.Div(id='pg5grid'),
-
+    html.Div([
+        grid
+    ]),
 
     html.Br(),
 
@@ -63,21 +79,13 @@ html.Div([
 
 #-----------------------------------------------------------------------------------------------------
 @callback(
-    Output('pg5grid', 'children'),
+    Output('grid4', 'rowData'),
     Input('Dados_turmas', 'data'),
 )
 
 
-def Grid_maker(Turmas_df):
-    grid = dag.AgGrid(
-        id='grid4',
-        rowData=Turmas_df,
-        columnDefs=clndef,
-        defaultColDef=dfclndef,
-        dashGridOptions={'pagination': True},
-    )
-
-    return grid
+def Grid_maker(data):
+    return data
 
 
 
@@ -102,15 +110,13 @@ def Grid_maker(Turmas_df):
 
 def scatter_plot(rows, drop1, drop2, drop3):
 
+    # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
+    if not rows:
+        raise PreventUpdate
+
+
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
-
-
-
-
-    # Gerando a opção nula
-    if drop2 == 'Nenhuma':
-         drop2 = None
 
 
 
@@ -144,7 +150,6 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
 
     # Valores de correlação
-
     x = dff['Av Professor']
     y = dff[var]
 
@@ -174,7 +179,6 @@ def scatter_plot(rows, drop1, drop2, drop3):
 
 
     # Tornando os números do eixo y em formato de porcentagem
-
     if var != 'Média turma':
         figpg5.update_layout(
             yaxis_tickformat='.0%',
