@@ -1,8 +1,8 @@
 Ops = {
-   'Nenhuma': ['Nenhuma', 'Sexo', 'Escola', 'Etnia'],
+   'Nenhuma': ['Nenhuma', 'Gênero', 'Escola', 'Etnia'],
    'Gênero': ['Nenhuma', 'Escola', 'Etnia'],
-   'Escola': ['Nenhuma', 'Sexo', 'Etnia'],
-   'Etnia': ['Nenhuma', 'Sexo', 'Escola']
+   'Escola': ['Nenhuma', 'Gênero', 'Etnia'],
+   'Etnia': ['Nenhuma', 'Gênero', 'Escola']
 }
 
 Ops2 = {
