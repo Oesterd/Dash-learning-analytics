@@ -2,7 +2,10 @@
 
 name: Docker Image CI for GHCR
 
-on: push
+on:
+  push:
+    branches:
+      - Google-sheets
 
 jobs:
   build_and_publish:
@@ -12,5 +15,5 @@ jobs:
       - name: Build and push the image
         run: |
           docker login -u oesterd --password ${{ secrets.GHCR_PAT}} ghcr.io
-          docker build . -t ghcr.io/oesterd/dash-la:latest
-          docker push ghcr.io/oesterd/dash-la:latest
+          docker build . -t ghcr.io/oesterd/dash-la-gs:latest
+          docker push ghcr.io/oesterd/dash-la-gs:latest
