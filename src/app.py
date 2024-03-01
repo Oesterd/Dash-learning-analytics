@@ -180,8 +180,8 @@ app.layout = html.Div(
         ),
 
         dcc.Interval(id='Intervalo', interval=86400000*7, n_intervals=0),
-        dcc.Store(id='Dados_notas'),
-        dcc.Store(id='Dados_turmas'),
+        dcc.Store(id='Dados_notas', data={}),
+        dcc.Store(id='Dados_turmas', data={}),
         dcc.Location(id='url', refresh=True),
     ],
     style={"display": "flex", "flexDirection": "column", "flexGrow": "1", "gap": 10,
@@ -191,7 +191,11 @@ app.layout = html.Div(
 
 
 
-#--------------------------------------------------------------------
+
+
+
+
+#---------------------------------------------------------------------------------------------------------
 filename = 'Reusables/Sidebars.py'
 exec(open(filename, encoding="utf-8").read())
 

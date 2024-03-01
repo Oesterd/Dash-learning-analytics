@@ -12,7 +12,7 @@ numformat = {"function": f"{locale_pt_BR}.format(',.0f')(params.value)"}
 
 clndef = [
 
-    {'field': 'Cod', "sortable": True},
+    {'field': 'Código', "sortable": True},
 
     {'field': 'Disciplina', "sortable": True},
 

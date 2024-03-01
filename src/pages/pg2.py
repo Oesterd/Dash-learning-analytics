@@ -67,7 +67,6 @@ html.Div([
 @callback(
     Output('dropdown22', 'data'),
     Input('dropdown21', 'value'),
-    prevent_initial_call=True
 )
 
 
@@ -78,7 +77,6 @@ def drop_chain(drop21value):
 @callback(
     Output('dropdown22', 'value'),
     Input('dropdown22', 'data'),
-    prevent_initial_call=True
 )
 
 def drop4init(available_options):
@@ -106,6 +104,7 @@ def Grid_maker(Notas_df):
         columnDefs=clndef,
         defaultColDef=dfclndef,
         dashGridOptions={'pagination': True},
+        style={'height': '400px'}
     )
 
     return grid

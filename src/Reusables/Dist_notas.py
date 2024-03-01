@@ -1,3 +1,7 @@
+# Evitando o erro "Ops is not defined" nas páginas 1 e 2
+filename = 'Reusables/Sidebars.py'
+exec(open(filename, encoding="utf-8").read())
+
 # Formatação dos números
 locale_pt_BR = """d3.formatLocale({
   "decimal": ",",
