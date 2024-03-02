@@ -10,17 +10,6 @@ import pandas as pd
 app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 server = app.server
 
-Sheet_notas = '1Sb1l_sTY5Pfk1TuGzEQKsFg0rc6iSz5bLt5xjSEgaxs'
-Sheet_turmas = '1I50lI9RNxU5fqiDj_vSaanVN6SORk_Oi2ODWmbn--jg'
-
-Dados_notas = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_notas}/export?format=xlsx')
-Notas_df = Dados_notas.iloc[:, 0:10]
-Notas_df = Notas_df.to_dict('records')
-
-
-Turmas_df = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_turmas}/export?format=xlsx')
-Turmas_df = Turmas_df.to_dict('records')
-
 
 page = list(dash.page_registry.values())
 
@@ -206,8 +195,8 @@ exec(open(filename, encoding="utf-8").read())
 )
 def gather_data(n_intervals):
 
-    Sheet_notas = '1Sb1l_sTY5Pfk1TuGzEQKsFg0rc6iSz5bLt5xjSEgaxs'
-    Sheet_turmas = '1I50lI9RNxU5fqiDj_vSaanVN6SORk_Oi2ODWmbn--jg'
+    Sheet_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
+    Sheet_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
 
     Dados_notas = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_notas}/export?format=xlsx')
     Notas_df = Dados_notas.iloc[:, 0:10]
@@ -215,6 +204,8 @@ def gather_data(n_intervals):
 
     Turmas_df = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_turmas}/export?format=xlsx')
     Turmas_df = Turmas_df.to_dict('records')
+
+    print(Turmas_df)
 
     return Notas_df, Turmas_df
 
