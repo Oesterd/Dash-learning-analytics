@@ -205,7 +205,6 @@ def gather_data(n_intervals):
     Turmas_df = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_turmas}/export?format=xlsx')
     Turmas_df = Turmas_df.to_dict('records')
 
-    print(Turmas_df)
 
     return Notas_df, Turmas_df
 
