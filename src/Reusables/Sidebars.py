@@ -154,27 +154,6 @@ def pg3():
 
 
 
-def pg4():
-    content = \
-        html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
-            html.Div([
-                    dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Média turma',
-                               data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
-            ]),
-            ]
-        )
-
-    return content
-
-
-
 def pg5():
     content = \
         html.Div([

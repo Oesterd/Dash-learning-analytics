@@ -11,6 +11,20 @@ app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 server = app.server
 
 
+Dados_notas = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/dados_teste.xlsx')
+Notas_df = Dados_notas.iloc[:, 0:10]
+Notas_df = Notas_df.to_dict('records')
+
+
+Turmas_df = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/Dados_turma.xlsx')
+Dados = pd.DataFrame(Turmas_df)
+Disc = Dados['Disciplina'].unique()
+Prof = Dados['Professor'].unique()
+Disc.sort(), Prof.sort()
+Turmas_df = Turmas_df.to_dict('records')
+
+
+
 page = list(dash.page_registry.values())
 
 
@@ -98,7 +112,7 @@ app.layout = html.Div(
                     dmc.Col(
                         html.Div(
                             children=[
-                                "Estatísticas acadêmicas"
+                                "Estatísticas acadêmicas (GS)"
                             ],
                             style={'fontSize': 30, 'textAlign': 'left'}),
                         span='content', offset=2),
@@ -131,7 +145,12 @@ app.layout = html.Div(
                               'styles': {
                                   'root': {'width': '95%'}
                               }
-                          }
+                          },
+                          'MultiSelect': {
+                              'styles': {
+                                  'root': {'width': '95%'}
+                               }
+                          },
                       }
                     },
                     children=[
@@ -142,7 +161,7 @@ app.layout = html.Div(
                             width={"base": navwidth},
                             position='right',
                             style={
-                                "overflow": "hidden",
+                                "overflow": "auto",
                                 "transition": "width 0.3s ease-in-out",
                                 "background-color": "#f4f6f9",
                             },
@@ -180,11 +199,7 @@ app.layout = html.Div(
 
 
 
-
-
-
-
-#---------------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------
 filename = 'Reusables/Sidebars.py'
 exec(open(filename, encoding="utf-8").read())
 
@@ -208,6 +223,37 @@ def gather_data(n_intervals):
 
     return Notas_df, Turmas_df
 
+def pg4():
+
+    content = \
+        html.Div([
+            html.Div(
+                [
+                    html.H2("Opções", style={"color": "black"}),
+                ],
+                style={'text-align': 'center'}
+            ),
+
+
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown41', label='Escolha a(s) disciplina(s)', value=[],
+                                data=Disc, searchable=True, clearable=True)
+            ]),
+
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown42', label='Escolha o(s) professor(es)', value=[],
+                                data=Prof, searchable=True, clearable=True)
+            ]),
+
+
+            html.Div([
+                    dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Média turma',
+                               data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
+            ]),
+            ]
+        )
+
+    return content
 
 
 
@@ -244,7 +290,7 @@ def nav_content(url):
 def drawer_demo(opened, width):
 
     if width["base"] == navwidth:
-        return {"base": 250}
+        return {"base": 400}
     else:
         return {"base": navwidth}
 

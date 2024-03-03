@@ -60,10 +60,21 @@ html.Div([
 @callback(
     Output('grid3', 'rowData'),
     Input('Dados_turmas', 'data'),
+    Input(component_id='Mdropdown41', component_property='value'),
+    Input(component_id='Mdropdown42', component_property='value'),
 )
 
 
-def Grid_maker(data):
+def Grid_maker(data, mdrop1, mdrop2):
+    df = pd.DataFrame(data)
+
+    if mdrop1:
+        df = df[df['Disciplina'].isin(mdrop1)]
+
+    if mdrop2:
+        df = df[df['Professor'].isin(mdrop2)]
+
+    data = df.to_dict('records')
     return data
 
 
