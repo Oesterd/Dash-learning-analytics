@@ -142,7 +142,7 @@ def filterdata(rows, drop1):
     )
 
 
-    fig.update_xaxes(rangeslider_visible=True)
+    # fig.update_xaxes(rangeslider_visible=True)
 
     # Tornando os números do eixo y em formato de porcentagem
 
