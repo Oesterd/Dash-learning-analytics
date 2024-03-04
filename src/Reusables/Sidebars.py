@@ -75,6 +75,8 @@ def pg1():
     return content
 
 
+
+
 def pg2():
     content = \
         html.Div([
@@ -128,6 +130,8 @@ def pg2():
     return content
 
 
+
+
 def pg3():
     content = \
         html.Div([
@@ -151,6 +155,46 @@ def pg3():
         ])
 
     return content
+
+
+
+
+def pg4():
+
+    content = \
+        html.Div([
+            html.Div(
+                [
+                    html.H2("Opções", style={"color": "black"}),
+                ],
+                style={'text-align': 'center'}
+            ),
+
+            html.Div([
+                dmc.Select(id='dropdown41', label='Escolha o curso', value='Curso1',
+                                data=['Curso1', 'Curso2'], clearable=False)
+            ]),
+
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown41', label='Escolha a(s) disciplina(s)', value=[],
+                                data=Disc, searchable=True, clearable=True)
+            ]),
+
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown42', label='Escolha o(s) professor(es)', value=[],
+                                data=Prof, searchable=True, clearable=True)
+            ]),
+
+
+            html.Div([
+                    dmc.Select(id='dropdown42', label='Escolha o eixo y:',  value='Média turma',
+                               data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
+            ]),
+            ]
+        )
+
+    return content
+
 
 
 

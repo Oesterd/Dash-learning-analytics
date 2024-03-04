@@ -84,7 +84,7 @@ def Grid_maker(data, mdrop1, mdrop2):
 @callback(
     Output(component_id='timeseries', component_property='figure'),
     Input(component_id='grid3', component_property='virtualRowData'),
-    Input(component_id='dropdown41', component_property='value'),
+    Input(component_id='dropdown42', component_property='value'),
     prevent_initial_call=True
 )
 

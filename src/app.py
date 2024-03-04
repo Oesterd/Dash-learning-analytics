@@ -200,7 +200,7 @@ app.layout = html.Div(
 
 
 
-#--------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------
 filename = 'Reusables/Sidebars.py'
 exec(open(filename, encoding="utf-8").read())
 
@@ -208,53 +208,23 @@ exec(open(filename, encoding="utf-8").read())
     Output('Dados_notas', 'data'),
     Output('Dados_turmas', 'data'),
     Input('Intervalo', 'n_intervals'),
+    Input('dropdown41', 'value'),
+    prevent_initial_call=True
 )
-def gather_data(n_intervals):
+def gather_data(n_intervals, drop41):
 
-    Sheet_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
-    Sheet_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
+    ID_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
+    ID_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
 
-    Dados_notas = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_notas}/export?format=xlsx')
+    Dados_notas = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_notas}/gviz/tq?tqx=out:csv')
     Notas_df = Dados_notas.iloc[:, 0:10]
     Notas_df = Notas_df.to_dict('records')
 
-    Turmas_df = pd.read_excel(f'https://docs.google.com/spreadsheets/d/{Sheet_turmas}/export?format=xlsx')
+    Turmas_df = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_turmas}/gviz/tq?tqx=out:csv&sheet={drop41}')
     Turmas_df = Turmas_df.to_dict('records')
 
 
     return Notas_df, Turmas_df
-
-def pg4():
-
-    content = \
-        html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
-
-            html.Div([
-                dmc.MultiSelect(id='Mdropdown41', label='Escolha a(s) disciplina(s)', value=[],
-                                data=Disc, searchable=True, clearable=True)
-            ]),
-
-            html.Div([
-                dmc.MultiSelect(id='Mdropdown42', label='Escolha o(s) professor(es)', value=[],
-                                data=Prof, searchable=True, clearable=True)
-            ]),
-
-
-            html.Div([
-                    dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Média turma',
-                               data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
-            ]),
-            ]
-        )
-
-    return content
 
 
 
@@ -297,4 +267,4 @@ def drawer_demo(opened, width):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="localhost")
