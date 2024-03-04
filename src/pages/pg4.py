@@ -72,13 +72,14 @@ def Grid_maker(data):
 #--------------------------------------------------------------------------------
 @callback(
     Output(component_id='timeseries', component_property='figure'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input(component_id='grid3', component_property='virtualRowData'),
     Input(component_id='dropdown41', component_property='value'),
     prevent_initial_call=True
 )
 
 
-def filterdata(rows, drop1):
+def filterdata(n, rows, drop1):
 
     # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
     if not rows:

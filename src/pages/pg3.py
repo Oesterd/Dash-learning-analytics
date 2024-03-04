@@ -164,12 +164,14 @@ html.Div([
 #-----------------------------------------------------------------------------
 @callback(
     Output('Perc', 'figure'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input(component_id='AgGrid', component_property='virtualRowData'),
-    Input('dropdown31', 'value')
+    Input('dropdown31', 'value'),
+    prevent_initial_call=True
 )
 
 
-def calfunc(rows, dropval):
+def calfunc(n, rows, dropval):
 
 
     filtdata = pd.DataFrame(rows)

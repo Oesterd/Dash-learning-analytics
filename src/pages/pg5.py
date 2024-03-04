@@ -94,6 +94,7 @@ def Grid_maker(data):
 @callback(
     Output(component_id='scatter2', component_property='figure'),
     Output(component_id='textpg5', component_property='value'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input(component_id='grid4', component_property='virtualRowData'),
     Input(component_id='dropdown51', component_property='value'),
     Input(component_id='dropdown52', component_property='value'),
@@ -108,7 +109,7 @@ def Grid_maker(data):
 
 
 
-def scatter_plot(rows, drop1, drop2, drop3):
+def scatter_plot(n, rows, drop1, drop2, drop3):
 
     # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
     if not rows:

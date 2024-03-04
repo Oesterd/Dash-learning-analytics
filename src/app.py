@@ -181,6 +181,7 @@ app.layout = html.Div(
 
         dcc.Store(id='Dados_notas', data=Notas_df),
         dcc.Store(id='Dados_turmas', data=Turmas_df),
+        dcc.Interval(id='Intervalo', interval=8*2309834324, n_intervals=0),
         dcc.Location(id='url', refresh=True),
     ],
     style={"display": "flex", "flexDirection": "column", "flexGrow": "1", "gap": 10,
@@ -216,10 +217,11 @@ def drawer_demo(opened, width):
 
 @callback(
     Output('sidebar', 'children'),
+    Output('Intervalo', 'n_intervals'),
+    State('Intervalo', 'n_intervals'),
     Input('url', 'pathname'),
 )
-def nav_content(url):
-
+def nav_content(n, url):
 
     content = {
         '/': pg1(),
@@ -229,9 +231,16 @@ def nav_content(url):
         '/pg5': pg5(),
     }.get(url)
 
+    # O uso de intervalo como Input do callback em cada página previne um trigger indesejado
+    # enquanto o layout da página está incompleto, evitando mensagens de erro
+    if n <= 50:
+        n += 1
+    else:
+        n = 0
 
-    return content
+
+    return content, n
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="localhost")
