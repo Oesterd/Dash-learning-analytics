@@ -60,21 +60,10 @@ html.Div([
 @callback(
     Output('grid3', 'rowData'),
     Input('Dados_turmas', 'data'),
-    Input(component_id='Mdropdown41', component_property='value'),
-    Input(component_id='Mdropdown42', component_property='value'),
 )
 
 
-def Grid_maker(data, mdrop1, mdrop2):
-    df = pd.DataFrame(data)
-
-    if mdrop1:
-        df = df[df['Disciplina'].isin(mdrop1)]
-
-    if mdrop2:
-        df = df[df['Professor'].isin(mdrop2)]
-
-    data = df.to_dict('records')
+def Grid_maker(data):
     return data
 
 
@@ -83,13 +72,14 @@ def Grid_maker(data, mdrop1, mdrop2):
 #--------------------------------------------------------------------------------
 @callback(
     Output(component_id='timeseries', component_property='figure'),
+    Input(component_id='Intervalo2', component_property='n_intervals'),
     Input(component_id='grid3', component_property='virtualRowData'),
-    Input(component_id='dropdown42', component_property='value'),
+    Input(component_id='dropdown41', component_property='value'),
     prevent_initial_call=True
 )
 
 
-def filterdata(rows, drop1):
+def filterdata(n, rows, drop1):
 
     # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
     if not rows:
@@ -142,7 +132,7 @@ def filterdata(rows, drop1):
     )
 
 
-    # fig.update_xaxes(rangeslider_visible=True)
+    fig.update_xaxes(rangeslider_visible=True)
 
     # Tornando os números do eixo y em formato de porcentagem
 
@@ -186,5 +176,4 @@ def filterdata(rows, drop1):
 
 
     return fig
-
 

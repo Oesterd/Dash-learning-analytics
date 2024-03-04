@@ -171,7 +171,7 @@ def pg4():
             ),
 
             html.Div([
-                dmc.Select(id='dropdown41', label='Escolha o curso', value='Curso1',
+                dmc.Select(id='dropdown40', label='Escolha o curso', value='Curso1',
                                 data=['Curso1', 'Curso2'], clearable=False)
             ]),
 
@@ -187,7 +187,7 @@ def pg4():
 
 
             html.Div([
-                    dmc.Select(id='dropdown42', label='Escolha o eixo y:',  value='Média turma',
+                    dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Média turma',
                                data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
             ]),
             ]

@@ -1,6 +1,6 @@
 # Importando as bibliotecas
 import dash
-from dash import html, dcc, Input, Output, State, callback, clientside_callback
+from dash import html, dcc, Input, Output, State, callback, clientside_callback, ctx
 import dash_ag_grid as dag
 from dash.exceptions import PreventUpdate
 
@@ -9,6 +9,7 @@ import plotly.express as px
 import pandas as pd
 import scipy.stats
 
+import time
 
 
 
@@ -76,16 +77,19 @@ layout = \
 @callback(
     Output('dropdown22', 'data'),
     Input('dropdown21', 'value'),
+    prevent_initial_call=True
 )
 
 
 def drop_chain(drop21value):
+    print("Callback21:", ctx.triggered_id)
     return [{'label': i, 'value': i} for i in Ops[drop21value]]
 
 
 @callback(
     Output('dropdown22', 'value'),
     Input('dropdown22', 'data'),
+    prevent_initial_call=True
 )
 
 def drop4init(available_options):
@@ -116,6 +120,7 @@ def Grid_maker(data):
 @callback(
     Output(component_id='scatter', component_property='figure'),
     Output(component_id='textpg2', component_property='value'),
+    Input(component_id='Intervalo2', component_property='n_intervals'),
     Input(component_id='grid2', component_property='virtualRowData'),
     Input(component_id='dropdown20', component_property='value'),
     Input(component_id='dropdown21', component_property='value'),
@@ -126,18 +131,16 @@ def Grid_maker(data):
 )
 
 
-def scatter_plot(rows, drop0, drop1, drop2, drop3, drop4):
+def scatter_plot(n, rows, drop0, drop1, drop2, drop3, drop4):
 
     # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
     if not rows:
         raise PreventUpdate
 
 
+
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
-
-
-
     # Criando as opções nulas para os dropdowns 1 e 2
     if drop1 == 'Nenhuma':
         drop1 = None

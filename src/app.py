@@ -189,6 +189,7 @@ app.layout = html.Div(
         ),
 
         dcc.Interval(id='Intervalo', interval=86400000*7, n_intervals=0),
+        dcc.Interval(id='Intervalo2', interval=86400000*7, n_intervals=0),
         dcc.Store(id='Dados_notas', data={}),
         dcc.Store(id='Dados_turmas', data={}),
         dcc.Location(id='url', refresh=True),
@@ -208,19 +209,18 @@ exec(open(filename, encoding="utf-8").read())
     Output('Dados_notas', 'data'),
     Output('Dados_turmas', 'data'),
     Input('Intervalo', 'n_intervals'),
-    Input('dropdown41', 'value'),
-    prevent_initial_call=True
 )
-def gather_data(n_intervals, drop41):
+def gather_data(n_intervals):
 
     ID_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
     ID_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
+    Turmas_sheet = 'Curso1'
 
     Dados_notas = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_notas}/gviz/tq?tqx=out:csv')
     Notas_df = Dados_notas.iloc[:, 0:10]
     Notas_df = Notas_df.to_dict('records')
 
-    Turmas_df = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_turmas}/gviz/tq?tqx=out:csv&sheet={drop41}')
+    Turmas_df = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_turmas}/gviz/tq?tqx=out:csv&sheet={Turmas_sheet}')
     Turmas_df = Turmas_df.to_dict('records')
 
 
@@ -230,9 +230,11 @@ def gather_data(n_intervals, drop41):
 
 @callback(
     Output('sidebar', 'children'),
+    Output('Intervalo2', 'n_intervals'),
+    State('Intervalo2', 'n_intervals'),
     Input('url', 'pathname'),
 )
-def nav_content(url):
+def nav_content(n, url):
 
 
     content = {
@@ -244,7 +246,15 @@ def nav_content(url):
     }.get(url)
 
 
-    return content
+    # O uso de intervalo como Input do callback em cada página previne um trigger indesejado
+    # enquanto o layout da página está incompleto, evitando mensagens de erro
+    if n <= 50:
+        n += 1
+    else:
+        n = 0
+
+
+    return content, n
 
 
 
@@ -267,4 +277,4 @@ def drawer_demo(opened, width):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost")
+    app.run(debug=False, host="0.0.0.0")

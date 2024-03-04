@@ -1,6 +1,8 @@
 # Importando as bibliotecas
+import time
+
 import dash
-from dash import html, dcc, Input, Output, State, callback, clientside_callback
+from dash import html, dcc, Input, Output, State, callback, clientside_callback, ctx
 import dash_ag_grid as dag
 from dash.exceptions import PreventUpdate
 
@@ -100,6 +102,7 @@ def Grid_maker(data):
 #-------------------------------------------------------------------------
 @callback(
     Output(component_id='displot', component_property='figure'),
+    Input(component_id='Intervalo2', component_property='n_intervals'),
     Input(component_id='grid', component_property='virtualRowData'),
     Input(component_id='dropdown11', component_property='value'),
     Input(component_id='dropdown12', component_property='value'),
@@ -112,16 +115,14 @@ def Grid_maker(data):
 
 
 
-def matplot_html(rows, drop1, drop2, drop3, drop4, drop5, drop6):
+def matplot_html(n, rows, drop1, drop2, drop3, drop4, drop5, drop6):
 
     # Evitando que o Output seja atualizado enquanto os Inputs ainda não estão presente no layout
     if not rows:
         raise PreventUpdate
 
-
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
-
 
 
     if drop3 == 'Nenhuma':
