@@ -60,10 +60,24 @@ html.Div([
 @callback(
     Output('grid3', 'rowData'),
     Input('Dados_turmas', 'data'),
+    Input(component_id='Mdropdown41', component_property='value'),
+    Input(component_id='Mdropdown42', component_property='value'),
 )
 
 
-def Grid_maker(data):
+def Grid_maker(data, mdrop1, mdrop2):
+    dff = pd.DataFrame(data)
+
+
+    if mdrop1:
+        dff = dff[dff['Disciplina'].isin(mdrop1)]
+
+    if mdrop2:
+        dff = dff[dff['Professor'].isin(mdrop2)]
+
+
+    data = dff.to_dict('records')
+
     return data
 
 
@@ -88,7 +102,6 @@ def filterdata(n, rows, drop1):
 
     # Modificando os dados conforme a filtragem do usuário
     dff = pd.DataFrame(rows)
-
 
 
     # Transformando os dados no eixo y em uma razão ao invés de número absoluto

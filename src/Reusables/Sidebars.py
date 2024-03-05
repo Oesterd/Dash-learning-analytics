@@ -209,6 +209,17 @@ def pg5():
             ),
 
 
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown51', label='Escolha a(s) disciplina(s)', value=[],
+                                data=Disc, searchable=True, clearable=True)
+            ]),
+
+
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown52', label='Escolha o(s) professor(es)', value=[],
+                                data=Prof, searchable=True, clearable=True)
+            ]),
+
 
             html.Div([
                 html.Div([
@@ -216,7 +227,6 @@ def pg5():
                                data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
                 ]),
             ]),
-
 
 
             html.Div([
