@@ -224,7 +224,6 @@ def gather_data(n_intervals):
     Turmas_df = read_data(ID_turmas, Turmas_sheet)
     Turmas_df['Turma'] = pd.to_datetime(Turmas_df['Turma'], format='%Y/%m')
     Turmas_df['Turma'] = Turmas_df['Turma'].dt.date
-    print(Turmas_df['Turma'])
     Turmas_df = Turmas_df.to_dict('records')
 
     return Notas_df, Turmas_df
@@ -280,4 +279,4 @@ def drawer_demo(opened, width):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost")
+    app.run(debug=False, host="0.0.0.0")

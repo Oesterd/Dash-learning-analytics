@@ -80,13 +80,14 @@ html.Div([
 #-----------------------------------------------------------------------------------------------------
 @callback(
     Output('grid4', 'rowData'),
+    Input(component_id='Intervalo2', component_property='n_intervals'),
     Input('Dados_turmas', 'data'),
     Input(component_id='Mdropdown51', component_property='value'),
     Input(component_id='Mdropdown52', component_property='value'),
 )
 
 
-def Grid_maker(data, mdrop1, mdrop2):
+def Grid_maker(n, data, mdrop1, mdrop2):
     dff = pd.DataFrame(data)
 
 
