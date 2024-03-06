@@ -44,7 +44,7 @@ clndef = [
 
     {'field': 'Resultado'},
 
-    {'field': 'Professor'}
+    {'field': 'Professor', 'filter': False},
 
 
 ]

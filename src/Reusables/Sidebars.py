@@ -15,59 +15,58 @@ Ops2 = {
 def pg1():
     content = \
         html.Div([
-                html.Div(
-                    [
-                        html.H2("Opções", style={"color": "black"}),
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown11', label='Escolha o(s) professor(es):', value=[],
+                           data=Prof_Notas, searchable=True, clearable=True),
+                ]
+            ),
+
+            html.Div([
+                dmc.Select(id='dropdown11', label='Escolha o eixo x:', value='Média aluno',
+                           data=list(Ops2.keys()), clearable=False),
+                ]
+            ),
+
+            html.Div([
+
+                dmc.Select(id='dropdown12', label='Divisão por cores:', value=None,
+                           data=[
+                               {'label': 'Nenhuma', 'value': None},
+                               {'label': 'Professor', 'value': 'Professor'}
+                           ], clearable=False),
+                ]
+            ),
+
+            html.Div([
+                dmc.Select(data=list(Ops.keys()), label='Divisão por colunas:',  value='Nenhuma',
+                           id='dropdown13', clearable=False),
+                ]
+            ),
+
+            html.Div([
+                dmc.Select(id='dropdown14', label='Divisão por linhas:',  value='Nenhuma',
+                           data=['Nenhuma', 'Gênero', 'Etnia', 'Escola'],
+                           clearable=False),
+                ]
+            ),
+
+            html.Div([
+                dmc.Select(id='dropdown15', label='Tipo de gráfico:',  value='Histograma',
+                           data=['Histograma', 'Cumulativo'],
+                             clearable=False),
+                ]
+            ),
+
+            html.Div([
+                dmc.Select(
+                    id='dropdown16', label='Tipo de normalização:', value=None,
+                    data=[
+                    {'label': 'Contagem', 'value': None},
+                    {'label': 'Porcentagem', 'value': 'percent'},
                     ],
-                    style={'text-align': 'center'}
-                ),
-
-                html.Div([
-                    dmc.Select(id='dropdown11', label='Escolha o eixo x:', value='Média aluno',
-                               data=list(Ops2.keys()), clearable=False),
-                    ]
-                ),
-
-                html.Div([
-
-                    dmc.Select(id='dropdown12', label='Divisão por cores:', value=None,
-                               data=[
-                                   {'label': 'Nenhuma', 'value': None},
-                                   {'label': 'Professor', 'value': 'Professor'}
-                               ], clearable=False),
-                    ]
-                ),
-
-                html.Div([
-                    dmc.Select(data=list(Ops.keys()), label='Divisão por colunas:',  value='Nenhuma',
-                               id='dropdown13', clearable=False),
-                    ]
-                ),
-
-                html.Div([
-                    dmc.Select(id='dropdown14', label='Divisão por linhas:',  value='Nenhuma',
-                               data=['Nenhuma', 'Gênero', 'Etnia', 'Escola'],
-                               clearable=False),
-                    ]
-                ),
-
-                html.Div([
-                    dmc.Select(id='dropdown15', label='Tipo de gráfico:',  value='Histograma',
-                               data=['Histograma', 'Cumulativo'],
-                                 clearable=False),
-                    ]
-                ),
-
-                html.Div([
-                    dmc.Select(
-                        id='dropdown16', label='Tipo de normalização:', value=None,
-                        data=[
-                        {'label': 'Contagem', 'value': None},
-                        {'label': 'Porcentagem', 'value': 'percent'},
-                        ],
-                        clearable=False
-                    )
-                ]),
+                    clearable=False
+                )
+            ]),
         ],
         style={'display': 'flex', 'flexDirection': 'column', 'gap': 20, 'flex': 1},
         )
@@ -75,33 +74,32 @@ def pg1():
     return content
 
 
+
+
 def pg2():
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown21', label='Escolha o(s) professor(es):', value=[],
+                           data=Prof_Notas, searchable=True, clearable=True),
+                ]
             ),
 
             html.Div([
-                html.Div([
-                    dmc.Select(id='dropdown20', label='Escolha o eixo x:', value='Renda (R$)',
-                               data=['Renda (R$)', 'Frequência'], clearable=False)
-                ]),
+                dmc.Select(id='dropdown21', label='Escolha o eixo x:', value='Renda (R$)',
+                           data=['Renda (R$)', 'Frequência'], clearable=False)
             ]),
 
             html.Div([
-                dmc.Select(data=list(Ops.keys()), label='Divisão por colunas:', value='Nenhuma', id='dropdown21', clearable=False),
+                dmc.Select(data=list(Ops.keys()), label='Divisão por colunas:', value='Nenhuma', id='dropdown22', clearable=False),
             ]),
 
             html.Div([
-                dmc.Select(id='dropdown22', label='Divisão por linhas:',  value='Nenhuma', data=['Nenhuma', 'Gênero', 'Escola'], clearable=False),
+                dmc.Select(id='dropdown23', label='Divisão por linhas:',  value='Nenhuma', data=['Nenhuma', 'Gênero', 'Escola'], clearable=False),
             ]),
 
             html.Div([
-                dmc.Select(id='dropdown23', label='Regressão linear:', value=None,
+                dmc.Select(id='dropdown24', label='Regressão linear:', value=None,
                     data=[
                         {'label': 'Nenhuma', 'value': None},
                         {'label': 'Linear', 'value': 'ols'},
@@ -113,7 +111,7 @@ def pg2():
 
             html.Div([
                 dmc.Select(
-                    id='dropdown24', label='Escopo da regressão linear:',  value='overall',
+                    id='dropdown25', label='Escopo da regressão linear:',  value='overall',
                     data=[
                         {'label': 'Geral', 'value': 'overall'},
                         {'label': 'Legenda', 'value': 'trace'},
@@ -128,16 +126,11 @@ def pg2():
     return content
 
 
+
+
 def pg3():
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
             html.Div([
                 dmc.Select(
                     id='dropdown31', label='Tipo de gráfico:',  value='stpf',
@@ -154,46 +147,54 @@ def pg3():
 
 
 
+
 def pg4():
+
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown41', label='Escolha a(s) disciplina(s)', value=[],
+                                data=Disc, searchable=True, clearable=True)
+            ]),
+
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown42', label='Escolha o(s) professor(es)', value=[],
+                                data=Prof_turmas, searchable=True, clearable=True)
+            ]),
+
 
             html.Div([
                     dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Média turma',
                                data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
             ]),
-            ]
+            ],
+            style={'display': 'flex', 'flexDirection': 'column', 'gap': 20, 'flex': 1}
         )
 
     return content
 
 
 
+
 def pg5():
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
+            html.Div([
+                dmc.MultiSelect(id='Mdropdown51', label='Escolha a(s) disciplina(s)', value=[],
+                                data=Disc, searchable=True, clearable=True)
+            ]),
 
 
             html.Div([
-                html.Div([
-                    dmc.Select(id='dropdown51', label='Escolha o eixo y:', value='Média turma',
-                               data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
-                ]),
+                dmc.MultiSelect(id='Mdropdown52', label='Escolha o(s) professor(es)', value=[],
+                                data=Prof_turmas, searchable=True, clearable=True)
             ]),
 
+
+            html.Div([
+                dmc.Select(id='dropdown51', label='Escolha o eixo y:', value='Média turma',
+                           data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
+            ]),
 
 
             html.Div([
@@ -219,8 +220,7 @@ def pg5():
 
             ],
             style={'display': 'flex', 'flexDirection': 'column', 'gap': 20, 'flex': 1}
-        ),
+        )
 
     return content
-
 

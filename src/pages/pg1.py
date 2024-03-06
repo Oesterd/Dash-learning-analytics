@@ -1,6 +1,4 @@
 # Importando as bibliotecas
-import time
-
 import dash
 from dash import html, dcc, Input, Output, State, callback, clientside_callback, ctx
 import dash_ag_grid as dag
@@ -90,11 +88,20 @@ def drop4init(options14, options15):
 # -------------------------------------------------------------------------------------
 @callback(
     Output('grid', 'rowData'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input('Dados_notas', 'data'),
+    Input(component_id='Mdropdown11', component_property='value'),
 )
 
 
-def Grid_maker(data):
+def Grid_maker(n, data, mdrop):
+    dff = pd.DataFrame(data)
+
+    if mdrop:
+        dff = dff[dff['Professor'].isin(mdrop)]
+
+    data = dff.to_dict('records')
+
     return data
 
 

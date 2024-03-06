@@ -9,8 +9,6 @@ import plotly.express as px
 import pandas as pd
 import scipy.stats
 
-import time
-
 
 
 # Iniciando o aplicativo
@@ -75,8 +73,8 @@ layout = \
 #--------------------------------------------------------------------------------------------
 # Callback em cadeia
 @callback(
-    Output('dropdown22', 'data'),
-    Input('dropdown21', 'value'),
+    Output('dropdown24', 'data'),
+    Input('dropdown22', 'value'),
     prevent_initial_call=True
 )
 
@@ -87,8 +85,8 @@ def drop_chain(drop21value):
 
 
 @callback(
-    Output('dropdown22', 'value'),
-    Input('dropdown22', 'data'),
+    Output('dropdown23', 'value'),
+    Input('dropdown23', 'data'),
     prevent_initial_call=True
 )
 
@@ -106,11 +104,18 @@ def drop4init(available_options):
 #---------------------------------------------------------------------------------
 @callback(
     Output('grid2', 'rowData'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input('Dados_notas', 'data'),
+    Input(component_id='Mdropdown21', component_property='value'),
 )
+def Grid_maker(n, data, mdrop):
+    dff = pd.DataFrame(data)
 
+    if mdrop:
+        dff = dff[dff['Professor'].isin(mdrop)]
 
-def Grid_maker(data):
+    data = dff.to_dict('records')
+
     return data
 
 
@@ -122,11 +127,11 @@ def Grid_maker(data):
     Output(component_id='textpg2', component_property='value'),
     Input(component_id='Intervalo', component_property='n_intervals'),
     Input(component_id='grid2', component_property='virtualRowData'),
-    Input(component_id='dropdown20', component_property='value'),
     Input(component_id='dropdown21', component_property='value'),
     Input(component_id='dropdown22', component_property='value'),
     Input(component_id='dropdown23', component_property='value'),
     Input(component_id='dropdown24', component_property='value'),
+    Input(component_id='dropdown25', component_property='value'),
     prevent_initial_call=True
 )
 

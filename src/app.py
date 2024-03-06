@@ -11,12 +11,23 @@ app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 server = app.server
 
 
+
 Dados_notas = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/dados_teste.xlsx')
+Prof_Notas = Dados_notas['Professor'].unique()
 Notas_df = Dados_notas.iloc[:, 0:10]
+
 Notas_df = Notas_df.to_dict('records')
 
 
 Turmas_df = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/Dados_turma.xlsx')
+
+Disc = Turmas_df['Disciplina'].unique()
+Prof_turmas = Turmas_df['Professor'].unique()
+Disc.sort(), Prof_turmas.sort()
+
+Turmas_df['Turma'] = pd.to_datetime(Turmas_df['Turma'], format='%Y/%m')
+Turmas_df['Turma'] = Turmas_df['Turma'].dt.date
+
 Turmas_df = Turmas_df.to_dict('records')
 
 
@@ -149,8 +160,21 @@ app.layout = html.Div(
                             id='sidebar',
                             fixed=False,
                             hidden=True,
+                            height=800,
                             width={"base": navwidth},
                             position='right',
+                            children=[
+                                html.Div(
+                                    [
+                                        html.H2("Opções", style={"color": "black"}),
+                                    ],
+                                    style={'text-align': 'center'}
+                                ),
+
+                                html.Br(),
+
+                                html.Div(id='sidebar-div', children=[])
+                            ],
                             style={
                                 "overflow": "hidden",
                                 "transition": "width 0.3s ease-in-out",
@@ -216,7 +240,7 @@ def drawer_demo(opened, width):
 
 
 @callback(
-    Output('sidebar', 'children'),
+    Output('sidebar-div', 'children'),
     Output('Intervalo', 'n_intervals'),
     State('Intervalo', 'n_intervals'),
     Input('url', 'pathname'),
@@ -243,4 +267,4 @@ def nav_content(n, url):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost")
+    app.run(debug=False, host="0.0.0.0")
