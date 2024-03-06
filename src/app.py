@@ -5,24 +5,28 @@ from dash_iconify import DashIconify
 
 
 import pandas as pd
+import datetime as dt
 
 
 app = Dash(__name__, use_pages=True, suppress_callback_exceptions=True)
 server = app.server
 
 
-Dados_notas = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/dados_teste.xlsx')
-Notas_df = Dados_notas.iloc[:, 0:10]
-Notas_df = Notas_df.to_dict('records')
+ID_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
+ID_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
+Turmas_sheet = 'Curso1'
+
+def read_data(ID, Sheet):
+
+    Data_df = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID}/gviz/tq?tqx=out:csv&sheet={Sheet}')
+
+    return Data_df
 
 
-Turmas_df = pd.read_excel('https://github.com/Oesterd/Dash-learning-analytics/raw/master/Dados_turma.xlsx')
-Dados = pd.DataFrame(Turmas_df)
-Disc = Dados['Disciplina'].unique()
-Prof = Dados['Professor'].unique()
+Turmas_df = read_data(ID_turmas, Turmas_sheet)
+Disc = Turmas_df['Disciplina'].unique()
+Prof = Turmas_df['Professor'].unique()
 Disc.sort(), Prof.sort()
-Turmas_df = Turmas_df.to_dict('records')
-
 
 
 page = list(dash.page_registry.values())
@@ -212,17 +216,16 @@ exec(open(filename, encoding="utf-8").read())
 )
 def gather_data(n_intervals):
 
-    ID_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
-    ID_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
-    Turmas_sheet = 'Curso1'
 
-    Dados_notas = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_notas}/gviz/tq?tqx=out:csv')
+    Dados_notas = read_data(ID_notas, 'Sheet1')
     Notas_df = Dados_notas.iloc[:, 0:10]
     Notas_df = Notas_df.to_dict('records')
 
-    Turmas_df = pd.read_csv(f'https://docs.google.com/spreadsheets/d/{ID_turmas}/gviz/tq?tqx=out:csv&sheet={Turmas_sheet}')
+    Turmas_df = read_data(ID_turmas, Turmas_sheet)
+    Turmas_df['Turma'] = pd.to_datetime(Turmas_df['Turma'], format='%Y/%m')
+    Turmas_df['Turma'] = Turmas_df['Turma'].dt.date
+    print(Turmas_df['Turma'])
     Turmas_df = Turmas_df.to_dict('records')
-
 
     return Notas_df, Turmas_df
 
@@ -277,4 +280,4 @@ def drawer_demo(opened, width):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="localhost")

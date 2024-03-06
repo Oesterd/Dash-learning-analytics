@@ -9,8 +9,6 @@ import plotly.express as px
 import pandas as pd
 import scipy.stats
 
-import time
-
 
 
 # Iniciando o aplicativo

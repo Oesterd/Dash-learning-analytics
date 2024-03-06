@@ -1,6 +1,4 @@
 # Importando as bibliotecas
-import time
-
 import dash
 from dash import html, dcc, Input, Output, State, callback, clientside_callback, ctx
 import dash_ag_grid as dag

@@ -19,9 +19,7 @@ clndef = [
     {'field': 'Professor', "sortable": True, 'filter': False},
 
     {'field': 'Turma', "sortable": True, 'sort': 'asc',
-     # "valueGetter": {"function": date_obj},
-     # "valueFormatter": {"function": f"d3.timeFormat('%Y/%m/%d')({date_obj})"},
-     # "filter": "agDateColumnFilter"
+     'filterParams': {'buttons': ['reset']}
      },
 
     {'field': 'Av Professor',
@@ -59,9 +57,6 @@ dfclndef = {
     'cellClass': 'center-aligned-cell',
     'resizable': True,
     'filter': True,
-    'filterParams': {
-        "alwaysShowBothConditions": True,
-    },
     'floatingFilter': True,
     'suppressMenu': True,
 }
