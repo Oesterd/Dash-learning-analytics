@@ -97,7 +97,6 @@ gitlink = dmc.Anchor(
 )
 
 
-
 navwidth = '0px'
 
 
@@ -164,6 +163,21 @@ app.layout = html.Div(
                             fixed=False,
                             hidden=True,
                             width={"base": navwidth},
+                            children=[
+                                html.Div(
+                                    [
+                                        html.H2("Opções", style={"color": "black"}),
+                                    ],
+                                    style={'text-align': 'center'}
+                                ),
+
+                                dmc.Select(id='Curso', label='Escolha o curso',
+                                           data=['Curso1', 'Curso2'], value='Curso1'),
+
+                                html.Br(),
+
+                                html.Div(id='sidebar-div', children=[])
+                            ],
                             position='right',
                             style={
                                 "overflow": "auto",
@@ -213,15 +227,16 @@ exec(open(filename, encoding="utf-8").read())
     Output('Dados_notas', 'data'),
     Output('Dados_turmas', 'data'),
     Input('Intervalo', 'n_intervals'),
+    Input('Curso', 'value'),
 )
-def gather_data(n_intervals):
+def gather_data(n_intervals, curso):
 
 
     Dados_notas = read_data(ID_notas, 'Sheet1')
     Notas_df = Dados_notas.iloc[:, 0:10]
     Notas_df = Notas_df.to_dict('records')
 
-    Turmas_df = read_data(ID_turmas, Turmas_sheet)
+    Turmas_df = read_data(ID_turmas, curso)
     Turmas_df['Turma'] = pd.to_datetime(Turmas_df['Turma'], format='%Y/%m')
     Turmas_df['Turma'] = Turmas_df['Turma'].dt.date
     Turmas_df = Turmas_df.to_dict('records')
@@ -231,12 +246,14 @@ def gather_data(n_intervals):
 
 
 @callback(
-    Output('sidebar', 'children'),
+    Output('sidebar-div', 'children'),
     Output('Intervalo2', 'n_intervals'),
-    State('Intervalo2', 'n_intervals'),
+    Output('Curso', 'disabled'),
     Input('url', 'pathname'),
+    State('Intervalo2', 'n_intervals'),
+    State('Curso', 'disabled'),
 )
-def nav_content(n, url):
+def nav_content(url, n, disabled):
 
 
     content = {
@@ -247,7 +264,6 @@ def nav_content(n, url):
         '/pg5': pg5(),
     }.get(url)
 
-
     # O uso de intervalo como Input do callback em cada página previne um trigger indesejado
     # enquanto o layout da página está incompleto, evitando mensagens de erro
     if n <= 50:
@@ -255,8 +271,14 @@ def nav_content(n, url):
     else:
         n = 0
 
+    if url == '/pg3':
+        disabled = True
 
-    return content, n
+    else:
+        disabled = False
+
+
+    return content, n, disabled
 
 
 
@@ -279,4 +301,4 @@ def drawer_demo(opened, width):
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="localhost")

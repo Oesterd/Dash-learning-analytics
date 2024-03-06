@@ -15,13 +15,6 @@ Ops2 = {
 def pg1():
     content = \
         html.Div([
-                html.Div(
-                    [
-                        html.H2("Opções", style={"color": "black"}),
-                    ],
-                    style={'text-align': 'center'}
-                ),
-
                 html.Div([
                     dmc.Select(id='dropdown11', label='Escolha o eixo x:', value='Média aluno',
                                data=list(Ops2.keys()), clearable=False),
@@ -80,13 +73,6 @@ def pg1():
 def pg2():
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
             html.Div([
                 html.Div([
                     dmc.Select(id='dropdown20', label='Escolha o eixo x:', value='Renda (R$)',
@@ -135,13 +121,6 @@ def pg2():
 def pg3():
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
             html.Div([
                 dmc.Select(
                     id='dropdown31', label='Tipo de gráfico:',  value='stpf',
@@ -163,18 +142,6 @@ def pg4():
 
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
-            html.Div([
-                dmc.Select(id='dropdown40', label='Escolha o curso', value='Curso1',
-                                data=['Curso1', 'Curso2'], clearable=False)
-            ]),
-
             html.Div([
                 dmc.MultiSelect(id='Mdropdown41', label='Escolha a(s) disciplina(s)', value=[],
                                 data=Disc, searchable=True, clearable=True)
@@ -190,7 +157,8 @@ def pg4():
                     dmc.Select(id='dropdown41', label='Escolha o eixo y:',  value='Média turma',
                                data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
             ]),
-            ]
+            ],
+            style={'display': 'flex', 'flexDirection': 'column', 'gap': 20, 'flex': 1}
         )
 
     return content
@@ -201,14 +169,6 @@ def pg4():
 def pg5():
     content = \
         html.Div([
-            html.Div(
-                [
-                    html.H2("Opções", style={"color": "black"}),
-                ],
-                style={'text-align': 'center'}
-            ),
-
-
             html.Div([
                 dmc.MultiSelect(id='Mdropdown51', label='Escolha a(s) disciplina(s)', value=[],
                                 data=Disc, searchable=True, clearable=True)
@@ -222,10 +182,8 @@ def pg5():
 
 
             html.Div([
-                html.Div([
-                    dmc.Select(id='dropdown51', label='Escolha o eixo y:', value='Média turma',
-                               data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
-                ]),
+                dmc.Select(id='dropdown51', label='Escolha o eixo y:', value='Média turma',
+                           data=['Média turma', 'AP', 'RM', 'RF', 'RMF'], clearable=False),
             ]),
 
 
@@ -252,7 +210,7 @@ def pg5():
 
             ],
             style={'display': 'flex', 'flexDirection': 'column', 'gap': 20, 'flex': 1}
-        ),
+        )
 
     return content
 
