@@ -235,7 +235,7 @@ exec(open(filename, encoding="utf-8").read())
 def gather_data(n_intervals, curso):
 
 
-    Dados_notas = read_data(ID_notas, 'Sheet1')
+    Dados_notas = read_data(ID_notas, curso)
     Notas_df = Dados_notas.iloc[:, 0:10]
     Notas_df = Notas_df.to_dict('records')
 
