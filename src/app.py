@@ -152,7 +152,12 @@ app.layout = html.Div(
                               'styles': {
                                   'root': {'width': '95%'}
                               }
-                          }
+                          },
+                          'MultiSelect': {
+                              'styles': {
+                                  'root': {'width': '95%'}
+                               }
+                          },
                       }
                     },
                     children=[
