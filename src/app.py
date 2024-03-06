@@ -14,7 +14,6 @@ server = app.server
 
 ID_notas = '1v6EpUTIYBQF5Sv8lQrHKbK9IJh9mjiaXfUv3rLzliUE'
 ID_turmas = '1ZCvar1Hb82foVQHUOMPn7z4YHmvNXICIiF0HIF3Qurk'
-Turmas_sheet = 'Curso1'
 
 def read_data(ID, Sheet):
 
@@ -22,11 +21,14 @@ def read_data(ID, Sheet):
 
     return Data_df
 
+Notas_df = read_data(ID_notas, 'Curso1')
+Prof_Notas = Notas_df['Professor'].unique()
 
-Turmas_df = read_data(ID_turmas, Turmas_sheet)
+
+Turmas_df = read_data(ID_turmas, 'Curso1')
 Disc = Turmas_df['Disciplina'].unique()
-Prof = Turmas_df['Professor'].unique()
-Disc.sort(), Prof.sort()
+Prof_turmas = Turmas_df['Professor'].unique()
+Disc.sort(), Prof_turmas.sort()
 
 
 page = list(dash.page_registry.values())
@@ -162,6 +164,7 @@ app.layout = html.Div(
                             id='sidebar',
                             fixed=False,
                             hidden=True,
+                            height=800,
                             width={"base": navwidth},
                             children=[
                                 html.Div(
@@ -301,4 +304,4 @@ def drawer_demo(opened, width):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="localhost")
+    app.run(debug=False, host="0.0.0.0")
