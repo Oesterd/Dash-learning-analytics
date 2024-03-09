@@ -136,6 +136,7 @@ app.layout = html.Div(
             ),
 
             ],
+            style={'position': 'sticky', 'top': 0, 'zIndex': 10}
         ),
 
 
@@ -201,7 +202,7 @@ app.layout = html.Div(
                     }
                 ),
             ],
-            style={"display": "flex", "gap": 10,
+            style={"display": "flex", "gap": 10, "zIndex": 5,
                    "maxWidth": "100vw", "overflow": "hidden", "maxHeight": "100%",
                    "position": "relative", "left": 0},
             id="Navbar+Content"

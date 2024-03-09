@@ -99,7 +99,7 @@ def pg2():
             ]),
 
             html.Div([
-                dmc.Select(id='dropdown24', label='Regressão linear:', value=None,
+                dmc.Select(id='dropdown24', label='Linha de tendência:', value=None,
                     data=[
                         {'label': 'Nenhuma', 'value': None},
                         {'label': 'Linear', 'value': 'ols'},
@@ -111,7 +111,7 @@ def pg2():
 
             html.Div([
                 dmc.Select(
-                    id='dropdown25', label='Escopo da regressão linear:',  value='overall',
+                    id='dropdown25', label='Escopo da linha de tendência:',  value='overall',
                     data=[
                         {'label': 'Geral', 'value': 'overall'},
                         {'label': 'Legenda', 'value': 'trace'},
@@ -198,7 +198,7 @@ def pg5():
 
 
             html.Div([
-                dmc.Select(id='dropdown52', label='Regressão linear:',  value=None,
+                dmc.Select(id='dropdown52', label='Linha de tendência:',  value=None,
                     data=[
                         {'label': 'Nenhuma', 'value': None},
                         {'label': 'Linear', 'value': 'ols'},
@@ -209,7 +209,7 @@ def pg5():
 
 
             html.Div([
-                dmc.Select(id='dropdown53', label='Escopo da regressão linear:', value='overall',
+                dmc.Select(id='dropdown53', label='Escopo da linha de tendência:', value='overall',
                     data=[
                         {'label': 'Geral', 'value': 'overall'},
                         {'label': 'Legenda', 'value': 'trace'},
