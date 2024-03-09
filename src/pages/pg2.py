@@ -73,21 +73,18 @@ layout = \
 #--------------------------------------------------------------------------------------------
 # Callback em cadeia
 @callback(
-    Output('dropdown24', 'data'),
+    Output('dropdown23', 'data'),
     Input('dropdown22', 'value'),
-    prevent_initial_call=True
 )
 
 
 def drop_chain(drop21value):
-    print("Callback21:", ctx.triggered_id)
     return [{'label': i, 'value': i} for i in Ops[drop21value]]
 
 
 @callback(
     Output('dropdown23', 'value'),
     Input('dropdown23', 'data'),
-    prevent_initial_call=True
 )
 
 def drop4init(available_options):
