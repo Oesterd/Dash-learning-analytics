@@ -73,21 +73,18 @@ layout = \
 #--------------------------------------------------------------------------------------------
 # Callback em cadeia
 @callback(
-    Output('dropdown24', 'data'),
+    Output('dropdown23', 'data'),
     Input('dropdown22', 'value'),
-    prevent_initial_call=True
 )
 
 
 def drop_chain(drop21value):
-    print("Callback21:", ctx.triggered_id)
     return [{'label': i, 'value': i} for i in Ops[drop21value]]
 
 
 @callback(
     Output('dropdown23', 'value'),
     Input('dropdown23', 'data'),
-    prevent_initial_call=True
 )
 
 def drop4init(available_options):
@@ -104,7 +101,7 @@ def drop4init(available_options):
 #---------------------------------------------------------------------------------
 @callback(
     Output('grid2', 'rowData'),
-    Input(component_id='Intervalo2', component_property='n_intervals'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input('Dados_notas', 'data'),
     Input(component_id='Mdropdown21', component_property='value'),
 )
@@ -125,7 +122,7 @@ def Grid_maker(n, data, mdrop):
 @callback(
     Output(component_id='scatter', component_property='figure'),
     Output(component_id='textpg2', component_property='value'),
-    Input(component_id='Intervalo2', component_property='n_intervals'),
+    Input(component_id='Intervalo', component_property='n_intervals'),
     Input(component_id='grid2', component_property='virtualRowData'),
     Input(component_id='dropdown21', component_property='value'),
     Input(component_id='dropdown22', component_property='value'),

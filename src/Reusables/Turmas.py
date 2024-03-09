@@ -57,7 +57,9 @@ dfclndef = {
     'cellClass': 'center-aligned-cell',
     'resizable': True,
     'filter': True,
+    'filterParams': {
+        "alwaysShowBothConditions": True,
+    },
     'floatingFilter': True,
     'suppressMenu': True,
 }
-
